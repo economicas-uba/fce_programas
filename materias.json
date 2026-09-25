@@ -1,0 +1,26 @@
+{
+  "materias": [
+    {
+      "id_materia": 1,
+      "nombre_materia": "Álgebra Lineal",
+      "contenidos_minimos": [
+        "Sistemas de ecuaciones lineales",
+        "Espacios vectoriales",
+        "Transformaciones lineales",
+        "Autovalores y autovectores"
+      ],
+      "ubicacion_curriculum": "Primer Año - Primer Cuatrimestre"
+    },
+    {
+      "id_materia": 2,
+      "nombre_materia": "Programación Orientada a Objetos",
+      "contenidos_minimos": [
+        "Clases y objetos",
+        "Encapsulamiento, herencia y polimorfismo",
+        "Manejo de excepciones",
+        "Patrones de diseño básicos"
+      ],
+      "ubicacion_curriculum": "Primer Año - Segundo Cuatrimestre"
+    }
+  ]
+}
