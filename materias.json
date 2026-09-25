@@ -3,6 +3,7 @@
     {
       "id_materia": 1,
       "nombre_materia": "Álgebra Lineal",
+      "carreras": "Licenciatura en Sistemas, Licenciatura en Economía",
       "contenidos_minimos": [
         "Sistemas de ecuaciones lineales",
         "Espacios vectoriales",
@@ -14,6 +15,7 @@
     {
       "id_materia": 2,
       "nombre_materia": "Programación Orientada a Objetos",
+      "carreras": "Licenciatura en Economía",
       "contenidos_minimos": [
         "Clases y objetos",
         "Encapsulamiento, herencia y polimorfismo",
@@ -21,6 +23,16 @@
         "Patrones de diseño básicos"
       ],
       "ubicacion_curriculum": "Primer Año - Segundo Cuatrimestre"
+    },
+    {
+      "id_materia": 3,
+      "nombre_materia": "Microeconomía II",
+      "carreras": "Licenciatura en Economía",
+      "contenidos_minimos": [
+        "Diferencias entre Keynes y Milei",
+        "Entendiendo el capitalismo salvaje"
+      ],
+      "ubicacion_curriculum": "Ciclo profesional"
     }
   ]
 }
