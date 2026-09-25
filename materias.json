@@ -2,37 +2,46 @@
   "materias": [
     {
       "id_materia": 1,
-      "nombre_materia": "Álgebra Lineal",
-      "carreras": "Licenciatura en Sistemas, Licenciatura en Economía",
-      "contenidos_minimos": [
-        "Sistemas de ecuaciones lineales",
-        "Espacios vectoriales",
-        "Transformaciones lineales",
-        "Autovalores y autovectores"
-      ],
-      "ubicacion_curriculum": "Primer Año - Primer Cuatrimestre"
+      "nombre_materia": "MACROECONOMIA I",
+      "carreras": "Lic. en Economía (RCS N.º 1696/24) y Actuario (RCS N.º 1824/24)",
+      "contenidos_minimos": "La problemática macroeconómica: hechos estilizados y esquemas básicos de modelización. Fenómenos nominales y reales: ciclo y tendencia, desempleo e inflación. Cuentas nacionales,ahorro, inversión, restricción externa. Identidades contables ex-post y equilibrios ex-ante. Ajustes por precio y cantidad. Modelos de ingreso-gasto. Mercados financieros. El esquema ISLM; implicancias para políticas fiscales y monetarias. Mercado de trabajo y desempleo. Oferta y demanda agregadas. Inflación y expectativas. Macroeconomía abierta, regímenes cambiarios y trilema de la imposibilidad. Especificidades del desequilibrio macroeconómico en Argentina: crisis cambiarias, financieras y alta inflación. Políticas de estabilización.",
+      "ubicacion_curriculum": "No cuenta con requisitos previos, solo tener aprobado el primer tramo."
     },
     {
       "id_materia": 2,
-      "nombre_materia": "Programación Orientada a Objetos",
-      "carreras": "Licenciatura en Economía",
-      "contenidos_minimos": [
-        "Clases y objetos",
-        "Encapsulamiento, herencia y polimorfismo",
-        "Manejo de excepciones",
-        "Patrones de diseño básicos"
-      ],
-      "ubicacion_curriculum": "Primer Año - Segundo Cuatrimestre"
+      "nombre_materia": "ANÁLISIS ESTADÍSTICO",
+      "carreras": "Actuario (RCS Nº 1824/24) y Lic. en Economía (RCS Nº 1696/24)",
+      "contenidos_minimos":"Población  y  muestra.  Experimentos.  Análisis  de  datos.  Números  índice.  Teoría  de  la probabilidad.  Variables  aleatorias  continuas  y  discretas.  Distribuciones  de  probabilidades. Fundamentos de la teoría de la inferencia estadística. Teorema central del límite. Estimación puntual. Estimación por intervalo. Test de hipótesis. Nociones de inferencia no paramétrica e inferencia bayesiana.",
+      "ubicacion_curriculum": "La asignatura Análisis Estadístico se ubica en el Ciclo Profesional de las carreras Licenciatura en Economía  y  Actuario.  Exige  como requisito  previo  haber  aprobado  el  Ciclo  General,  lo  que implica que el alumno ha aprobado las asignaturas Análisis Matemático y Álgebra. "
     },
     {
       "id_materia": 3,
-      "nombre_materia": "Microeconomía II",
-      "carreras": "Licenciatura en Economía",
-      "contenidos_minimos": [
-        "Diferencias entre Keynes y Milei",
-        "Entendiendo el capitalismo salvaje"
-      ],
-      "ubicacion_curriculum": "Ciclo profesional"
+      "nombre_materia": "ECONOMÍA INTERNACIONAL",
+      "carreras": "Lic. en Economía (RCS Nº 1696/24)",
+      "contenidos_minimos":"Panorama  de  la  economía  internacional:  patrones  de  comercio  mundial  y  regional.  Teorías  del comercio  internacional  basadas  en  ventajas  comparativas:  productividad  y  dotación  factorial. Teorías del comercio internacional basadas en economías de escala y diferenciación de producto. Efectos  dinámicos  del  comercio:  productividad  y  calidad  de  producto.  Tecnología  y  comercio internacional.  El  sistema  productivo  internacional:  inversión  extranjera  directa,  empresas transnacionales  y  cadenas  globales  y  regionales  de  valor.  Instrumentos  de  la  política  comercial: características y efectos. Controversias sobre los fundamentos de la política comercial. Teorías de la integración  económica  y  principales  acuerdos  regionales.  Instituciones  y  reglas  del  comercio internacional.  Tipo  de  cambio,  estructura  productiva  y  competitividad  internacional.  Sistema monetario y financiero internacional. ",
+      "ubicacion_curriculum": "Esta asignatura se encuentra dentro del Ciclo Profesional de la carrera. Para inscribirse, requiere haber aprobado las asignaturas “Macroeconomía I” y “Microeconomía II”"
+    },
+    {
+      "id_materia": 4,
+      "nombre_materia": "TEORÍA CONTABLE",
+      "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) у Actuario (texto ordenado, RCS N° 6207/13)",
+      "contenidos_minimos":"l objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. Sistemas de información: la contabilidad como el sistema de información de las organizaciones. Características y requisitos de la información contable. La contabilidad y sus segmentos: contabilidad patrimonial o financiera, contabilidad gubernamental, contabilidad social y ambiental, contabilidad económica y contabilidad de gestión. Entes: públicos y privados; con y sin fines de lucro.Sus recursos y fuentes. Operaciones y hechos económicos. Patrimonio y contabilidad. Ejercicio económico.✓Variaciones patrimoniales. Incertidumbres y contingencias./Documentación respaldatoria. Terminología contable aplicable. El proceso contable y la estructura patrimonial y de resultados. Modelos contables: unidad de medida, criterios de medición (valuación) y capital a mantener. Aspectos normativos. Estados contables o financieros. Conceptos introductorios. Las cuentas. Planes y manuales de cuentas./Sistema Contable. Mecánica del proceso de registración contable. Métodos de registración. La partida doble. (1)",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad, siendo requisito para su cursado la aprobación de todas las asignaturas del1er. Tramo integrantes de aquel Ciclo."
+    },
+    {
+      "id_materia": 5,
+      "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+      "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24) ",
+      "contenidos_minimos":"Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo  de  sistemas  y  su  relación  con  la  naturaleza  de  la  organización.  Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad.  Relación  entre  las  estructuras  y  los  procesos.  Las  formas  básicas  de articular  tareas,  flujos  de  información  y  decisiones.  Caracterización  de  los  sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas. ",
+      "ubicacion_curriculum": "La  materia  forma  parte  del  Ciclo  Profesional  de  las  Carreras  de  Licenciado  en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para  estar  en  condiciones  de  inscribirse  a  cursar  la  materia,  es  requisito  haber regularizado/aprobado la asignatura Administración General (6)"
+    },
+    {
+      "id_materia": 6,
+      "nombre_materia": "GESTIÓN DEL TALENTO",
+      "carreras": "Lic. en Administración (RCS N.º 1695/24)",
+      "contenidos_minimos":"El mundo del trabajo. El ser humano y el trabajo. Estrategia organizacional y de gestión de personas. El mercado laboral. Gestión de las personas en las organizaciones. Políticas de RRHH. Impacto de los cambios sociales en la gestión de personas. Factores condicionantes y controladores de la gestión. Desarrollo sustentable y sostenible. Sistema y subsistemas de gestión de personas. Gestión por competencias. Analítica en la gestión de personas. Comportamiento  organizacional.  Motivación.  Liderazgo.  Trabajo  en  equipo.  Ética  y  responsabilidad  social. Equidad,  diversidad  e  inclusión.  Gestión  de  las  emociones  en  las  organizaciones.  Clima  organizacional. Comunicación  organizacional.  Higiene  y  seguridad  en  el  trabajo.  Calidad  de  vida  laboral  y  salud  ocupacional. Planificación  de  dotación.  Análisis  y  descripción  de  puestos.  Proceso  de  reclutamiento  y  selección. Inducción, socialización  y  capacitación.  Evaluación  de  desempeño  y  potencial.  Sistemas  de  compensación.  Relaciones laborales. Relaciones  sindicales. Negociación colectiva. Regímenes de la  seguridad  social. Derecho individual y colectivo.  Contratos  de  trabajo.  Cultura  organizacional  y  cambio  cultural.  Desarrollo  de  carrera.  Planes  de incentivos.  Trabajo  flexible,  teletrabajo,  trabajo  híbrido  y  gestión  de  personas  a  distancia.  Herramientas tecnológicas para la gestión de personas. El futuro del trabajo y tendencias en la gestión de personas.",
+      "ubicacion_curriculum": "La materia pertenece al Ciclo Profesional."
     }
+    
   ]
 }
