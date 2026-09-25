@@ -1,0 +1,1014 @@
+<html lang="es"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programas Académicos — Mockup navegable</title>
+<style>
+:root{
+  --navy:#7a3800; --navy2:#9c4900; --blue:#ff770c; --light:#f5f7fa;
+  --border:#dce3ea; --text:#243447; --muted:#6b7785; --green:#1ca56f;
+  --yellow:#e7a51a; --red:#c94b4b; --white:#fff;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--light);color:var(--text)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.brand{font-size:17px;font-weight:700;padding:8px 10px 25px}
+.brand small{display:block;font-size:11px;font-weight:400;opacity:.75;margin-top:5px}
+.nav button{display: block;text-align: center;background: transparent;border: 0;padding: 11px 12px;float: left;width: 123px;height: 45px;}
+.nav button.active,.nav button:hover{background:rgba(255,255,255,.12);color:#fff}
+.main{margin-left:220px;flex:1}
+.topbar{height: 58px;background: #ff770c;border-bottom: 1px #ff770c;display: flex;align-items: center;justify-content: space-between;padding: 28px;max-width: 1500px;margin: auto;}
+.topbar strong{color:#fff}
+.role{font-size:13px;color:var(--muted)}
+.content{padding:28px;max-width:1250px;margin:auto}
+h1{font-size:25px;margin:0 0 7px}
+h2{font-size:18px;margin:0 0 14px}
+h3{font-size:15px;margin:0 0 10px}
+p{color:var(--muted);line-height:1.5}
+.card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:15px}
+.toolbar .left,.toolbar .right{display:flex;gap:9px;align-items:center}
+input,select,textarea{border:1px solid #ccd6df;border-radius:5px;padding:9px 11px;background:#fff}
+input{min-width:250px}
+textarea{width:100%;min-height:180px;resize:vertical}
+.btn{border:1px solid #fa750c;background:#fff;color:#fa750c;border-radius:5px;padding:9px 13px}
+.btn.primary{background:#ff770c;border-color:#ff770c;color:#fff}
+.btn.success{background:var(--green);border-color:var(--green);color:#fff}
+.btn.warn{background:#fff7e3;border-color:#f0d18b;color:#986800}
+.btn.danger{background:#fff1f1;border-color:#efc1c1;color:#a03b3b}
+.btn.small{padding:6px 10px;font-size:12px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.badge{display:inline-block;padding:4px 8px;border-radius:12px;font-size:11px;font-weight:700}
+.badge.draft{background:#fff1d1;color:#956500}
+.badge.review{background:#fff1e3;color:#b35400}
+.badge.academic{background:#eee0ff;color:#5b3aa8}
+.badge.approved{background:#ddf6ea;color:#11764e}
+.badge.pending{background:#fff1d1;color:#956500}
+table{width:100%;border-collapse:collapse}
+th,td{padding:11px 9px;border-bottom:1px solid #e8edf1;text-align:left;font-size:13px}
+th{font-size:11px;color:#687585;text-transform:uppercase;letter-spacing:.03em}
+td:last-child,th:last-child{text-align:right}
+.stat{font-size:27px;font-weight:700;color:var(--green)}
+.muted{color:var(--muted);font-size:12px}
+.progress{height:8px;background:#e6ebf0;border-radius:8px;overflow:hidden}
+.progress span{display:block;height:100%;background:#1aa974}
+.section-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #edf0f3}
+.section-row:last-child{border-bottom:0}
+.lock{color:#7b8794}
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:0 0 20px;padding:4px 2px 8px}
+.step{width:100%;min-height:58px;padding:9px 10px;border:1px solid #d9e0e6;border-radius:8px;background:#f7f9fb;color:var(--text);font-size:12px;line-height:1.2;text-align:center;cursor:pointer;transition:.15s;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box}
+.step:hover{border-color:#ff770c;transform:translateY(-1px)}
+.step.done{border-color:#1ca56f;background:#eefaf5}.step.current{border-color:#ff770c;background:#fff1e3;box-shadow:0 0 0 2px rgba(255,119,12,.15)}
+.step.locked{background:#f3f4f6;color:#59636e}.step.locked:hover{border-color:#7b8794}
+.step span{font-size:10px;margin-top:4px;opacity:.8}
+@media(max-width:1050px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:760px){.steps{grid-template-columns:repeat(3,minmax(0,1fr))}.step{font-size:11px}}
+@media(max-width:520px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.notice{padding:13px 15px;border-radius:6px;background:#fff4e9;border:1px solid #ffd9b3;margin-bottom:15px}
+.notice.success{background:#edfaf4;border-color:#c9ecd9}
+.notice.warn{background:#fff8e8;border-color:#f0d89f}
+.comment{border-left:3px solid #f0b73a;padding:10px 13px;background:#fffaf0;margin:9px 0}
+textarea:disabled,input:disabled{background:#eef1f4;color:#596775;cursor:not-allowed;opacity:1}
+.bullet-preview{margin-top:12px;padding:12px 15px;background:#f7f9fb;border:1px solid #e3e8ed;border-radius:5px;min-height:45px}
+.bullet-preview ul{margin:0;padding-left:22px}
+.bullet-preview li{margin:5px 0;color:var(--text)}
+
+.hidden{display:none!important}
+.login{min-height:100vh;display:flex;background:#f4f6f8}
+.login-hero {width: 42%;color: #fff;padding: 12vh 7%;display: flex;align-items: center; background: linear-gradient(135deg, rgb(255 119 12 / 77%), rgb(255 119 12 / 26%)), url(https://economicas.uba.ar/wp-content/uploads/hero-carreras_pc.webp);;background-size: cover;background-position: center;background-repeat: no-repeat;}
+.login-hero h1{font-size:34px;color:#fff}.login-hero p{color:#ffe3c7}
+.login-box{width:58%;display:flex;align-items:center;justify-content:center}
+.login-card{background:#fff;width:390px;padding:36px;border:1px solid var(--border);border-radius:10px}
+.login-card input{width:100%;margin:6px 0 15px}
+.login-card .btn{width:100%;margin-top:8px}
+.timeline{border-left:2px solid #d7e0e8;margin:15px 0 5px 8px;padding-left:20px}
+.timeline div{margin:0 0 18px;position:relative}.timeline div:before{content:"";position:absolute;left:-27px;top:2px;width:10px;height:10px;border-radius:50%;background:#ff770c}
+@media(max-width:850px){.main{margin-left:180px}.grid,.grid3{grid-template-columns:1fr}.login-hero{display:none}.login-box{width:100%}}
+</style>
+</head>
+<body>
+
+<div id="login" class="login hidden">
+  <div class="login-hero">
+    <div>
+      <h1>Programas Académicos</h1>
+      <p>Gestión y seguimiento del ciclo de vida de los programas académicos.</p>
+    </div>
+  </div>
+  <div class="login-box">
+    <div class="login-card">
+      <h2>Iniciar sesión</h2>
+      <p>Ingresá para acceder a tus programas y tareas pendientes.</p>
+      <label>Usuario</label>
+      <input placeholder="Ingrese su usuario">
+      <label>Contraseña</label>
+      <input type="password" placeholder="Ingrese su contraseña">
+      <button class="btn primary" onclick="enterApp()">Ingresar</button>
+      <p style="text-align:center;margin-top:16px;font-size:12px"><a href="#">¿Olvidó su contraseña?</a></p>
+    </div>
+  </div>
+</div>
+
+<div id="app" class="app">
+  
+  <main class="main">
+    <img src="https://economicas.uba.ar/wp-content/uploads/Logo_economicas.png" style="padding-left: 78px;">
+    <header class="topbar">
+      <strong>Programas Académicos</strong>
+    <div class="nav">
+      <button data-screen="dashboard" class="active">Inicio</button>
+      <button data-screen="programs">Programas</button>
+      <button data-screen="tasks">Tareas</button>
+      <button data-screen="notifications">Notificaciones</button>
+      <button data-screen="profile">Perfil</button>
+    </div>
+      <div class="role">Rol: <select id="roleSelect" onchange="changeRole(this.value)">
+        <option value="TITULAR_CATEDRA">Titular de cátedra</option>
+        <option value="SUBSECRETARIA_1">Subsecretaría_1 (Métodos)</option>
+        <option value="SUBSECRETARIA_2">Subsecretaría_2 (Bibliografía)</option>
+        <option value="DIRECCION_ACADEMICA">Dirección Académica</option>
+        <option value="DIRECTOR_DEPARTAMENTO">Director/a de departamento</option>
+      </select></div>
+    </header>
+    <section id="content" class="content"><div class="toolbar"><div><h1>Bienvenido</h1><p>Aquí encontrás tus tareas pendientes y el estado de tus programas.</p></div>
+ </div>
+ <div class="grid3">
+   <div class="card"><div class="muted">Programas</div><div class="stat">6</div><div class="muted">en el sistema</div></div>
+   <div class="card"><div class="muted">Tareas pendientes</div><div class="stat">1</div><div class="muted">requieren intervención</div></div>
+   <div class="card"><div class="muted">Aprobados</div><div class="stat">2</div><div class="muted">este ciclo</div></div>
+ </div>
+ <div class="card"><h2>Mis tareas</h2><table><tbody><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Acción</th></tr><tr><td>Sistemas de datos</td><td>Licenciatura en Sistemas</td><td>Completar programa</td><td><button class="btn small primary" onclick="openProgram(5)">Continuar</button></td></tr></tbody></table></div>
+ <div class="card"><h2>Acceso rápido</h2><button class="btn primary" onclick="render('programs')">Ver todos los programas</button> <button class="btn primary" onclick="render('tasks')">Ver mis tareas</button></div></section>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* =========================================================
+   Programas Académicos — simulación de operación real
+   Persistencia: localStorage (reemplazable por fetch a una
+   API cuando exista una BD real detrás).
+
+   Máquina de estados de un programa:
+     BORRADOR
+       -> (Titular solicita conformidad) -> EN_REVISION
+       -> (Director rechaza / Dirección Académica o
+          Subsecretaría solicitan corrección) <- vuelve aquí
+     EN_REVISION  (esperando conformidad del Director/a de depto.)
+       -> aprueba -> EN_REVISION_ACADEMICA
+       -> rechaza -> BORRADOR (origenCorreccion='DIRECTOR')
+     EN_REVISION_ACADEMICA (chequeos en paralelo e independientes)
+       - encuadre      -> Dirección Académica
+       - metodos       -> Subsecretaría_1
+       - bibliografia  -> Subsecretaría_2
+       -> los 3 OK -> APROBADO (nota de elevación + expediente GEDO)
+       -> cualquiera con errores -> BORRADOR (origenCorreccion='ACADEMICA',
+          y al reenviar se reinician los 3 chequeos, sin pasar de nuevo
+          por el Director — según lo definido para este circuito)
+     APROBADO (fin del proceso)
+   ========================================================= */
+
+const STORAGE_KEY='pa_mock_data_v2';
+
+const SECTION_DEFS=[
+ {key:'contenidosMinimos',label:'Contenidos mínimos',sectionTitle:'A. Encuadre',locked:true,reviewGroup:'encuadre'},
+ {key:'razonesInclusion',label:'Razones que justifican la inclusión de la asignatura dentro del plan de estudios. Su importancia en la formación profesional',sectionTitle:'A. Encuadre',locked:false,reviewGroup:'encuadre'},
+ {key:'ubicacionCurriculum',label:'Ubicación de la asignatura en el currículum',sectionTitle:'A. Encuadre',locked:true,reviewGroup:'encuadre'},
+ {key:'objetivosAprendizaje',label:'Objetivos del aprendizaje (Misión de la asignatura)',sectionTitle:'A. Encuadre',locked:false,reviewGroup:'encuadre'},
+ {key:'programaAnalitico',label:'Programa analítico',sectionTitle:'B. Programa analítico',locked:false,reviewGroup:null},
+ {key:'bibliografiaObligatoria',label:'Bibliografía obligatoria',sectionTitle:'C. Bibliografía',locked:false,reviewGroup:'bibliografia'},
+ {key:'bibliografiaAmpliatoria',label:'Bibliografía ampliatoria',sectionTitle:'C. Bibliografía',locked:false,reviewGroup:'bibliografia'},
+ {key:'objetivosGeneralesCursos',label:'Objetivos generales a cumplir en los cursos de promoción',sectionTitle:'D. Métodos de conducción del aprendizaje',locked:false,reviewGroup:'metodos'},
+ {key:'metodologiaProceso',label:'Metodología del proceso enseñanza - aprendizaje',sectionTitle:'D. Métodos de conducción del aprendizaje',locked:false,reviewGroup:'metodos'},
+ {key:'dinamicaClases',label:'Dinámica del dictado de las clases',sectionTitle:'D. Métodos de conducción del aprendizaje',locked:false,reviewGroup:'metodos'},
+ {key:'evaluacionPresenciales',label:'Cursos presenciales y semipresenciales (cursos virtuales y a distancia)',sectionTitle:'E. Métodos de evaluación',locked:false,reviewGroup:'metodos'},
+ {key:'evaluacionFinales',label:'Régimen de exámenes finales, intensivos, magistrales y libres',sectionTitle:'E. Métodos de evaluación',locked:false,reviewGroup:'metodos'},
+ {key:'criterioPromedio',label:'Criterio de confección del promedio de notas finales',sectionTitle:'E. Métodos de evaluación',locked:false,reviewGroup:'metodos'}
+];
+
+const EDITABLE_KEYS=SECTION_DEFS.filter(s=>!s.locked).map(s=>s.key);
+const REVIEW_GROUP_BY_ROLE={DIRECCION_ACADEMICA:'encuadre',SUBSECRETARIA_1:'metodos',SUBSECRETARIA_2:'bibliografia'};
+const GROUP_LABELS={encuadre:'Encuadre',metodos:'Métodos de conducción y de evaluación',bibliografia:'Bibliografía'};
+
+const roleNames={
+ TITULAR_CATEDRA:'Titular de cátedra',
+ SUBSECRETARIA_1:'Subsecretaría_1',
+ SUBSECRETARIA_2:'Subsecretaría_2',
+ DIRECCION_ACADEMICA:'Dirección Académica',
+ DIRECTOR_DEPARTAMENTO:'Director/a de departamento'
+};
+
+let role='TITULAR_CATEDRA';
+let db=loadData();
+let programaAnaliticoActualId=null;
+
+/* ---------- Persistencia ---------- */
+function loadData(){
+ try{
+   const raw=localStorage.getItem(STORAGE_KEY);
+   if(raw) return JSON.parse(raw);
+ }catch(e){ console.error('No se pudo leer localStorage',e); }
+ const seed=seedData();
+ saveData(seed);
+ return seed;
+}
+function saveData(data){
+ try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(data)); }
+ catch(e){ console.error('No se pudo guardar en localStorage',e); alert('No se pudieron guardar los cambios en este navegador.'); }
+}
+function save(){ saveData(db); }
+function reiniciarDatos(){
+ if(!confirm('Esto borra los cambios simulados y vuelve a los datos de ejemplo iniciales. ¿Continuar?')) return;
+ db=seedData(); save(); render('dashboard');
+}
+
+function crearProgramaBase(id,name,career,year){
+  return {
+   id,name,career,year,state:'BORRADOR',origenCorreccion:null,
+   sections:{
+    contenidosMinimos:{content:'Contenidos mínimos de la materia. No pueden modificarse.',completed:true},
+    razonesInclusion:{content:'',completed:false},
+    ubicacionCurriculum:{content:'Ubicación de la asignatura en el currículum. No puede modificarse.',completed:true},
+    objetivosAprendizaje:{content:'',completed:false},
+    programaAnalitico:{unidades:[],unidadTematica:'',objetivoAprendizaje:'',temasDesarrollar:'',content:'',completed:false},
+    bibliografiaObligatoria:{content:'',completed:false},
+    bibliografiaAmpliatoria:{content:'',completed:false},
+    objetivosGeneralesCursos:{content:'',completed:false},
+    metodologiaProceso:{content:'',completed:false},
+    dinamicaClases:{content:'',completed:false},
+    evaluacionPresenciales:{content:'Los alumnos serán evaluados, como mínimo, con dos exámenes escritos –en días y horarios de clase- (Resolución CD 386/2006) que contemplarán aspectos teóricos y prácticos de la asignatura. Se destaca que solo serán examinados los alumnos regulares e inscriptos en cada curso.',completed:false},
+    evaluacionFinales:{content:'El examen final integrador comprenderá́ temas teóricos y prácticos de la asignatura, debiendo el alumno aprobar ambos temarios, para que su calificación resulte promediada, con un puntaje que alcance por lo menos un 60% de los contenidos. Por consiguiente, los alumnos que obtengan una calificación inferior a 4 (cuatro) puntos serán considerados insuficientes y aquellos con una calificación igual o superior a 4 (cuatro) aprobarán la asignatura con dicha nota (Resolución CD 406/2006).',completed:false},
+    criterioPromedio:{content:'En los casos en que fuere necesario expresar en número entero el promedio de notas parciales o de estas y el examen parcial, se aplicará el número entero superior si la fracción fuere de 0.50 puntos o más y el número entero inferior si fuere de 0.49 o menos. Cuando la nota fuese de 3.01 a 3.99 se calificará con 3 (tres) puntos. (Resolución CS 4994/93)',completed:false}
+   },
+   conformidadDirector:null,
+   revisionAcademica:null,
+   expediente:null,
+   history:[]
+  };
+}
+
+function completarEjemplo(p,key,text){
+  if(key==='programaAnalitico'){
+    p.sections[key]={
+      unidades:[{
+        id:1,
+        unidadTematica:text.unidadTematica,
+        objetivoAprendizaje:text.objetivoAprendizaje,
+        temasDesarrollar:text.temasDesarrollar
+      }],
+      unidadTematica:text.unidadTematica,
+      objetivoAprendizaje:text.objetivoAprendizaje,
+      temasDesarrollar:text.temasDesarrollar,
+      content:text.unidadTematica,
+      completed:true
+    };
+  }else{
+    p.sections[key]={...p.sections[key],content:text,completed:true};
+  }
+}
+
+function seedData(){
+  const p1=crearProgramaBase(1,'Análisis Matemático I','Matemática','2026');
+  completarEjemplo(p1,'razonesInclusion','La asignatura aporta los fundamentos necesarios para la formación profesional y para el desarrollo de competencias analíticas.');
+  completarEjemplo(p1,'objetivosAprendizaje','Comprender y aplicar los conceptos fundamentales del análisis matemático en situaciones propias de la disciplina.');
+  completarEjemplo(p1,'programaAnalitico',{unidadTematica:'Límites y continuidad',objetivoAprendizaje:'Comprender el concepto de límite y continuidad y aplicarlo al análisis de funciones.',temasDesarrollar:'Concepto de límite\\nPropiedades de los límites\\nContinuidad de funciones\\nDiscontinuidades'});
+  completarEjemplo(p1,'bibliografiaObligatoria','Bibliografía obligatoria de ejemplo.');
+  completarEjemplo(p1,'bibliografiaAmpliatoria','Bibliografía ampliatoria de ejemplo.');
+  completarEjemplo(p1,'objetivosGeneralesCursos','Desarrollar las capacidades necesarias para resolver problemas propios de la asignatura.');
+  completarEjemplo(p1,'metodologiaProceso','Clases teórico-prácticas con resolución de ejercicios.');
+  completarEjemplo(p1,'dinamicaClases','Exposición conceptual, ejemplos y resolución guiada de problemas.');
+  p1.sections.evaluacionPresenciales.completed=true;
+  p1.sections.evaluacionFinales.completed=true;
+  p1.sections.criterioPromedio.completed=true;
+  p1.history=[{fecha:'2026-08-01T10:00:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Solicita nuevo programa',detalle:'Se genera el programa en estado BORRADOR con precarga de contenidos mínimos y ubicación de la asignatura en el currículum.'}];
+
+  const p2=crearProgramaBase(2,'Historia Argentina','Historia','2026');
+  EDITABLE_KEYS.forEach(k=>{
+    if(k==='programaAnalitico'){
+      completarEjemplo(p2,k,{unidadTematica:'Formación del Estado argentino',objetivoAprendizaje:'Analizar los procesos históricos vinculados con la formación del Estado argentino.',temasDesarrollar:'Organización nacional\\nConstitución de 1853\\nConsolidación del Estado'});
+    }else completarEjemplo(p2,k,'Contenido cargado por la cátedra.');
+  });
+  p2.state='BORRADOR';
+  p2.origenCorreccion='DIRECTOR';
+  p2.conformidadDirector={status:'RECHAZADO',observacion:'Falta consistencia entre los objetivos del encuadre y el programa analítico.',fecha:'2026-08-10T14:30:00.000Z'};
+  p2.history=[
+   {fecha:'2026-08-05T09:00:00.000Z',actor:roleNames.TITULAR_CATEDRA,accion:'Solicita conformidad',detalle:'Programa completo enviado al Director/a de departamento.'},
+   {fecha:'2026-08-10T14:30:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Solicita corrección',detalle:p2.conformidadDirector.observacion}
+  ];
+
+  const p3=crearProgramaBase(3,'Física II','Física','2026');
+  EDITABLE_KEYS.forEach(k=>{
+    if(k==='programaAnalitico'){
+      completarEjemplo(p3,k,{unidadTematica:'Electromagnetismo',objetivoAprendizaje:'Comprender los principios fundamentales de los campos eléctricos y magnéticos.',temasDesarrollar:'Campo eléctrico\\nPotencial eléctrico\\nCampo magnético\\nInducción electromagnética'});
+    }else completarEjemplo(p3,k,'Contenido cargado por la cátedra.');
+  });
+  p3.state='EN_REVISION_ACADEMICA';
+  p3.conformidadDirector={status:'OK',observacion:'',fecha:'2026-08-12T11:00:00.000Z'};
+  p3.revisionAcademica={
+   encuadre:{status:'PENDIENTE'},
+   metodos:{status:'OK',observacion:'',fecha:'2026-08-14T09:00:00.000Z'},
+   bibliografia:{status:'OK',observacion:'',fecha:'2026-08-13T16:00:00.000Z'}
+  };
+  p3.history=[
+   {fecha:'2026-08-11T10:00:00.000Z',actor:roleNames.TITULAR_CATEDRA,accion:'Solicita conformidad',detalle:'Programa completo enviado al Director/a de departamento.'},
+   {fecha:'2026-08-12T11:00:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Da conformidad',detalle:'El programa pasa a revisión académica (Dirección Académica y Subsecretaría).'},
+   {fecha:'2026-08-13T16:00:00.000Z',actor:roleNames.SUBSECRETARIA_2,accion:'Chequeo de Bibliografía sin errores',detalle:'—'},
+   {fecha:'2026-08-14T09:00:00.000Z',actor:roleNames.SUBSECRETARIA_1,accion:'Chequeo de Métodos de conducción y de evaluación sin errores',detalle:'—'}
+  ];
+
+  const p4=crearProgramaBase(4,'Química General','Química','2026');
+  EDITABLE_KEYS.forEach(k=>{
+    if(k==='programaAnalitico'){
+      completarEjemplo(p4,k,{unidadTematica:'Estructura de la materia',objetivoAprendizaje:'Relacionar la estructura microscópica de la materia con sus propiedades.',temasDesarrollar:'Modelos atómicos\\nTabla periódica\\nEnlace químico\\nPropiedades de los compuestos'});
+    }else completarEjemplo(p4,k,'Contenido cargado por la cátedra.');
+  });
+  p4.state='APROBADO';
+  p4.conformidadDirector={status:'OK',observacion:'',fecha:'2026-07-01T10:00:00.000Z'};
+  p4.revisionAcademica={
+   encuadre:{status:'OK',observacion:'',fecha:'2026-07-03T10:00:00.000Z'},
+   metodos:{status:'OK',observacion:'',fecha:'2026-07-03T11:00:00.000Z'},
+   bibliografia:{status:'OK',observacion:'',fecha:'2026-07-03T12:00:00.000Z'}
+  };
+  p4.expediente={notaElevacion:'NE-2026-0004',gedo:'GEDO-2026-004821',fecha:'2026-07-03T13:00:00.000Z'};
+  p4.history=[
+   {fecha:'2026-07-01T10:00:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Da conformidad',detalle:'El programa pasa a revisión académica.'},
+   {fecha:'2026-07-03T10:00:00.000Z',actor:roleNames.DIRECCION_ACADEMICA,accion:'Chequeo de Encuadre sin errores',detalle:'—'},
+   {fecha:'2026-07-03T11:00:00.000Z',actor:roleNames.SUBSECRETARIA_1,accion:'Chequeo de Métodos de conducción y de evaluación sin errores',detalle:'—'},
+   {fecha:'2026-07-03T12:00:00.000Z',actor:roleNames.SUBSECRETARIA_2,accion:'Chequeo de Bibliografía sin errores',detalle:'—'},
+   {fecha:'2026-07-03T13:00:00.000Z',actor:'Dirección Académica',accion:'Genera nota de elevación',detalle:'Se eleva el programa con conformidad de Dirección Académica y Subsecretaría.'},
+   {fecha:'2026-07-03T13:05:00.000Z',actor:'Subs. de Planificación Educativa',accion:'Genera expediente GEDO',detalle:'Expediente GEDO-2026-004821 generado. Programa APROBADO.'}
+  ];
+
+  return {programs:[p1,p2,p3,p4],nextId:5};
+}
+
+/* ---------- Helpers ---------- */
+function getProgram(id){ return db.programs.find(p=>p.id===Number(id)); }
+function addHistory(p,actor,accion,detalle){ p.history=p.history||[]; p.history.push({fecha:new Date().toISOString(),actor,accion,detalle:detalle||'—'}); }
+function fmtDate(iso){ if(!iso) return ''; const d=new Date(iso); return d.toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function pad(n,len){ return String(n).padStart(len,'0'); }
+function progreso(p){ const keys=SECTION_DEFS.map(s=>s.key); const done=keys.filter(k=>p.sections[k].completed).length; return Math.round(100*done/keys.length); }
+function seccionesCompletas(p){ return EDITABLE_KEYS.every(k=>p.sections[k].completed); }
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function observacionAcademica(p){
+ if(!p.revisionAcademica) return '';
+ const rej=['encuadre','metodos','bibliografia'].map(k=>p.revisionAcademica[k]).find(r=>r&&r.status==='CON_OBSERVACIONES');
+ return rej?rej.observacion:'';
+}
+
+function enterApp(){
+ document.getElementById('login').classList.add('hidden');
+ document.getElementById('app').classList.remove('hidden');
+ render('dashboard');
+}
+function changeRole(v){ role=v; render('dashboard'); }
+
+function statusBadge(s){
+ const cls={BORRADOR:'draft',EN_REVISION:'review',EN_REVISION_ACADEMICA:'academic',APROBADO:'approved'};
+ const label={BORRADOR:'BORRADOR',EN_REVISION:'EN REVISIÓN (Director)',EN_REVISION_ACADEMICA:'EN REVISIÓN ACADÉMICA',APROBADO:'APROBADO'};
+ return `<span class="badge ${cls[s]||'draft'}">${label[s]||s}</span>`;
+}
+
+function render(screen){
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===screen));
+ const c=document.getElementById('content');
+ if(screen==='dashboard') c.innerHTML=dashboard();
+ else if(screen==='programs') c.innerHTML=programList();
+ else if(screen==='tasks') c.innerHTML=tasks();
+ else if(screen==='notifications') c.innerHTML=notifications();
+ else c.innerHTML=profile();
+}
+
+/* ---------- Tareas por rol ---------- */
+function taskSummary(){
+ let items=[];
+ db.programs.forEach(p=>{
+   if(role==='TITULAR_CATEDRA' && p.state==='BORRADOR'){
+     items.push({p,tarea:p.origenCorreccion?'Corregir programa':'Completar programa',accionLabel:p.origenCorreccion?'Corregir':'Continuar',cls:p.origenCorreccion?'warn':'primary'});
+   }
+   if(role==='DIRECTOR_DEPARTAMENTO' && p.state==='EN_REVISION'){
+     items.push({p,tarea:'Dar conformidad',accionLabel:'Revisar',cls:'primary'});
+   }
+   if(p.state==='EN_REVISION_ACADEMICA'){
+     const grupo=REVIEW_GROUP_BY_ROLE[role];
+     if(grupo && p.revisionAcademica[grupo].status==='PENDIENTE'){
+       items.push({p,tarea:'Chequear '+GROUP_LABELS[grupo],accionLabel:'Revisar',cls:'primary'});
+     }
+   }
+ });
+ return {items};
+}
+function renderTaskTable(items){
+ if(!items.length) return `<p class="muted">No tenés tareas pendientes.</p>`;
+ return `<table><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Acción</th></tr>${items.map(it=>`<tr><td>${it.p.name}</td><td>${it.p.career}</td><td>${it.tarea}</td><td><button class="btn small ${it.cls}" onclick="openProgram(${it.p.id})">${it.accionLabel}</button></td></tr>`).join('')}</table>`;
+}
+
+/* ---------- Pantallas ---------- */
+function dashboard(){
+ const t=taskSummary();
+ const aprobados=db.programs.filter(p=>p.state==='APROBADO').length;
+ return `<div class="toolbar"><div><h1>Bienvenido</h1><p>Aquí encontrás tus tareas pendientes y el estado de tus programas.</p></div>
+ ${role==='DIRECTOR_DEPARTAMENTO'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
+ <div class="grid3">
+   <div class="card"><div class="muted">Programas</div><div class="stat">${db.programs.length}</div><div class="muted">en el sistema</div></div>
+   <div class="card"><div class="muted">Tareas pendientes</div><div class="stat">${t.items.length}</div><div class="muted">requieren intervención</div></div>
+   <div class="card"><div class="muted">Aprobados</div><div class="stat">${aprobados}</div><div class="muted">este ciclo</div></div>
+ </div>
+ <div class="card"><h2>Mis tareas</h2>${renderTaskTable(t.items)}</div>
+ <div class="card"><h2>Acceso rápido</h2><button class="btn primary" onclick="render('programs')">Ver todos los programas</button> <button class="btn primary" onclick="render('tasks')">Ver mis tareas</button></div>`;
+}
+function tasks(){ return `<h1>Mis tareas</h1><p>Las tareas se muestran según el rol seleccionado.</p><div class="card">${renderTaskTable(taskSummary().items)}</div>`; }
+function notifications(){
+ const t=taskSummary();
+ if(!t.items.length) return `<h1>Notificaciones</h1><div class="card"><p class="muted">No tenés notificaciones nuevas.</p></div>`;
+ return `<h1>Notificaciones</h1><div class="card">${t.items.map(it=>`<div class="notice ${it.p.origenCorreccion?'warn':''}"><b>${it.tarea}</b><br>${it.p.name} (${it.p.career}) requiere tu intervención.</div>`).join('')}</div>`;
+}
+function profile(){
+ return `<h1>Perfil</h1><div class="card"><h2>${roleNames[role]}</h2><p>Identificador de mockup: <b>${role}</b></p><button class="btn" onclick="document.getElementById('roleSelect').focus()">Cambiar rol</button></div>
+ <div class="card"><h2>Datos de la simulación</h2><p>Los datos de los programas se guardan en el almacenamiento local del navegador (localStorage), simulando una base de datos real. Podés cerrar la pestaña y volver: los cambios van a seguir ahí.</p><button class="btn danger" onclick="reiniciarDatos()">Reiniciar datos de demostración</button></div>`;
+}
+
+function programList(){
+ return `<div class="toolbar"><div><h1>Programas académicos</h1><p>Consulta y seguimiento de programas.</p></div>${role==='DIRECTOR_DEPARTAMENTO'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
+ <div class="card"><div class="toolbar"><div class="left"><input id="searchInput" placeholder="Buscar por nombre de programa..." oninput="aplicarFiltros()">
+ <select id="estadoFilter" onchange="aplicarFiltros()">
+   <option value="">Estado: Todos</option>
+   <option value="BORRADOR">Borrador</option>
+   <option value="EN_REVISION">En revisión (Director)</option>
+   <option value="EN_REVISION_ACADEMICA">En revisión académica</option>
+   <option value="APROBADO">Aprobado</option>
+ </select></div></div>
+ <div id="programTable">${programRows(db.programs)}</div></div>`;
+}
+function programRows(list){
+ if(!list.length) return `<p class="muted">No hay programas que coincidan con la búsqueda.</p>`;
+ return `<table><tr><th>Programa</th><th>Carrera</th><th>Año</th><th>Estado</th><th>Avance</th><th>Acciones</th></tr>${list.map(p=>`<tr>
+ <td>${p.name}</td><td>${p.career}</td><td>${p.year}</td><td>${statusBadge(p.state)}</td><td>${progreso(p)}%</td>
+ <td>${p.state==='APROBADO'?`<button class="btn small primary" onclick="imprimirPrograma(${p.id})">Imprimir</button> `:''}<button class="btn small" onclick="openProgram(${p.id})">Ver</button></td></tr>`).join('')}</table>`;
+}
+function aplicarFiltros(){
+ const q=document.getElementById('searchInput').value.toLowerCase();
+ const estado=document.getElementById('estadoFilter').value;
+ const list=db.programs.filter(p=>(p.name.toLowerCase().includes(q)||p.career.toLowerCase().includes(q))&&(!estado||p.state===estado));
+ document.getElementById('programTable').innerHTML=programRows(list);
+}
+
+/* ---------- Alta de programa (Director/a de departamento) ---------- */
+function newProgram(){
+ if(role!=='DIRECTOR_DEPARTAMENTO'){ alert('Solo el/la Director/a de departamento puede solicitar un nuevo programa.'); return; }
+ document.getElementById('content').innerHTML=`<div class="toolbar"><div><button class="btn small" onclick="render('programs')">‹ Volver</button><h1 style="margin-top:12px">Solicitar nuevo programa</h1><p>El sistema va a generar el programa en estado BORRADOR, con las secciones precargadas que corresponden al plan de estudios, para que la cátedra complete el resto.</p></div></div>
+ <div class="card">
+   <label>Asignatura</label><input id="npName" placeholder="Nombre de la asignatura" style="width:100%"><br><br>
+   <label>Carrera</label><input id="npCareer" placeholder="Carrera" style="width:100%"><br><br>
+   <label>Año / Plan</label><input id="npYear" placeholder="2026" value="${new Date().getFullYear()}" style="width:100%">
+   <div style="text-align:right;margin-top:14px"><button class="btn" onclick="render('programs')">Cancelar</button> <button class="btn primary" onclick="crearNuevoPrograma()">Solicitar nuevo programa</button></div>
+ </div>`;
+}
+function crearNuevoPrograma(){
+ const name=document.getElementById('npName').value.trim();
+ const career=document.getElementById('npCareer').value.trim()||'Sin especificar';
+ const year=document.getElementById('npYear').value.trim()||String(new Date().getFullYear());
+ if(!name){ alert('Ingresá el nombre de la asignatura.'); return; }
+ const p=crearProgramaBase(db.nextId++,name,career,year);
+ db.programs.unshift(p);
+ addHistory(p,roleNames.DIRECTOR_DEPARTAMENTO,'Solicita nuevo programa','Se genera el programa en estado BORRADOR con las secciones precargadas que corresponden al plan de estudios.');
+ save();
+ openProgram(p.id);
+}
+
+/* ---------- Detalle de programa ---------- */
+function section(name,state,done,locked=false){
+ return `<div class="section-row"><span>${locked?'🔒':'○'} &nbsp;${name}</span><span>${done?'✓ ':''}${state}</span></div>`;
+}
+
+function sectionContentValue(p,s){
+ const sec=p.sections[s.key]||{};
+ if(s.key==='programaAnalitico'){
+   return `<div><b>Unidad temática</b><p>${escapeHtml(sec.unidadTematica||'')}</p></div>
+     <div><b>Objetivo del aprendizaje</b><p>${escapeHtml(sec.objetivoAprendizaje||'')}</p></div>
+     <div><b>Temas a desarrollar</b>${(sec.temasDesarrollar||'').trim()
+       ? `<ul>${sec.temasDesarrollar.split('\\n').filter(t=>t.trim()).map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul>`
+       : '<p class="muted">Sin contenido cargado.</p>'}</div>`;
+ }
+ return sec.content
+   ? `<p style="white-space:pre-wrap;margin:0">${escapeHtml(sec.content)}</p>`
+   : '<p class="muted">Sin contenido cargado.</p>';
+}
+function renderSectionContent(p,s){
+ return `<div style="padding:14px 0;border-bottom:1px solid #edf0f3">
+   <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+     <h3 style="margin:0">${s.sectionTitle} — ${escapeHtml(s.label)}</h3>
+     ${s.locked?'<span class="badge">Solo lectura</span>':''}
+   </div>
+   <div style="margin-top:10px">${sectionContentValue(p,s)}</div>
+ </div>`;
+}
+// Permisos de edición por rol. Las secciones fuera del ámbito del rol se
+// comportan como las secciones protegidas: se pueden visualizar, pero no editar.
+function puedeEditarSeccion(key){
+ const def=SECTION_DEFS.find(s=>s.key===key);
+ if(!def || def.locked) return false;
+ if(role==='TITULAR_CATEDRA' || role==='DIRECTOR_DEPARTAMENTO') return true;
+ if(role==='DIRECCION_ACADEMICA') return def.reviewGroup==='encuadre';
+ if(role==='SUBSECRETARIA_1') return def.sectionTitle==='D. Métodos de conducción del aprendizaje';
+ if(role==='SUBSECRETARIA_2') return def.sectionTitle==='C. Bibliografía';
+ return false;
+}
+function primeraSeccionEditablePorRol(p){
+ const keys=SECTION_DEFS.filter(s=>puedeEditarSeccion(s.key)).map(s=>s.key);
+ return keys.find(k=>!p.sections[k].completed)||keys[0]||null;
+}
+
+function openProgram(id){
+ const p=getProgram(id);
+ if(!p){ render('programs'); return; }
+ let html=`<div class="toolbar"><div><button class="btn small" onclick="render('programs')">‹ Volver</button><h1 style="margin-top:12px">${p.name}</h1><p>Carrera: ${p.career} · Plan: ${p.year}</p></div><div style="display:flex;gap:10px;align-items:center">${statusBadge(p.state)}${p.state==='APROBADO'?`<button class="btn primary" onclick="imprimirPrograma(${p.id})">🖶&nbsp; Imprimir</button>`:''}</div></div>`;
+
+ if(p.state==='BORRADOR' && p.origenCorreccion){
+   const obs=p.origenCorreccion==='DIRECTOR'?(p.conformidadDirector&&p.conformidadDirector.observacion):observacionAcademica(p);
+   const origenLabel=p.origenCorreccion==='DIRECTOR'?'el Director/a de departamento':'la revisión académica';
+   html+=`<div class="notice warn"><b>Corrección solicitada</b><br>Observación de ${origenLabel}: ${escapeHtml(obs||'Se solicitaron correcciones sobre el programa.')}</div>`;
+ }
+
+ html+=`<div class="card"><div class="toolbar"><div><b>Estado del programa</b></div><div>${progreso(p)}% completo</div></div><div class="progress"><span style="width:${progreso(p)}%"></span></div></div>`;
+
+ const rolesConEdicion=['TITULAR_CATEDRA','DIRECCION_ACADEMICA','SUBSECRETARIA_1','SUBSECRETARIA_2','DIRECTOR_DEPARTAMENTO'];
+ const puedeEditarPrograma=rolesConEdicion.includes(role) &&
+   (p.state==='BORRADOR' || (['DIRECCION_ACADEMICA','SUBSECRETARIA_1','SUBSECRETARIA_2','DIRECTOR_DEPARTAMENTO'].includes(role) && ['EN_REVISION','EN_REVISION_ACADEMICA'].includes(p.state))) &&
+   SECTION_DEFS.some(s=>puedeEditarSeccion(s.key));
+ const puedeRevisarContenido=rolesConEdicion.includes(role);
+ html+=`<div class="card"><div class="toolbar"><h2>Secciones del programa</h2>${puedeEditarPrograma?`<button class="btn primary" onclick="editSection(${p.id})">Editar programa</button>`:''}</div>`
+ + SECTION_DEFS.map(s=>section(s.label, s.locked?'Precargado':(p.sections[s.key].completed?'Completado':'Pendiente'), p.sections[s.key].completed, s.locked)).join('')
+ + `</div>`;
+ html+=`<div class="card"><h2>Contenido del programa</h2><p class="muted">Las secciones se muestran en el orden del programa. "Contenidos mínimos" y "Ubicación de la asignatura en el currículum" son de solo lectura.</p>`
+  + SECTION_DEFS.map(s=>renderSectionContent(p,s)).join('')
+  + `</div>`;
+
+ html+=accionCard(p);
+ html+=`<div class="card"><h2>Acciones</h2><button class="btn primary" onclick="showHistory(${p.id})">Ver historial</button></div>`;
+
+ document.getElementById('content').innerHTML=html;
+}
+
+function accionCard(p){
+ if(role==='TITULAR_CATEDRA' && p.state==='BORRADOR'){
+   const completo=seccionesCompletas(p);
+   return `<div class="card"><h2>Enviar programa</h2><p>${completo?'El programa está completo y listo para enviarse.':'Completá todas las secciones editables para poder solicitar conformidad.'}</p>
+   <button class="btn primary" ${completo?'':'disabled'} onclick="solicitarConformidad(${p.id})">${p.origenCorreccion?'Reenviar programa corregido':'Solicitar conformidad'}</button></div>`;
+ }
+ if(role==='DIRECTOR_DEPARTAMENTO' && p.state==='EN_REVISION'){
+   return `<div class="card"><h2>Dar conformidad</h2><p>Revisá el programa completo antes de dar conformidad para avanzar a la revisión académica (Dirección Académica + Subsecretaría).</p>
+   <textarea id="obsDirector" placeholder="Observaciones (obligatorio para rechazar)"></textarea>
+   <div style="text-align:right;margin-top:10px"><button class="btn danger" onclick="directorDarConformidad(${p.id},false)">Solicitar corrección</button> <button class="btn success" onclick="directorDarConformidad(${p.id},true)">Dar conformidad</button></div></div>`;
+ }
+ if(p.state==='EN_REVISION_ACADEMICA'){
+   const grupo=REVIEW_GROUP_BY_ROLE[role];
+   if(grupo && p.revisionAcademica[grupo].status==='PENDIENTE'){
+     return `<div class="card"><h2>Chequear ${GROUP_LABELS[grupo]}</h2><p>Revisá la sección correspondiente y registrá el resultado. Este chequeo es independiente del resto: el programa pasa a APROBADO solo cuando los tres estén sin errores.</p>
+     <textarea id="obsAcademica" placeholder="Observaciones (obligatorio si hay errores)"></textarea>
+     <div style="text-align:right;margin-top:10px"><button class="btn danger" onclick="revisarAcademica(${p.id},'${grupo}',false)">Solicitar corrección</button> <button class="btn success" onclick="revisarAcademica(${p.id},'${grupo}',true)">Sin errores</button></div></div>`;
+   }
+   return `<div class="card"><h2>Revisión académica en curso</h2><table><tr><th>Chequeo</th><th>Responsable</th><th>Estado</th></tr>
+   <tr><td>Encuadre</td><td>Dirección Académica</td><td>${estadoChip(p.revisionAcademica.encuadre.status)}</td></tr>
+   <tr><td>Métodos de conducción y de evaluación</td><td>Subsecretaría_1</td><td>${estadoChip(p.revisionAcademica.metodos.status)}</td></tr>
+   <tr><td>Bibliografía</td><td>Subsecretaría_2</td><td>${estadoChip(p.revisionAcademica.bibliografia.status)}</td></tr>
+   </table></div>`;
+ }
+ if(p.state==='APROBADO'){
+   return `<div class="card"><h2>Expediente</h2><p>Nota de elevación: <b>${p.expediente.notaElevacion}</b><br>Expediente GEDO: <b>${p.expediente.gedo}</b><br>Fecha: ${fmtDate(p.expediente.fecha)}</p></div>`;
+ }
+ return `<div class="card"><p class="muted">No tenés acciones pendientes sobre este programa con tu rol actual.</p></div>`;
+}
+function estadoChip(s){
+ if(s==='OK') return '<span class="badge approved">OK</span>';
+ if(s==='CON_OBSERVACIONES') return '<span class="badge draft">Con observaciones</span>';
+ return '<span class="badge pending">Pendiente</span>';
+}
+
+/* ---------- Edición de secciones (Titular de cátedra) ---------- */
+function editSection(id,key){
+  programaAnaliticoActualId=id;
+  const p=getProgram(id); if(!p) return;
+
+  if(!key) key=primeraSeccionEditablePorRol(p);
+  if(!key) key=SECTION_DEFS[0].key;
+
+  const def=SECTION_DEFS.find(s=>s.key===key);
+  if(!def) return;
+
+  const puedeEditar=puedeEditarSeccion(key);
+  const editableIndex=EDITABLE_KEYS.indexOf(key);
+  const idx=editableIndex<0?0:editableIndex;
+  const sec=p.sections[key]||{};
+  const stepsHtml=SECTION_DEFS.map((s,i)=>{
+    const editablePos=EDITABLE_KEYS.indexOf(s.key);
+    const esEditableRol=puedeEditarSeccion(s.key);
+    const isDone=s.locked || (!esEditableRol && !s.locked) || (editablePos>=0 && editablePos<editableIndex) || (s.key===key && sec.completed);
+    const isCurrent=s.key===key;
+    const soloLectura=s.locked || !esEditableRol;
+    const estado=soloLectura?'Solo lectura':(isCurrent?'En edición':(p.sections[s.key].completed?'Completado':'Pendiente'));
+    return `<button type="button" class="step ${isDone?'done ':''}${isCurrent?'current ':''}${soloLectura?'locked':''}" title="${escapeHtml(s.label)}${soloLectura?' — solo lectura':''}" onclick="editSection(${id},'${s.key}')"><strong>${escapeHtml(s.label)}</strong><span>${estado}</span></button>`;
+  }).join('');
+  const locked=def.locked || !puedeEditar;
+
+  let ayuda='El sistema puede sugerir correcciones y observaciones sobre la información ingresada.';
+  if(def.sectionTitle==='C. Bibliografía') ayuda+=' Recordá respetar normas APA.';
+  if(def.sectionTitle==='D. Métodos de conducción del aprendizaje') ayuda='Completá las características propias de la cátedra para esta parte del programa.';
+  if(def.sectionTitle==='E. Métodos de evaluación') ayuda='Los textos sugeridos pueden modificarse para adecuarlos al programa.';
+
+  let editorHtml='';
+
+  if(key==='programaAnalitico'){
+    if(!Array.isArray(sec.unidades)){
+      sec.unidades=[];
+      if(sec.unidadTematica || sec.objetivoAprendizaje || sec.temasDesarrollar){
+        sec.unidades.push({id:1,unidadTematica:sec.unidadTematica||'',objetivoAprendizaje:sec.objetivoAprendizaje||'',temasDesarrollar:sec.temasDesarrollar||''});
+      }
+    }
+    editorHtml=`
+      <div class="card">
+        <div class="toolbar">
+          <div>
+            <h2 style="margin-bottom:4px">Unidad temática</h2>
+            <p class="muted" style="margin:0">Creá una unidad, completá sus tres campos y guardala. Luego podrás seleccionar cualquier unidad de la lista para editarla.</p>
+          </div>
+          <span class="badge academic">Programa analítico</span>
+        </div>
+
+        <label>Unidad temática</label>
+        <input id="paUnidad" style="width:100%;margin-top:6px" placeholder="Ej.: Límites y continuidad">
+
+        <label style="display:block;margin-top:14px">Objetivo del aprendizaje</label>
+        <textarea id="paObjetivo" style="min-height:110px;margin-top:6px" placeholder="Objetivo que se espera alcanzar en esta unidad"></textarea>
+
+        <label style="display:block;margin-top:14px">Temas a desarrollar</label>
+        <p class="muted" style="margin:5px 0">Ingresá un tema por renglón. Cada renglón se mostrará como un bullet.</p>
+        <textarea id="paTemas" style="min-height:120px" oninput="actualizarBullets()" placeholder="Tema 1&#10;Tema 2&#10;Tema 3"></textarea>
+
+        <div id="temasPreview" class="bullet-preview">
+          <span class="muted">Los temas ingresados aparecerán aquí como bullets.</span>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+          <button class="btn" type="button" onclick="limpiarEditorUnidad()">Limpiar</button>
+          <button id="btnGuardarUnidad" class="btn primary" type="button" onclick="guardarUnidadTematica(${id})">Agregar unidad temática</button><input type="hidden" id="unidadEditandoId" value="">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="toolbar">
+          <h2 style="margin-bottom:0">Unidades temáticas existentes</h2>
+          <span class="muted">${sec.unidades.length} unidad${sec.unidades.length===1?'':'es'}</span>
+        </div>
+        <div id="listaUnidades">${renderListaUnidades(sec.unidades)}</div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:16px;color:var(--text);font-size:13px">
+          <input type="checkbox" id="secCompleted" ${sec.completed?'checked':''}> Marcar sección como completa
+        </label>
+      </div>`;
+  }else{
+    editorHtml=`
+      <div class="card">
+        <h2>${escapeHtml(def.label)}</h2>
+        <textarea id="secContent" ${locked?'disabled':''} placeholder="${locked?'Sección precargada y no editable.':'Ingrese '+escapeHtml(def.label.toLowerCase())+'...'}">${escapeHtml(sec.content||'')}</textarea>
+        ${locked
+          ? '<p class="muted" style="margin-bottom:0">Esta sección está precargada y no puede modificarse.</p>'
+          : `<label style="display:flex;align-items:center;gap:8px;margin-top:10px;color:var(--text);font-size:13px"><input type="checkbox" id="secCompleted" ${sec.completed?'checked':''}> Marcar sección como completa</label>`}
+      </div>`;
+  }
+
+  const actionHtml=locked
+    ? `<div style="text-align:right;margin-top:12px"><button class="btn primary" onclick="openProgram(${id})">Volver al programa</button></div>`
+    : `<div style="text-align:right;margin-top:12px"><button class="btn" onclick="saveSection(${id},'${key}',false)">Guardar cambios</button> <button class="btn primary" onclick="saveSection(${id},'${key}',true)">${editableIndex<EDITABLE_KEYS.length-1?'Guardar y continuar':'Guardar y volver'}</button></div>`;
+
+  document.getElementById('content').innerHTML=`
+    <div class="toolbar">
+      <div>
+        <button class="btn small" onclick="openProgram(${id})">‹ Volver al programa</button>
+        <h1 style="margin-top:12px">${escapeHtml(def.sectionTitle)}</h1>
+        <p>${escapeHtml(def.label)}${locked?' · Sección precargada':''}</p>
+      </div>
+    </div>
+    <div class="steps">${stepsHtml}</div>
+    ${editorHtml}
+    <div class="card">${actionHtml}</div>
+    <div class="card"><h2>Ayuda</h2><p>${ayuda}</p></div>`;
+
+  if(key==='programaAnalitico') actualizarBullets();
+}
+
+function renderListaUnidades(unidades){
+  if(!unidades.length) return '<p class="muted" style="margin:0">Todavía no hay unidades temáticas. Completá los tres campos y presioná “Agregar unidad temática”.</p>';
+  return `<div style="display:grid;gap:8px">${unidades.map((u,i)=>`
+    <label style="display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid #dce3ea;border-radius:6px;background:#f8fafc;cursor:pointer">
+      <input type="radio" name="unidadTematicaSeleccionada" value="${u.id}" onchange="cargarUnidadTematica(${u.id})" style="margin-top:3px">
+      <span><b>Unidad ${i+1}: ${escapeHtml(u.unidadTematica||'Sin título')}</b><br><span class="muted">${escapeHtml(u.objetivoAprendizaje||'Sin objetivo cargado')}</span></span>
+    </label>`).join('')}</div>`;
+}
+
+function cargarUnidadTematica(id){
+  const p=getProgram(programaAnaliticoActualId);
+  if(!p) return;
+  const sec=p.sections.programaAnalitico;
+  const u=(sec.unidades||[]).find(x=>String(x.id)===String(id));
+  if(!u) return;
+  document.getElementById('paUnidad').value=u.unidadTematica||'';
+  document.getElementById('paObjetivo').value=u.objetivoAprendizaje||'';
+  document.getElementById('paTemas').value=u.temasDesarrollar||'';
+  document.getElementById('unidadEditandoId').value=String(u.id);
+  document.querySelectorAll('input[name="unidadTematicaSeleccionada"]').forEach(r=>r.checked=String(r.value)===String(id));
+  actualizarBullets();
+  const btn=document.getElementById('btnGuardarUnidad');
+  if(btn) btn.textContent='Guardar cambios en unidad';
+}
+
+function limpiarEditorUnidad(){
+  document.getElementById('paUnidad').value='';
+  document.getElementById('paObjetivo').value='';
+  document.getElementById('paTemas').value='';
+  document.getElementById('unidadEditandoId').value='';
+  document.querySelectorAll('input[name="unidadTematicaSeleccionada"]').forEach(r=>r.checked=false);
+  const btn=document.getElementById('btnGuardarUnidad');
+  if(btn) btn.textContent='Agregar unidad temática';
+  actualizarBullets();
+}
+
+function guardarUnidadTematica(id){
+  const p=getProgram(id);
+  if(!p) return;
+  const sec=p.sections.programaAnalitico;
+  if(!Array.isArray(sec.unidades)) sec.unidades=[];
+
+  const unidad=document.getElementById('paUnidad').value.trim();
+  const objetivo=document.getElementById('paObjetivo').value.trim();
+  const temas=document.getElementById('paTemas').value.trim();
+  if(!unidad){ alert('Ingresá el nombre de la unidad temática.'); return; }
+  if(!objetivo){ alert('Ingresá el objetivo del aprendizaje de la unidad.'); return; }
+  if(!temas){ alert('Ingresá al menos un tema a desarrollar.'); return; }
+
+  const editId=document.getElementById('unidadEditandoId').value;
+  if(editId){
+    const u=sec.unidades.find(x=>String(x.id)===String(editId));
+    if(u){
+      u.unidadTematica=unidad;
+      u.objetivoAprendizaje=objetivo;
+      u.temasDesarrollar=temas;
+    }
+  }else{
+    const nextId=sec.unidades.reduce((max,u)=>Math.max(max,Number(u.id)||0),0)+1;
+    sec.unidades.push({id:nextId,unidadTematica:unidad,objetivoAprendizaje:objetivo,temasDesarrollar:temas});
+  }
+
+  sincronizarProgramaAnalitico(sec);
+  save();
+
+  // La lista queda visible y el editor se limpia para cargar rápidamente otra unidad.
+  document.getElementById('listaUnidades').innerHTML=renderListaUnidades(sec.unidades);
+  limpiarEditorUnidad();
+  document.getElementById('secCompleted').checked=sec.completed;
+}
+
+function sincronizarProgramaAnalitico(sec){
+  const first=sec.unidades&&sec.unidades.length?sec.unidades[0]:null;
+  sec.unidadTematica=first?first.unidadTematica:'';
+  sec.objetivoAprendizaje=first?first.objetivoAprendizaje:'';
+  sec.temasDesarrollar=first?first.temasDesarrollar:'';
+  sec.content=(sec.unidades||[]).map(u=>u.unidadTematica).filter(Boolean).join('\n');
+  sec.completed=(sec.unidades||[]).length>0;
+}
+
+function actualizarBullets(){
+  const textarea=document.getElementById('paTemas');
+  const preview=document.getElementById('temasPreview');
+  if(!textarea || !preview) return;
+  const temas=textarea.value.split(/\r?\n/).map(t=>t.trim()).filter(Boolean);
+  preview.innerHTML=temas.length
+    ? `<ul>${temas.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}`
+    : '<span class="muted">Los temas ingresados aparecerán aquí como bullets.</span>';
+}
+function saveSection(id,key,advance){
+  const p=getProgram(id); if(!p) return;
+
+  const def=SECTION_DEFS.find(s=>s.key===key);
+  if(!def || !puedeEditarSeccion(key)) return;
+
+  if(key==='programaAnalitico'){
+    const sec=p.sections[key];
+    if(!Array.isArray(sec.unidades)) sec.unidades=[];
+    const unidadEl=document.getElementById('paUnidad');
+    const objetivoEl=document.getElementById('paObjetivo');
+    const temasEl=document.getElementById('paTemas');
+    const editIdEl=document.getElementById('unidadEditandoId');
+    const unidad=unidadEl ? unidadEl.value.trim() : '';
+    const objetivo=objetivoEl ? objetivoEl.value.trim() : '';
+    const temas=temasEl ? temasEl.value.trim() : '';
+    const editId=editIdEl ? editIdEl.value : '';
+
+    // El botón general "Guardar cambios" también guarda la unidad que esté
+    // abierta en el editor, sin reemplazar ni borrar las demás unidades.
+    if(editId){
+      const u=sec.unidades.find(x=>String(x.id)===String(editId));
+      if(u){
+        if(unidad) u.unidadTematica=unidad;
+        if(objetivo) u.objetivoAprendizaje=objetivo;
+        if(temas) u.temasDesarrollar=temas;
+      }
+    }else if(unidad || objetivo || temas){
+      if(!unidad || !objetivo || !temas){
+        alert('Para guardar una nueva unidad completá los tres campos.');
+        return;
+      }
+      const nextId=sec.unidades.reduce((max,u)=>Math.max(max,Number(u.id)||0),0)+1;
+      sec.unidades.push({id:nextId,unidadTematica:unidad,objetivoAprendizaje:objetivo,temasDesarrollar:temas});
+    }
+    sincronizarProgramaAnalitico(sec);
+  }else{
+    p.sections[key].content=document.getElementById('secContent').value;
+    const completedEl=document.getElementById('secCompleted');
+    p.sections[key].completed=completedEl ? completedEl.checked : false;
+  }
+
+  save();
+
+  if(!advance){ editSection(id,key); return; }
+
+  const idx=EDITABLE_KEYS.indexOf(key);
+  if(idx<EDITABLE_KEYS.length-1) editSection(id,EDITABLE_KEYS[idx+1]);
+  else openProgram(id);
+}
+
+/* ---------- Transiciones de estado ---------- */
+function solicitarConformidad(id){
+ const p=getProgram(id);
+ if(!p||role!=='TITULAR_CATEDRA'||p.state!=='BORRADOR') return;
+ if(!seccionesCompletas(p)){ alert('Hay secciones sin completar.'); return; }
+ if(p.origenCorreccion==='ACADEMICA'){
+   p.state='EN_REVISION_ACADEMICA';
+   const previo=p.revisionAcademica||{};
+   const reiniciados=[];
+   const nuevaRevision={};
+   ['encuadre','metodos','bibliografia'].forEach(k=>{
+     if(previo[k] && previo[k].status==='OK'){
+       nuevaRevision[k]=previo[k];
+     } else {
+       nuevaRevision[k]={status:'PENDIENTE'};
+       reiniciados.push(GROUP_LABELS[k]);
+     }
+   });
+   p.revisionAcademica=nuevaRevision;
+   addHistory(p,roleNames.TITULAR_CATEDRA,'Reenvía programa corregido',reiniciados.length?`Se reinicia el chequeo de: ${reiniciados.join(', ')}. Los chequeos ya aprobados se mantienen.`:'Todos los chequeos ya estaban aprobados.');
+ } else {
+   const reenvio=p.origenCorreccion==='DIRECTOR';
+   p.state='EN_REVISION';
+   p.conformidadDirector={status:'PENDIENTE'};
+   addHistory(p,roleNames.TITULAR_CATEDRA,reenvio?'Reenvía programa corregido':'Solicita conformidad','Queda a la espera de la conformidad del Director/a de departamento.');
+ }
+ p.origenCorreccion=null;
+ save();
+ openProgram(id);
+}
+
+function directorDarConformidad(id,aprobado){
+ const p=getProgram(id);
+ if(!p||role!=='DIRECTOR_DEPARTAMENTO'||p.state!=='EN_REVISION') return;
+ const obs=document.getElementById('obsDirector')?document.getElementById('obsDirector').value.trim():'';
+ if(!aprobado && !obs){ alert('Ingresá una observación para solicitar la corrección.'); return; }
+ if(aprobado){
+   p.conformidadDirector={status:'OK',observacion:obs,fecha:new Date().toISOString()};
+   p.state='EN_REVISION_ACADEMICA';
+   p.revisionAcademica={encuadre:{status:'PENDIENTE'},metodos:{status:'PENDIENTE'},bibliografia:{status:'PENDIENTE'}};
+   addHistory(p,roleNames.DIRECTOR_DEPARTAMENTO,'Da conformidad','El programa pasa a revisión académica (Dirección Académica y Subsecretaría).');
+ } else {
+   p.conformidadDirector={status:'RECHAZADO',observacion:obs,fecha:new Date().toISOString()};
+   p.origenCorreccion='DIRECTOR';
+   p.state='BORRADOR';
+   addHistory(p,roleNames.DIRECTOR_DEPARTAMENTO,'Solicita corrección',obs);
+ }
+ save();
+ openProgram(id);
+}
+
+function revisarAcademica(id,grupo,ok){
+ const p=getProgram(id);
+ if(!p||REVIEW_GROUP_BY_ROLE[role]!==grupo||p.state!=='EN_REVISION_ACADEMICA'||p.revisionAcademica[grupo].status!=='PENDIENTE') return;
+ const obs=document.getElementById('obsAcademica')?document.getElementById('obsAcademica').value.trim():'';
+ if(!ok && !obs){ alert('Ingresá una observación para solicitar la corrección.'); return; }
+ if(ok){
+   p.revisionAcademica[grupo]={status:'OK',observacion:obs,fecha:new Date().toISOString()};
+   addHistory(p,roleNames[role],`Chequeo de ${GROUP_LABELS[grupo]} sin errores`,obs||'—');
+   const todoOk=['encuadre','metodos','bibliografia'].every(k=>p.revisionAcademica[k].status==='OK');
+   if(todoOk) aprobarPrograma(p);
+ } else {
+   p.revisionAcademica[grupo]={status:'CON_OBSERVACIONES',observacion:obs,fecha:new Date().toISOString()};
+   p.origenCorreccion='ACADEMICA';
+   p.state='BORRADOR';
+   addHistory(p,roleNames[role],`Solicita corrección de ${GROUP_LABELS[grupo]}`,obs);
+ }
+ save();
+ openProgram(id);
+}
+
+function aprobarPrograma(p){
+ p.state='APROBADO';
+ const now=new Date();
+ p.expediente={
+  notaElevacion:`NE-${now.getFullYear()}-${pad(p.id,4)}`,
+  gedo:`GEDO-${now.getFullYear()}-${pad(Math.floor(Math.random()*900000+100000),6)}`,
+  fecha:now.toISOString()
+ };
+ addHistory(p,'Dirección Académica','Genera nota de elevación','Se eleva el programa con conformidad de Dirección Académica y Subsecretaría.');
+ addHistory(p,'Subs. de Planificación Educativa','Genera expediente GEDO',`Expediente ${p.expediente.gedo} generado. Programa APROBADO.`);
+}
+
+/* ---------- Historial ---------- */
+function showHistory(id){
+ const p=getProgram(id); if(!p) return;
+ const items=(p.history||[]).slice().reverse();
+ document.getElementById('content').innerHTML=`<div class="toolbar"><div><button class="btn small" onclick="openProgram(${id})">‹ Volver al programa</button><h1 style="margin-top:12px">Historial — ${p.name}</h1></div></div>
+ <div class="card"><div class="timeline">${items.length?items.map(h=>`<div><b>${h.accion}</b> <span class="muted">— ${h.actor}</span><br><span class="muted">${fmtDate(h.fecha)}</span>${h.detalle&&h.detalle!=='—'?`<br>${escapeHtml(h.detalle)}`:''}</div>`).join(''):'<p class="muted">Sin movimientos registrados.</p>'}</div></div>`;
+}
+
+/* ---------- Impresión / exportación a PDF (programa APROBADO) ---------- */
+function datosProgramaParaImprimir(p){
+  const bloques=[];
+  bloques.push({tipo:'titulo',texto:p.name});
+  bloques.push({tipo:'sub',texto:`Carrera: ${p.career}   ·   Plan: ${p.year}`});
+  bloques.push({tipo:'sub',texto:`Estado: ${p.state}`});
+  if(p.expediente){
+    bloques.push({tipo:'sub',texto:`Nota de elevación: ${p.expediente.notaElevacion}`});
+    bloques.push({tipo:'sub',texto:`Expediente GEDO: ${p.expediente.gedo}`});
+    bloques.push({tipo:'sub',texto:`Fecha de aprobación: ${fmtDate(p.expediente.fecha)}`});
+  }
+  let lastSectionTitle=null;
+  SECTION_DEFS.forEach(def=>{
+    if(def.sectionTitle!==lastSectionTitle){
+      bloques.push({tipo:'seccion',texto:def.sectionTitle});
+      lastSectionTitle=def.sectionTitle;
+    }
+    bloques.push({tipo:'label',texto:def.label});
+    const sec=p.sections[def.key]||{};
+    if(def.key==='programaAnalitico'){
+      const unidades=sec.unidades||[];
+      if(!unidades.length){
+        bloques.push({tipo:'texto',texto:'Sin unidades cargadas.'});
+      }else{
+        unidades.forEach((u,i)=>{
+          bloques.push({tipo:'texto',texto:`Unidad ${i+1}: ${u.unidadTematica||''}`});
+          bloques.push({tipo:'texto',texto:`Objetivo de aprendizaje: ${u.objetivoAprendizaje||''}`});
+          const temas=(u.temasDesarrollar||'').split(/\r?\n/).map(t=>t.trim()).filter(Boolean);
+          bloques.push({tipo:'texto',texto:`Temas a desarrollar: ${temas.join('; ')||'—'}`});
+        });
+      }
+    }else{
+      bloques.push({tipo:'texto',texto:sec.content||'—'});
+    }
+  });
+  return bloques;
+}
+
+function nombreArchivoPrograma(p){
+  const base=(p.name||'programa').trim().replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,' ');
+  return `${base}.pdf`;
+}
+
+function imprimirPrograma(id){
+  const p=getProgram(id);
+  if(!p || p.state!=='APROBADO'){ alert('Solo se puede imprimir un programa en estado APROBADO.'); return; }
+  if(!window.jspdf || !window.jspdf.jsPDF){ alert('No se pudo cargar el generador de PDF. Verificá tu conexión a internet e intentá nuevamente.'); return; }
+
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'pt',format:'a4'});
+  const marginX=48, maxWidth=500, pageBottom=780;
+  let y=56;
+
+  function addLine(texto,{size=10,style='normal',gapBefore=0,gapAfter=12}={}){
+    doc.setFont('helvetica',style);
+    doc.setFontSize(size);
+    y+=gapBefore;
+    const lineas=doc.splitTextToSize(texto,maxWidth);
+    lineas.forEach(linea=>{
+      if(y>pageBottom){ doc.addPage(); y=56; }
+      doc.text(linea,marginX,y);
+      y+=size*1.3;
+    });
+    y+=gapAfter;
+  }
+
+  datosProgramaParaImprimir(p).forEach(b=>{
+    if(b.tipo==='titulo') addLine(b.texto,{size:16,style:'bold',gapAfter:4});
+    else if(b.tipo==='sub') addLine(b.texto,{size:10,style:'normal',gapAfter:2});
+    else if(b.tipo==='seccion') addLine(b.texto,{size:13,style:'bold',gapBefore:12,gapAfter:8});
+    else if(b.tipo==='label') addLine(b.texto,{size:11,style:'bold',gapAfter:4});
+    else addLine(b.texto,{size:10,style:'normal',gapAfter:8});
+  });
+
+  doc.save(nombreArchivoPrograma(p));
+}
+
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.screen)));
+</script>
+
+
+</body></html>
