@@ -1,4 +1,6 @@
-<html lang="es"><head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Programas Académicos — Mockup navegable</title>
@@ -8,19 +10,21 @@
   --border:#dce3ea; --text:#243447; --muted:#6b7785; --green:#1ca56f;
   --yellow:#e7a51a; --red:#c94b4b; --white:#fff;
 }
-*{box-sizing:border-box;}
+*{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--light);color:var(--text)}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-.app{display:flex;min-height:100vh}
-.brand{font-size:17px;font-weight:700;padding:8px 10px 25px}
-.brand small{display:block;font-size:11px;font-weight:400;opacity:.75;margin-top:5px}
-.nav button{display: block;text-align: center;background: transparent;border: 0;padding: 11px 12px;float: left;width: 123px;height: 45px;}
-.nav button.active,.nav button:hover{background:rgba(255,255,255,.12);color:#fff}
-.main{margin-left:220px;flex:1}
-.topbar{height: 58px;background: #ff770c;border-bottom: 1px #ff770c;display: flex;align-items: center;justify-content: space-between;padding: 28px;max-width: 1500px;margin: auto;}
-.topbar strong{color:#fff}
-.role{font-size:13px;color:var(--muted)}
+.app{display:block;min-height:100vh}
+.main{flex:1}
+.topbar{background:#fff;border-bottom:3px solid var(--blue);display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 28px;position:sticky;top:0;z-index:20;box-shadow:0 1px 4px rgba(0,0,0,.06);flex-wrap:wrap}
+.topbar-brand{display:flex;align-items:center;gap:12px;padding:10px 0}
+.topbar-brand img{height:44px;display:block}
+.topbar-brand .brand-text{font-size:15px;font-weight:700;color:var(--navy);line-height:1.2}
+.topbar-brand .brand-text small{display:block;font-size:11px;font-weight:400;color:var(--muted)}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav button{background:transparent;border:0;color:var(--navy);padding:19px 14px;border-radius:0;margin:0;font-size:13px;font-weight:600;border-bottom:3px solid transparent;margin-bottom:-3px}
+.nav button.active,.nav button:hover{background:#fff4e9;color:var(--blue);border-bottom:3px solid var(--blue)}
+.role{font-size:13px;color:var(--muted);padding:10px 0}
 .content{padding:28px;max-width:1250px;margin:auto}
 h1{font-size:25px;margin:0 0 7px}
 h2{font-size:18px;margin:0 0 14px}
@@ -86,7 +90,8 @@ textarea:disabled,input:disabled{background:#eef1f4;color:#596775;cursor:not-all
 .login-card .btn{width:100%;margin-top:8px}
 .timeline{border-left:2px solid #d7e0e8;margin:15px 0 5px 8px;padding-left:20px}
 .timeline div{margin:0 0 18px;position:relative}.timeline div:before{content:"";position:absolute;left:-27px;top:2px;width:10px;height:10px;border-radius:50%;background:#ff770c}
-@media(max-width:850px){.main{margin-left:180px}.grid,.grid3{grid-template-columns:1fr}.login-hero{display:none}.login-box{width:100%}}
+@media(max-width:850px){.grid,.grid3{grid-template-columns:1fr}.login-hero{display:none}.login-box{width:100%}.topbar{padding:0 14px}.nav button{padding:14px 10px}}
+@media(max-width:600px){.topbar-brand .brand-text small{display:none}}
 </style>
 </head>
 <body>
@@ -100,48 +105,42 @@ textarea:disabled,input:disabled{background:#eef1f4;color:#596775;cursor:not-all
   </div>
   <div class="login-box">
     <div class="login-card">
+      <img src="https://economicas.uba.ar/wp-content/uploads/Logo_economicas.png" alt="Facultad de Ciencias Económicas – UBA" style="height:52px;display:block;margin-bottom:22px">
       <h2>Iniciar sesión</h2>
       <p>Ingresá para acceder a tus programas y tareas pendientes.</p>
       <label>Usuario</label>
-      <input placeholder="Ingrese su usuario">
+      <input id="loginUser" placeholder="Ingrese su usuario">
       <label>Contraseña</label>
-      <input type="password" placeholder="Ingrese su contraseña">
+      <input id="loginPass" type="password" placeholder="Ingrese su contraseña">
       <button class="btn primary" onclick="enterApp()">Ingresar</button>
       <p style="text-align:center;margin-top:16px;font-size:12px"><a href="#">¿Olvidó su contraseña?</a></p>
     </div>
   </div>
 </div>
 
-<div id="app" class="app">
-  
-  <main class="main">
-    <img src="https://economicas.uba.ar/wp-content/uploads/Logo_economicas.png" style="padding-left: 78px;">
-    <header class="topbar">
-      <strong>Programas Académicos</strong>
-    <div class="nav">
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="topbar-brand">
+      <img src="https://economicas.uba.ar/wp-content/uploads/Logo_economicas.png" alt="Facultad de Ciencias Económicas – UBA">
+      <div class="brand-text">Programas Académicos<small>Gestión de programas</small></div>
+    </div>
+    <nav class="nav">
       <button data-screen="dashboard" class="active">Inicio</button>
       <button data-screen="programs">Programas</button>
       <button data-screen="tasks">Tareas</button>
       <button data-screen="notifications">Notificaciones</button>
       <button data-screen="profile">Perfil</button>
-    </div>
-      <div class="role">Rol: <select id="roleSelect" onchange="changeRole(this.value)">
-        <option value="TITULAR_CATEDRA">Titular de cátedra</option>
-        <option value="SUBSECRETARIA_1">Subsecretaría_1 (Métodos)</option>
-        <option value="SUBSECRETARIA_2">Subsecretaría_2 (Bibliografía)</option>
-        <option value="DIRECCION_ACADEMICA">Dirección Académica</option>
-        <option value="DIRECTOR_DEPARTAMENTO">Director/a de departamento</option>
-      </select></div>
-    </header>
-    <section id="content" class="content"><div class="toolbar"><div><h1>Bienvenido</h1><p>Aquí encontrás tus tareas pendientes y el estado de tus programas.</p></div>
- </div>
- <div class="grid3">
-   <div class="card"><div class="muted">Programas</div><div class="stat">6</div><div class="muted">en el sistema</div></div>
-   <div class="card"><div class="muted">Tareas pendientes</div><div class="stat">1</div><div class="muted">requieren intervención</div></div>
-   <div class="card"><div class="muted">Aprobados</div><div class="stat">2</div><div class="muted">este ciclo</div></div>
- </div>
- <div class="card"><h2>Mis tareas</h2><table><tbody><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Acción</th></tr><tr><td>Sistemas de datos</td><td>Licenciatura en Sistemas</td><td>Completar programa</td><td><button class="btn small primary" onclick="openProgram(5)">Continuar</button></td></tr></tbody></table></div>
- <div class="card"><h2>Acceso rápido</h2><button class="btn primary" onclick="render('programs')">Ver todos los programas</button> <button class="btn primary" onclick="render('tasks')">Ver mis tareas</button></div></section>
+    </nav>
+    <div class="role">Rol: <select id="roleSelect" onchange="changeRole(this.value)">
+      <option value="TITULAR_CATEDRA">Titular de cátedra</option>
+      <option value="SUBSECRETARIA_1">Subsecretaría_1 (Métodos)</option>
+      <option value="SUBSECRETARIA_2">Subsecretaría_2 (Bibliografía)</option>
+      <option value="DIRECCION_ACADEMICA">Dirección Académica</option>
+      <option value="DIRECTOR_DEPARTAMENTO">Director/a de carrera</option>
+    </select></div>
+  </header>
+  <main class="main">
+    <section id="content" class="content"></section>
   </main>
 </div>
 
@@ -198,7 +197,7 @@ const roleNames={
  SUBSECRETARIA_1:'Subsecretaría_1',
  SUBSECRETARIA_2:'Subsecretaría_2',
  DIRECCION_ACADEMICA:'Dirección Académica',
- DIRECTOR_DEPARTAMENTO:'Director/a de departamento'
+ DIRECTOR_DEPARTAMENTO:'Director/a de carrera'
 };
 
 let role='TITULAR_CATEDRA';
@@ -283,7 +282,7 @@ function seedData(){
   p1.sections.evaluacionPresenciales.completed=true;
   p1.sections.evaluacionFinales.completed=true;
   p1.sections.criterioPromedio.completed=true;
-  p1.history=[{fecha:'2026-08-01T10:00:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Solicita nuevo programa',detalle:'Se genera el programa en estado BORRADOR con precarga de contenidos mínimos y ubicación de la asignatura en el currículum.'}];
+  p1.history=[{fecha:'2026-08-01T10:00:00.000Z',actor:roleNames.DIRECCION_ACADEMICA,accion:'Solicita nuevo programa',detalle:'Se genera el programa en estado BORRADOR con precarga de contenidos mínimos y ubicación de la asignatura en el currículum.'}];
 
   const p2=crearProgramaBase(2,'Historia Argentina','Historia','2026');
   EDITABLE_KEYS.forEach(k=>{
@@ -295,7 +294,7 @@ function seedData(){
   p2.origenCorreccion='DIRECTOR';
   p2.conformidadDirector={status:'RECHAZADO',observacion:'Falta consistencia entre los objetivos del encuadre y el programa analítico.',fecha:'2026-08-10T14:30:00.000Z'};
   p2.history=[
-   {fecha:'2026-08-05T09:00:00.000Z',actor:roleNames.TITULAR_CATEDRA,accion:'Solicita conformidad',detalle:'Programa completo enviado al Director/a de departamento.'},
+   {fecha:'2026-08-05T09:00:00.000Z',actor:roleNames.TITULAR_CATEDRA,accion:'Solicita conformidad',detalle:'Programa completo enviado al Director/a de carrera.'},
    {fecha:'2026-08-10T14:30:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Solicita corrección',detalle:p2.conformidadDirector.observacion}
   ];
 
@@ -313,7 +312,7 @@ function seedData(){
    bibliografia:{status:'OK',observacion:'',fecha:'2026-08-13T16:00:00.000Z'}
   };
   p3.history=[
-   {fecha:'2026-08-11T10:00:00.000Z',actor:roleNames.TITULAR_CATEDRA,accion:'Solicita conformidad',detalle:'Programa completo enviado al Director/a de departamento.'},
+   {fecha:'2026-08-11T10:00:00.000Z',actor:roleNames.TITULAR_CATEDRA,accion:'Solicita conformidad',detalle:'Programa completo enviado al Director/a de carrera.'},
    {fecha:'2026-08-12T11:00:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Da conformidad',detalle:'El programa pasa a revisión académica (Dirección Académica y Subsecretaría).'},
    {fecha:'2026-08-13T16:00:00.000Z',actor:roleNames.SUBSECRETARIA_2,accion:'Chequeo de Bibliografía sin errores',detalle:'—'},
    {fecha:'2026-08-14T09:00:00.000Z',actor:roleNames.SUBSECRETARIA_1,accion:'Chequeo de Métodos de conducción y de evaluación sin errores',detalle:'—'}
@@ -359,7 +358,12 @@ function observacionAcademica(p){
  return rej?rej.observacion:'';
 }
 
+const LOGIN_USER='Prueba', LOGIN_PASS='Prueba';
 function enterApp(){
+ const u=document.getElementById('loginUser').value.trim();
+ const p=document.getElementById('loginPass').value;
+ if(!u || !p){ alert('Ingresá usuario y contraseña.'); return; }
+ if(u!==LOGIN_USER || p!==LOGIN_PASS){ alert('Usuario o contraseña incorrectos.'); return; }
  document.getElementById('login').classList.add('hidden');
  document.getElementById('app').classList.remove('hidden');
  render('dashboard');
@@ -368,7 +372,7 @@ function changeRole(v){ role=v; render('dashboard'); }
 
 function statusBadge(s){
  const cls={BORRADOR:'draft',EN_REVISION:'review',EN_REVISION_ACADEMICA:'academic',APROBADO:'approved'};
- const label={BORRADOR:'BORRADOR',EN_REVISION:'EN REVISIÓN (Director)',EN_REVISION_ACADEMICA:'EN REVISIÓN ACADÉMICA',APROBADO:'APROBADO'};
+ const label={BORRADOR:'BORRADOR',EN_REVISION:'EN REVISIÓN (Director de carrera)',EN_REVISION_ACADEMICA:'EN REVISIÓN ACADÉMICA',APROBADO:'APROBADO'};
  return `<span class="badge ${cls[s]||'draft'}">${label[s]||s}</span>`;
 }
 
@@ -411,7 +415,7 @@ function dashboard(){
  const t=taskSummary();
  const aprobados=db.programs.filter(p=>p.state==='APROBADO').length;
  return `<div class="toolbar"><div><h1>Bienvenido</h1><p>Aquí encontrás tus tareas pendientes y el estado de tus programas.</p></div>
- ${role==='DIRECTOR_DEPARTAMENTO'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
+ ${role==='DIRECCION_ACADEMICA'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
  <div class="grid3">
    <div class="card"><div class="muted">Programas</div><div class="stat">${db.programs.length}</div><div class="muted">en el sistema</div></div>
    <div class="card"><div class="muted">Tareas pendientes</div><div class="stat">${t.items.length}</div><div class="muted">requieren intervención</div></div>
@@ -432,12 +436,12 @@ function profile(){
 }
 
 function programList(){
- return `<div class="toolbar"><div><h1>Programas académicos</h1><p>Consulta y seguimiento de programas.</p></div>${role==='DIRECTOR_DEPARTAMENTO'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
+ return `<div class="toolbar"><div><h1>Programas académicos</h1><p>Consulta y seguimiento de programas.</p></div>${role==='DIRECCION_ACADEMICA'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
  <div class="card"><div class="toolbar"><div class="left"><input id="searchInput" placeholder="Buscar por nombre de programa..." oninput="aplicarFiltros()">
  <select id="estadoFilter" onchange="aplicarFiltros()">
    <option value="">Estado: Todos</option>
    <option value="BORRADOR">Borrador</option>
-   <option value="EN_REVISION">En revisión (Director)</option>
+   <option value="EN_REVISION">En revisión (Director de carrera)</option>
    <option value="EN_REVISION_ACADEMICA">En revisión académica</option>
    <option value="APROBADO">Aprobado</option>
  </select></div></div>
@@ -456,25 +460,73 @@ function aplicarFiltros(){
  document.getElementById('programTable').innerHTML=programRows(list);
 }
 
-/* ---------- Alta de programa (Director/a de departamento) ---------- */
+/* ---------- Alta de programa (Dirección Académica) ----------
+   La asignatura se elige de un combo cargado desde el listado de
+   materias (materias.json). Al seleccionarla se precargan, de solo
+   lectura, los "Contenidos mínimos" y la "Ubicación de la asignatura
+   en el currículum" con los datos de esa materia. El Director/a de
+   carrera ya no inicia el alta: solo da conformidad más adelante. */
+const MATERIAS_JSON_URL='https://economicas-uba.github.io/fce_programas/materias.json';
+let materiasCache=null;
+let materiasPromise=null;
+function cargarMaterias(){
+ if(materiasCache) return Promise.resolve(materiasCache);
+ if(materiasPromise) return materiasPromise;
+ materiasPromise=fetch(MATERIAS_JSON_URL)
+   .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+   .then(data=>{ materiasCache=Array.isArray(data)?data:[]; materiasPromise=null; return materiasCache; })
+   .catch(err=>{ materiasPromise=null; console.error('No se pudo cargar materias.json',err); throw err; });
+ return materiasPromise;
+}
 function newProgram(){
- if(role!=='DIRECTOR_DEPARTAMENTO'){ alert('Solo el/la Director/a de departamento puede solicitar un nuevo programa.'); return; }
- document.getElementById('content').innerHTML=`<div class="toolbar"><div><button class="btn small" onclick="render('programs')">‹ Volver</button><h1 style="margin-top:12px">Solicitar nuevo programa</h1><p>El sistema va a generar el programa en estado BORRADOR, con las secciones precargadas que corresponden al plan de estudios, para que la cátedra complete el resto.</p></div></div>
+ if(role!=='DIRECCION_ACADEMICA'){ alert('Solo Dirección Académica puede solicitar un nuevo programa.'); return; }
+ document.getElementById('content').innerHTML=`<div class="toolbar"><div><button class="btn small" onclick="render('programs')">‹ Volver</button><h1 style="margin-top:12px">Solicitar nuevo programa</h1><p>El sistema va a generar el programa en estado BORRADOR. Al elegir la asignatura se precargan, de solo lectura, sus contenidos mínimos y su ubicación en el currículum, para que la cátedra complete el resto.</p></div></div>
  <div class="card">
-   <label>Asignatura</label><input id="npName" placeholder="Nombre de la asignatura" style="width:100%"><br><br>
+   <label>Asignatura</label>
+   <select id="npName" style="width:100%" disabled onchange="actualizarSubmitMateria()"><option value="">Cargando listado de materias…</option></select>
+   <p class="muted" id="npMateriaHelp" style="margin-top:6px;margin-bottom:0">Los contenidos mínimos y la ubicación curricular se completan automáticamente según la materia elegida.</p>
+   <br>
    <label>Carrera</label><input id="npCareer" placeholder="Carrera" style="width:100%"><br><br>
    <label>Año / Plan</label><input id="npYear" placeholder="2026" value="${new Date().getFullYear()}" style="width:100%">
-   <div style="text-align:right;margin-top:14px"><button class="btn" onclick="render('programs')">Cancelar</button> <button class="btn primary" onclick="crearNuevoPrograma()">Solicitar nuevo programa</button></div>
+   <div style="text-align:right;margin-top:14px"><button class="btn" onclick="render('programs')">Cancelar</button> <button id="npSubmitBtn" class="btn primary" disabled onclick="crearNuevoPrograma()">Solicitar nuevo programa</button></div>
  </div>`;
+ poblarSelectMaterias();
+}
+function poblarSelectMaterias(){
+ const sel=document.getElementById('npName');
+ const help=document.getElementById('npMateriaHelp');
+ cargarMaterias().then(materias=>{
+   if(!sel || !document.body.contains(sel)) return;
+   if(!materias.length){ sel.innerHTML='<option value="">No hay materias disponibles</option>'; return; }
+   sel.innerHTML='<option value="">Seleccioná una asignatura…</option>'
+     + materias.map((m,i)=>`<option value="${i}">${escapeHtml(m.nombre_materia||'(Sin nombre)')}</option>`).join('');
+   sel.disabled=false;
+ }).catch(()=>{
+   if(!sel || !document.body.contains(sel)) return;
+   sel.innerHTML='<option value="">No se pudo cargar el listado de materias</option>';
+   if(help) help.textContent='No se pudo cargar el listado de materias desde el repositorio. Verificá tu conexión e intentá nuevamente.';
+ });
+}
+function actualizarSubmitMateria(){
+ const sel=document.getElementById('npName');
+ const btn=document.getElementById('npSubmitBtn');
+ if(btn) btn.disabled=!sel||!sel.value;
 }
 function crearNuevoPrograma(){
- const name=document.getElementById('npName').value.trim();
+ const sel=document.getElementById('npName');
+ const idx=sel?sel.value:'';
+ if(idx===''){ alert('Seleccioná una asignatura de la lista.'); return; }
+ const materia=(materiasCache||[])[Number(idx)];
+ if(!materia){ alert('No se pudo obtener la información de la materia seleccionada. Volvé a intentarlo.'); return; }
+ const name=(materia.nombre_materia||'').trim();
+ if(!name){ alert('La materia seleccionada no tiene nombre cargado.'); return; }
  const career=document.getElementById('npCareer').value.trim()||'Sin especificar';
  const year=document.getElementById('npYear').value.trim()||String(new Date().getFullYear());
- if(!name){ alert('Ingresá el nombre de la asignatura.'); return; }
  const p=crearProgramaBase(db.nextId++,name,career,year);
+ p.sections.contenidosMinimos.content=materia.contenidos_minimos||'Contenidos mínimos de la materia. No pueden modificarse.';
+ p.sections.ubicacionCurriculum.content=materia.ubicacion_curriculum||'Ubicación de la asignatura en el currículum. No puede modificarse.';
  db.programs.unshift(p);
- addHistory(p,roleNames.DIRECTOR_DEPARTAMENTO,'Solicita nuevo programa','Se genera el programa en estado BORRADOR con las secciones precargadas que corresponden al plan de estudios.');
+ addHistory(p,roleNames.DIRECCION_ACADEMICA,'Solicita nuevo programa','Se genera el programa en estado BORRADOR con contenidos mínimos y ubicación curricular precargados desde el listado de materias.');
  save();
  openProgram(p.id);
 }
@@ -511,7 +563,7 @@ function renderSectionContent(p,s){
 function puedeEditarSeccion(key){
  const def=SECTION_DEFS.find(s=>s.key===key);
  if(!def || def.locked) return false;
- if(role==='TITULAR_CATEDRA' || role==='DIRECTOR_DEPARTAMENTO') return true;
+ if(role==='TITULAR_CATEDRA') return true;
  if(role==='DIRECCION_ACADEMICA') return def.reviewGroup==='encuadre';
  if(role==='SUBSECRETARIA_1') return def.sectionTitle==='D. Métodos de conducción del aprendizaje';
  if(role==='SUBSECRETARIA_2') return def.sectionTitle==='C. Bibliografía';
@@ -529,7 +581,7 @@ function openProgram(id){
 
  if(p.state==='BORRADOR' && p.origenCorreccion){
    const obs=p.origenCorreccion==='DIRECTOR'?(p.conformidadDirector&&p.conformidadDirector.observacion):observacionAcademica(p);
-   const origenLabel=p.origenCorreccion==='DIRECTOR'?'el Director/a de departamento':'la revisión académica';
+   const origenLabel=p.origenCorreccion==='DIRECTOR'?'el Director/a de carrera':'la revisión académica';
    html+=`<div class="notice warn"><b>Corrección solicitada</b><br>Observación de ${origenLabel}: ${escapeHtml(obs||'Se solicitaron correcciones sobre el programa.')}</div>`;
  }
 
@@ -863,7 +915,7 @@ function solicitarConformidad(id){
    const reenvio=p.origenCorreccion==='DIRECTOR';
    p.state='EN_REVISION';
    p.conformidadDirector={status:'PENDIENTE'};
-   addHistory(p,roleNames.TITULAR_CATEDRA,reenvio?'Reenvía programa corregido':'Solicita conformidad','Queda a la espera de la conformidad del Director/a de departamento.');
+   addHistory(p,roleNames.TITULAR_CATEDRA,reenvio?'Reenvía programa corregido':'Solicita conformidad','Queda a la espera de la conformidad del Director/a de carrera.');
  }
  p.origenCorreccion=null;
  save();
@@ -1009,6 +1061,5 @@ function imprimirPrograma(id){
 
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.screen)));
 </script>
-
-
-</body></html>
+</body>
+</html>
