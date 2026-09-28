@@ -358,7 +358,7 @@ function observacionAcademica(p){
  return rej?rej.observacion:'';
 }
 
-const LOGIN_USER='Prueba', LOGIN_PASS='Prueba';
+const LOGIN_USER='prueba', LOGIN_PASS='prueba';
 function enterApp(){
  const u=document.getElementById('loginUser').value.trim();
  const p=document.getElementById('loginPass').value;
@@ -474,7 +474,7 @@ function cargarMaterias(){
  if(materiasPromise) return materiasPromise;
  materiasPromise=fetch(MATERIAS_JSON_URL)
    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-   .then(data=>{ materiasCache=Array.isArray(data)?data:[]; materiasPromise=null; return materiasCache; })
+   .then(data=>{ materiasCache=Array.isArray(data.materias)?data.materias:[]; materiasPromise=null; return materiasCache; })
    .catch(err=>{ materiasPromise=null; console.error('No se pudo cargar materias.json',err); throw err; });
  return materiasPromise;
 }
@@ -483,10 +483,10 @@ function newProgram(){
  document.getElementById('content').innerHTML=`<div class="toolbar"><div><button class="btn small" onclick="render('programs')">‹ Volver</button><h1 style="margin-top:12px">Solicitar nuevo programa</h1><p>El sistema va a generar el programa en estado BORRADOR. Al elegir la asignatura se precargan, de solo lectura, sus contenidos mínimos y su ubicación en el currículum, para que la cátedra complete el resto.</p></div></div>
  <div class="card">
    <label>Asignatura</label>
-   <select id="npName" style="width:100%" disabled onchange="actualizarSubmitMateria()"><option value="">Cargando listado de materias…</option></select>
+   <select id="npName" style="width:100%" disabled onchange="actualizarMateriaSeleccionada()"><option value="">Cargando listado de materias…</option></select>
    <p class="muted" id="npMateriaHelp" style="margin-top:6px;margin-bottom:0">Los contenidos mínimos y la ubicación curricular se completan automáticamente según la materia elegida.</p>
    <br>
-   <label>Carrera</label><input id="npCareer" placeholder="Carrera" style="width:100%"><br><br>
+   <label>Carrera</label><input id="npCareer" placeholder="Carrera" style="width:100%" disabled><br><br>
    <label>Año / Plan</label><input id="npYear" placeholder="2026" value="${new Date().getFullYear()}" style="width:100%">
    <div style="text-align:right;margin-top:14px"><button class="btn" onclick="render('programs')">Cancelar</button> <button id="npSubmitBtn" class="btn primary" disabled onclick="crearNuevoPrograma()">Solicitar nuevo programa</button></div>
  </div>`;
@@ -497,9 +497,20 @@ function poblarSelectMaterias(){
  const help=document.getElementById('npMateriaHelp');
  cargarMaterias().then(materias=>{
    if(!sel || !document.body.contains(sel)) return;
-   if(!materias.length){ sel.innerHTML='<option value="">No hay materias disponibles</option>'; return; }
+   const materiasDisponibles=materias
+     .map((m,i)=>({materia:m,index:i}))
+     .filter(({materia})=>{
+       const nombre=(materia.nombre_materia||'').trim().toLowerCase();
+       const id=materia.id_materia;
+       return !db.programs.some(p=>{
+         const mismoId=(id!=null && p.materiaId!=null && String(p.materiaId)===String(id));
+         const mismoNombre=nombre && (p.name||'').trim().toLowerCase()===nombre;
+         return mismoId || mismoNombre;
+       });
+     });
+   if(!materiasDisponibles.length){ sel.innerHTML='<option value="">Todas las materias ya tienen un programa</option>'; return; }
    sel.innerHTML='<option value="">Seleccioná una asignatura…</option>'
-     + materias.map((m,i)=>`<option value="${i}">${escapeHtml(m.nombre_materia||'(Sin nombre)')}</option>`).join('');
+     + materiasDisponibles.map(({materia,index})=>`<option value="${index}">${escapeHtml(materia.nombre_materia||'(Sin nombre)')}</option>`).join('');
    sel.disabled=false;
  }).catch(()=>{
    if(!sel || !document.body.contains(sel)) return;
@@ -507,9 +518,13 @@ function poblarSelectMaterias(){
    if(help) help.textContent='No se pudo cargar el listado de materias desde el repositorio. Verificá tu conexión e intentá nuevamente.';
  });
 }
-function actualizarSubmitMateria(){
+function actualizarMateriaSeleccionada(){
  const sel=document.getElementById('npName');
+ const career=document.getElementById('npCareer');
  const btn=document.getElementById('npSubmitBtn');
+ const idx=sel?sel.value:'';
+ const materia=(idx!=='' && materiasCache)?materiasCache[Number(idx)]:null;
+ if(career) career.value=materia ? (materia.carreras||'') : '';
  if(btn) btn.disabled=!sel||!sel.value;
 }
 function crearNuevoPrograma(){
@@ -523,6 +538,7 @@ function crearNuevoPrograma(){
  const career=document.getElementById('npCareer').value.trim()||'Sin especificar';
  const year=document.getElementById('npYear').value.trim()||String(new Date().getFullYear());
  const p=crearProgramaBase(db.nextId++,name,career,year);
+ p.materiaId=materia.id_materia ?? null;
  p.sections.contenidosMinimos.content=materia.contenidos_minimos||'Contenidos mínimos de la materia. No pueden modificarse.';
  p.sections.ubicacionCurriculum.content=materia.ubicacion_curriculum||'Ubicación de la asignatura en el currículum. No puede modificarse.';
  db.programs.unshift(p);
