@@ -484,9 +484,19 @@ function newProgram(){
  <div class="card">
    <label>Asignatura</label>
    <select id="npName" style="width:100%" disabled onchange="actualizarMateriaSeleccionada()"><option value="">Cargando listado de materias…</option></select>
-   <p class="muted" id="npMateriaHelp" style="margin-top:6px;margin-bottom:0">Los contenidos mínimos y la ubicación curricular se completan automáticamente según la materia elegida.</p>
+   <p class="muted" id="npMateriaHelp" style="margin-top:6px;margin-bottom:0">La lista combina nombre de materia y titular. Las combinaciones ya solicitadas no vuelven a aparecer, independientemente del estado del programa.</p>
    <br>
    <label>Carrera</label><input id="npCareer" placeholder="Carrera" style="width:100%" disabled><br><br>
+   <div class="grid" style="gap:12px;margin-bottom:18px">
+     <div>
+       <label>Código de materia</label>
+       <input id="npCodigoMateria" style="width:100%" disabled>
+     </div>
+     <div>
+       <label>Departamento</label>
+       <input id="npDepartamento" style="width:100%" disabled>
+     </div>
+   </div>
    <label>Año / Plan</label><input id="npYear" placeholder="2026" value="${new Date().getFullYear()}" style="width:100%">
    <div style="text-align:right;margin-top:14px"><button class="btn" onclick="render('programs')">Cancelar</button> <button id="npSubmitBtn" class="btn primary" disabled onclick="crearNuevoPrograma()">Solicitar nuevo programa</button></div>
  </div>`;
@@ -501,16 +511,20 @@ function poblarSelectMaterias(){
      .map((m,i)=>({materia:m,index:i}))
      .filter(({materia})=>{
        const nombre=(materia.nombre_materia||'').trim().toLowerCase();
-       const id=materia.id_materia;
+       const titular=(materia.titular||'').trim().toLowerCase();
        return !db.programs.some(p=>{
-         const mismoId=(id!=null && p.materiaId!=null && String(p.materiaId)===String(id));
-         const mismoNombre=nombre && (p.name||'').trim().toLowerCase()===nombre;
-         return mismoId || mismoNombre;
+         const nombrePrograma=(p.nombre_materia??p.name??'').trim().toLowerCase();
+         const titularPrograma=(p.titular??'').trim().toLowerCase();
+         return nombre && titular && nombrePrograma===nombre && titularPrograma===titular;
        });
      });
-   if(!materiasDisponibles.length){ sel.innerHTML='<option value="">Todas las materias ya tienen un programa</option>'; return; }
+   if(!materiasDisponibles.length){ sel.innerHTML='<option value="">Todas las combinaciones materia/titular ya fueron solicitadas</option>'; return; }
    sel.innerHTML='<option value="">Seleccioná una asignatura…</option>'
-     + materiasDisponibles.map(({materia,index})=>`<option value="${index}">${escapeHtml(materia.nombre_materia||'(Sin nombre)')}</option>`).join('');
+     + materiasDisponibles.map(({materia,index})=>{
+       const nombre=materia.nombre_materia||'(Sin nombre)';
+       const titular=materia.titular||'(Sin titular)';
+       return `<option value="${index}">${escapeHtml(nombre)} - ${escapeHtml(titular)}</option>`;
+     }).join('');
    sel.disabled=false;
  }).catch(()=>{
    if(!sel || !document.body.contains(sel)) return;
@@ -521,10 +535,14 @@ function poblarSelectMaterias(){
 function actualizarMateriaSeleccionada(){
  const sel=document.getElementById('npName');
  const career=document.getElementById('npCareer');
+ const codigo=document.getElementById('npCodigoMateria');
+ const departamento=document.getElementById('npDepartamento');
  const btn=document.getElementById('npSubmitBtn');
  const idx=sel?sel.value:'';
  const materia=(idx!=='' && materiasCache)?materiasCache[Number(idx)]:null;
  if(career) career.value=materia ? (materia.carreras||'') : '';
+ if(codigo) codigo.value=materia ? (materia.codigo_materia??'') : '';
+ if(departamento) departamento.value=materia ? (materia.departamento??'') : '';
  if(btn) btn.disabled=!sel||!sel.value;
 }
 function crearNuevoPrograma(){
@@ -538,6 +556,10 @@ function crearNuevoPrograma(){
  const career=document.getElementById('npCareer').value.trim()||'Sin especificar';
  const year=document.getElementById('npYear').value.trim()||String(new Date().getFullYear());
  const p=crearProgramaBase(db.nextId++,name,career,year);
+ p.nombre_materia=name;
+ p.titular=(materia.titular||'').trim();
+ p.codigo_materia=materia.codigo_materia ?? null;
+ p.departamento=materia.departamento ?? '';
  p.materiaId=materia.id_materia ?? null;
  p.sections.contenidosMinimos.content=materia.contenidos_minimos||'Contenidos mínimos de la materia. No pueden modificarse.';
  p.sections.ubicacionCurriculum.content=materia.ubicacion_curriculum||'Ubicación de la asignatura en el currículum. No puede modificarse.';
@@ -1001,8 +1023,13 @@ function showHistory(id){
 /* ---------- Impresión / exportación a PDF (programa APROBADO) ---------- */
 function datosProgramaParaImprimir(p){
   const bloques=[];
-  bloques.push({tipo:'titulo',texto:p.name});
+  const nombreMateria=p.nombre_materia||p.name||'';
+  const titular=p.titular||'';
+  bloques.push({tipo:'titulo',texto:nombreMateria});
+  if(titular) bloques.push({tipo:'sub',texto:`Titular: ${titular}`});
   bloques.push({tipo:'sub',texto:`Carrera: ${p.career}   ·   Plan: ${p.year}`});
+  if(p.codigo_materia!==null && p.codigo_materia!==undefined && String(p.codigo_materia)!=='') bloques.push({tipo:'sub',texto:`Código de materia: ${p.codigo_materia}`});
+  if(p.departamento) bloques.push({tipo:'sub',texto:`Departamento: ${p.departamento}`});
   bloques.push({tipo:'sub',texto:`Estado: ${p.state}`});
   if(p.expediente){
     bloques.push({tipo:'sub',texto:`Nota de elevación: ${p.expediente.notaElevacion}`});
