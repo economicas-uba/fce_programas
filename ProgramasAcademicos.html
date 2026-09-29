@@ -270,78 +270,9 @@ function completarEjemplo(p,key,text){
 }
 
 function seedData(){
-  const p1=crearProgramaBase(1,'Análisis Matemático I','Matemática','2026');
-  completarEjemplo(p1,'razonesInclusion','La asignatura aporta los fundamentos necesarios para la formación profesional y para el desarrollo de competencias analíticas.');
-  completarEjemplo(p1,'objetivosAprendizaje','Comprender y aplicar los conceptos fundamentales del análisis matemático en situaciones propias de la disciplina.');
-  completarEjemplo(p1,'programaAnalitico',{unidadTematica:'Límites y continuidad',objetivoAprendizaje:'Comprender el concepto de límite y continuidad y aplicarlo al análisis de funciones.',temasDesarrollar:'Concepto de límite\\nPropiedades de los límites\\nContinuidad de funciones\\nDiscontinuidades'});
-  completarEjemplo(p1,'bibliografiaObligatoria','Bibliografía obligatoria de ejemplo.');
-  completarEjemplo(p1,'bibliografiaAmpliatoria','Bibliografía ampliatoria de ejemplo.');
-  completarEjemplo(p1,'objetivosGeneralesCursos','Desarrollar las capacidades necesarias para resolver problemas propios de la asignatura.');
-  completarEjemplo(p1,'metodologiaProceso','Clases teórico-prácticas con resolución de ejercicios.');
-  completarEjemplo(p1,'dinamicaClases','Exposición conceptual, ejemplos y resolución guiada de problemas.');
-  p1.sections.evaluacionPresenciales.completed=true;
-  p1.sections.evaluacionFinales.completed=true;
-  p1.sections.criterioPromedio.completed=true;
-  p1.history=[{fecha:'2026-08-01T10:00:00.000Z',actor:roleNames.DIRECCION_ACADEMICA,accion:'Solicita nuevo programa',detalle:'Se genera el programa en estado BORRADOR con precarga de contenidos mínimos y ubicación de la asignatura en el currículum.'}];
+  
 
-  const p2=crearProgramaBase(2,'Historia Argentina','Historia','2026');
-  EDITABLE_KEYS.forEach(k=>{
-    if(k==='programaAnalitico'){
-      completarEjemplo(p2,k,{unidadTematica:'Formación del Estado argentino',objetivoAprendizaje:'Analizar los procesos históricos vinculados con la formación del Estado argentino.',temasDesarrollar:'Organización nacional\\nConstitución de 1853\\nConsolidación del Estado'});
-    }else completarEjemplo(p2,k,'Contenido cargado por la cátedra.');
-  });
-  p2.state='BORRADOR';
-  p2.origenCorreccion='DIRECTOR';
-  p2.conformidadDirector={status:'RECHAZADO',observacion:'Falta consistencia entre los objetivos del encuadre y el programa analítico.',fecha:'2026-08-10T14:30:00.000Z'};
-  p2.history=[
-   {fecha:'2026-08-05T09:00:00.000Z',actor:roleNames.TITULAR_CATEDRA,accion:'Solicita conformidad',detalle:'Programa completo enviado al Director/a de carrera.'},
-   {fecha:'2026-08-10T14:30:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Solicita corrección',detalle:p2.conformidadDirector.observacion}
-  ];
-
-  const p3=crearProgramaBase(3,'Física II','Física','2026');
-  EDITABLE_KEYS.forEach(k=>{
-    if(k==='programaAnalitico'){
-      completarEjemplo(p3,k,{unidadTematica:'Electromagnetismo',objetivoAprendizaje:'Comprender los principios fundamentales de los campos eléctricos y magnéticos.',temasDesarrollar:'Campo eléctrico\\nPotencial eléctrico\\nCampo magnético\\nInducción electromagnética'});
-    }else completarEjemplo(p3,k,'Contenido cargado por la cátedra.');
-  });
-  p3.state='EN_REVISION_ACADEMICA';
-  p3.conformidadDirector={status:'OK',observacion:'',fecha:'2026-08-12T11:00:00.000Z'};
-  p3.revisionAcademica={
-   encuadre:{status:'PENDIENTE'},
-   metodos:{status:'OK',observacion:'',fecha:'2026-08-14T09:00:00.000Z'},
-   bibliografia:{status:'OK',observacion:'',fecha:'2026-08-13T16:00:00.000Z'}
-  };
-  p3.history=[
-   {fecha:'2026-08-11T10:00:00.000Z',actor:roleNames.TITULAR_CATEDRA,accion:'Solicita conformidad',detalle:'Programa completo enviado al Director/a de carrera.'},
-   {fecha:'2026-08-12T11:00:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Da conformidad',detalle:'El programa pasa a revisión académica (Dirección Académica y Subsecretaría).'},
-   {fecha:'2026-08-13T16:00:00.000Z',actor:roleNames.SUBSECRETARIA_2,accion:'Chequeo de Bibliografía sin errores',detalle:'—'},
-   {fecha:'2026-08-14T09:00:00.000Z',actor:roleNames.SUBSECRETARIA_1,accion:'Chequeo de Métodos de conducción y de evaluación sin errores',detalle:'—'}
-  ];
-
-  const p4=crearProgramaBase(4,'Química General','Química','2026');
-  EDITABLE_KEYS.forEach(k=>{
-    if(k==='programaAnalitico'){
-      completarEjemplo(p4,k,{unidadTematica:'Estructura de la materia',objetivoAprendizaje:'Relacionar la estructura microscópica de la materia con sus propiedades.',temasDesarrollar:'Modelos atómicos\\nTabla periódica\\nEnlace químico\\nPropiedades de los compuestos'});
-    }else completarEjemplo(p4,k,'Contenido cargado por la cátedra.');
-  });
-  p4.state='APROBADO';
-  p4.conformidadDirector={status:'OK',observacion:'',fecha:'2026-07-01T10:00:00.000Z'};
-  p4.revisionAcademica={
-   encuadre:{status:'OK',observacion:'',fecha:'2026-07-03T10:00:00.000Z'},
-   metodos:{status:'OK',observacion:'',fecha:'2026-07-03T11:00:00.000Z'},
-   bibliografia:{status:'OK',observacion:'',fecha:'2026-07-03T12:00:00.000Z'}
-  };
-  p4.expediente={notaElevacion:'NE-2026-0004',gedo:'GEDO-2026-004821',fecha:'2026-07-03T13:00:00.000Z'};
-  p4.history=[
-   {fecha:'2026-07-01T10:00:00.000Z',actor:roleNames.DIRECTOR_DEPARTAMENTO,accion:'Da conformidad',detalle:'El programa pasa a revisión académica.'},
-   {fecha:'2026-07-03T10:00:00.000Z',actor:roleNames.DIRECCION_ACADEMICA,accion:'Chequeo de Encuadre sin errores',detalle:'—'},
-   {fecha:'2026-07-03T11:00:00.000Z',actor:roleNames.SUBSECRETARIA_1,accion:'Chequeo de Métodos de conducción y de evaluación sin errores',detalle:'—'},
-   {fecha:'2026-07-03T12:00:00.000Z',actor:roleNames.SUBSECRETARIA_2,accion:'Chequeo de Bibliografía sin errores',detalle:'—'},
-   {fecha:'2026-07-03T13:00:00.000Z',actor:'Dirección Académica',accion:'Genera nota de elevación',detalle:'Se eleva el programa con conformidad de Dirección Académica y Subsecretaría.'},
-   {fecha:'2026-07-03T13:05:00.000Z',actor:'Subs. de Planificación Educativa',accion:'Genera expediente GEDO',detalle:'Expediente GEDO-2026-004821 generado. Programa APROBADO.'}
-  ];
-
-  return {programs:[p1,p2,p3,p4],nextId:5};
+  return {programs:[],nextId:1};
 }
 
 /* ---------- Helpers ---------- */
