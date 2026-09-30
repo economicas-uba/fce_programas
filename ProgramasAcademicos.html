@@ -1052,20 +1052,23 @@ function imprimirPrograma(id){
   doc.setFont('helvetica','normal'); doc.setFontSize(16); if(typeof doc.setCharSpace==='function') doc.setCharSpace(0);
   const carreraLineas=doc.splitTextToSize(String(carrera),450-(120.60+w));
   doc.text(carreraLineas,120.60+w+5,552.74,{align:'left',lineHeightFactor:1.15});
+  /* Posiciones fijas, con margen amplio para que "Aprobado..." / "Nro."
+     no se superpongan con "Carrera" aunque ésta ocupe varias líneas
+     (hasta ~8-9 líneas de carrera quedan cubiertas con este margen). */
+  const aprobadoY=720, nroY=748;
   doc.setFont('helvetica','bold');
   doc.setFontSize(18);
-  doc.text('Aprobado por Res. Consejo Directivo (FCE)',297.64,640.72,{align:'center'});
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(14);
+  doc.text('Aprobado por Res. Consejo Directivo (FCE)',297.64,aprobadoY,{align:'center'});
   const nro=`Nro.: ${resolucion || '________________'}`;
-  doc.text(nro,297.64,664.72,{align:'center'});
+  doc.text(nro,297.64,nroY,{align:'center'});
 
-  /* Texto de contradicción: pertenece a la carátula y queda por debajo de la resolución. */
+  /* Texto de contradicción: posición fija, con margen amplio antes del
+     borde inferior de la caja de la carátula (esa línea está ~811pt). */
   const contradiccion='En caso de contradicción entre las normas previstas en la publicación y las dictadas con carácter general por la Universidad o por la Facultad, prevalecerán éstas últimas.';
   doc.setFont('helvetica','normal');
   doc.setFontSize(8.5);
   const contradiccionX=92, contradiccionW=411, contradiccionLineas=doc.splitTextToSize(contradiccion,contradiccionW);
-  let contradiccionY=748;
+  let contradiccionY=776;
   contradiccionLineas.forEach(linea=>{
     doc.text(linea,contradiccionX,contradiccionY);
     contradiccionY+=11;
