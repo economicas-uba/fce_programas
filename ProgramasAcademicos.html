@@ -365,8 +365,68 @@ function notifications(){
  return `<h1>Notificaciones</h1><div class="card">${t.items.map(it=>`<div class="notice ${it.p.origenCorreccion?'warn':''}"><b>${it.tarea}</b><br>${escapeHtml(it.p.nombre_materia||it.p.name||'')} (${escapeHtml(it.p.career||'')}) requiere tu intervención.</div>`).join('')}</div>`;
 }
 function profile(){
- return `<h1>Perfil</h1><div class="card"><h2>${roleNames[role]}</h2><p>Identificador de mockup: <b>${role}</b></p><button class="btn" onclick="document.getElementById('roleSelect').focus()">Cambiar rol</button></div>
- <div class="card"><h2>Datos de la simulación</h2><p>Los datos de los programas se guardan en el almacenamiento local del navegador (localStorage), simulando una base de datos real. Podés cerrar la pestaña y volver: los cambios van a seguir ahí.</p><button class="btn danger" onclick="reiniciarDatos()">Reiniciar datos de demostración</button></div>`;
+ return `<h1>Perfil</h1>
+ <div class="card"><h2>Datos de la simulación</h2><p>Los datos de los programas se guardan en el almacenamiento local del navegador (localStorage), simulando una base de datos real. Podés cerrar la pestaña y volver: los cambios van a seguir ahí.</p><button class="btn danger" onclick="reiniciarDatos()">Reiniciar datos de demostración</button></div><!-- Dentro de la solapa Perfil -->
+<div class="perfil-seccion" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; background: #f9f9f9; border-radius: 4px;">
+    <h4 style="margin-top: 0;">Sincronización de Dispositivo</h4>
+    <p style="font-size: 14px; color: #555;">Exportá o importá tus programas académicos guardados localmente para usarlos en otra computadora.</p>
+    
+    <!-- Botón para bajar el archivo JSON -->
+    <button onclick="exportarDatosUBA()" style="padding: 8px 12px; background-color: #218838; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
+        Exportar Datos
+    </button>
+
+    <!-- Input oculto y botón para subir el archivo JSON -->
+    <input type="file" id="importarFileUBA" onchange="importarDatosUBA(this)" style="display:none" accept=".json">
+    <button onclick="document.getElementById('importarFileUBA').click()" style="padding: 8px 12px; background-color: #0056b3; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        Importar Datos
+    </button>
+</div>`;
+
+}
+// Función para exportar todo el localStorage a un archivo
+function exportarDatosUBA() {
+    if (localStorage.length === 0) {
+        alert("No hay programas académicos o datos guardados localmente en este dispositivo.");
+        return;
+    }
+    const datos = JSON.stringify(localStorage);
+    const blob = new Blob([datos], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "programas_academicos_uba.json";
+    document.body.appendChild(a);
+    a.click();
+    
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Función para importar el archivo y sobreescribir el localStorage
+function importarDatosUBA(input) {
+    const archivo = input.files[0];
+    if (!archivo) return;
+
+    const lector = new FileReader();
+    lector.onload = function(evento) {
+        try {
+            const datosGuardados = JSON.parse(evento.target.result);
+            
+            // Reemplaza el contenido local por el importado
+            localStorage.clear(); 
+            for (const clave in datosGuardados) {
+                localStorage.setItem(clave, datosGuardados[clave]);
+            }
+            
+            alert("¡Programas importados con éxito! La página se recargará para actualizar la vista.");
+            location.reload(); 
+        } catch (error) {
+            alert("Error: El archivo seleccionado no es válido.");
+        }
+    };
+    lector.readAsText(archivo);
 }
 
 function programList(){
