@@ -1023,6 +1023,27 @@ function imprimirPrograma(id){
   const doc=new jsPDF({unit:'pt',format:'a4'});
   const pageW=doc.internal.pageSize.getWidth(), pageH=doc.internal.pageSize.getHeight();
 
+  /*
+     Limpieza de caracteres para las fuentes estándar de jsPDF (Helvetica).
+     Los textos pegados desde Word pueden traer guiones especiales, espacios
+     raros o viñetas que la fuente no tiene: jsPDF los dibuja mal (desaparecen
+     o se muestran con otra tipografía) y calcula mal el ancho de la línea.
+     Se reemplazan por equivalentes seguros antes de medir y dibujar.
+  */
+  function limpiarTextoPDF(texto){
+    return String(texto ?? '')
+      .normalize('NFC')
+      .replace(/\u0091/g,'\u2018').replace(/\u0092/g,'\u2019')
+      .replace(/\u0093/g,'\u201C').replace(/\u0094/g,'\u201D')
+      .replace(/\u0085/g,'...').replace(/\u2026/g,'...')
+      .replace(/[\u201A\u201B\u2032]/g,"'").replace(/[\u201E\u201F\u2033]/g,'"')
+      .replace(/[\u0095\u25AA\u25CF\u25E6\u2023\u2043\uF0B7\uF0A7\uF076\uF0D8\uF0FC]/g,'\u2022')
+      .replace(/\s*[\u0096\u0097\u2010-\u2015\u2212\uFE58\uFE63\uFF0D]\s*/g,(m)=>/\s/.test(m)?' - ':'-')
+      .replace(/[\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]/g,' ')
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F\u00AD\u200B-\u200F\u2060\uFEFF]/g,'')
+      .replace(/[^\t\n\r\u0020-\u007E\u00A0-\u00FF\u2018\u2019\u201C\u201D\u2022]/g,'');
+  }
+
   /* ===== Página 1: Carátula.docx ===== */
   doc.addImage(CARATULA_BG_PNG,'PNG',0,0,pageW,pageH,undefined,'FAST');
   /*
@@ -1036,12 +1057,12 @@ function imprimirPrograma(id){
   const nombreMateria=p.nombre_materia||p.name||'', codigo=p.codigo_materia??'', departamento=p.departamento||'', plan=p.year||'', titular=p.titular||'', carrera=p.career||'', resolucion=p.resolucion||'';
   function textFit(texto,x,y,maxWidth,size,style='normal',align='left'){
     let s=size;
-    while(s>8){ doc.setFont('helvetica',style); doc.setFontSize(s); if(doc.getTextWidth(String(texto))<=maxWidth) break; s-=0.5; }
-    doc.text(String(texto),x,y,{align});
+    while(s>8){ doc.setFont('helvetica',style); doc.setFontSize(s); if(doc.getTextWidth(limpiarTextoPDF(texto))<=maxWidth) break; s-=0.5; }
+    doc.text(limpiarTextoPDF(texto),x,y,{align});
   }
   function underlineText(texto,x,y,size,style='normal'){
-    doc.setFont('helvetica',style); doc.setFontSize(size); doc.text(String(texto),x,y);
-    const w=doc.getTextWidth(String(texto)); doc.setLineWidth(0.7); doc.line(x,y+1.5,x+w,y+1.5); return w;
+    doc.setFont('helvetica',style); doc.setFontSize(size); doc.text(limpiarTextoPDF(texto),x,y);
+    const w=doc.getTextWidth(limpiarTextoPDF(texto)); doc.setLineWidth(0.7); doc.line(x,y+1.5,x+w,y+1.5); return w;
   }
   textFit(`Departamento de ${departamento}`,297.64,316.86,310,20,'normal','center');
   let w=underlineText('Asignatura:',120.55,369.44,16,'normal'); textFit(nombreMateria,120.55+w+5,369.44,350-w,14,'bold','left');
@@ -1050,7 +1071,7 @@ function imprimirPrograma(id){
   w=underlineText('Cátedra:',120.60,513.64,16,'normal'); textFit(`Prof. ${titular}`,120.60+w+5,513.64,435-(120.60+w),16,'normal','left');
   w=underlineText('Carrera:',120.60,552.74,16,'normal');
   doc.setFont('helvetica','normal'); doc.setFontSize(16); if(typeof doc.setCharSpace==='function') doc.setCharSpace(0);
-  const carreraLineas=doc.splitTextToSize(String(carrera),450-(120.60+w));
+  const carreraLineas=doc.splitTextToSize(limpiarTextoPDF(carrera),450-(120.60+w));
   doc.text(carreraLineas,120.60+w+5,552.74,{align:'left',lineHeightFactor:1.15});
   /* Posiciones fijas, con margen amplio para que "Aprobado..." / "Nro."
      no se superpongan con "Carrera" aunque ésta ocupe varias líneas
@@ -1059,7 +1080,7 @@ function imprimirPrograma(id){
   doc.setFont('helvetica','bold');
   doc.setFontSize(18);
   doc.text('Aprobado por Res. Consejo Directivo (FCE)',297.64,aprobadoY,{align:'center'});
-  const nro=`Nro.: ${resolucion || '________________'}`;
+  const nro=`Nro.: ${limpiarTextoPDF(resolucion) || '________________'}`;
   doc.text(nro,297.64,nroY,{align:'center'});
 
   /* Texto de contradicción: posición fija, con margen amplio antes del
@@ -1080,8 +1101,7 @@ function imprimirPrograma(id){
   function nuevaPagina(){doc.addPage();y=48;}
   function asegurar(h){if(y+h>pageBottom)nuevaPagina();}
   function normalizarTextoPDF(texto){
-    let t=String(texto ?? '')
-      .replace(/[\u00A0\u202F]/g,' ')
+    let t=limpiarTextoPDF(texto)
       .replace(/[ \t\r\n]+/g,' ')
       .normalize('NFC')
       .replace(/[\u0300-\u036f\u200B-\u200F\u2060\uFEFF\u00AD]/g,'')
@@ -1103,6 +1123,19 @@ function imprimirPrograma(id){
     }
     return t;
   }
+  function ajustarLineas(lineas,ancho){
+    const res=[];
+    lineas.forEach(l=>{
+      if(doc.getTextWidth(l)<=ancho){ res.push(l); return; }
+      let actual='';
+      for(const ch of l){
+        if(actual && doc.getTextWidth(actual+ch)>ancho){ res.push(actual); actual=ch; }
+        else actual+=ch;
+      }
+      if(actual) res.push(actual);
+    });
+    return res;
+  }
   function addText(texto,{size=10,style='normal',align='left',gapBefore=0,gapAfter=7,indent=0}={}){
     const limpio=normalizarTextoPDF(texto);
     if(!limpio)return;
@@ -1110,7 +1143,16 @@ function imprimirPrograma(id){
     y+=gapBefore;
     const ancho=Math.max(40,maxWidth-indent);
     const lineHeight=size*1.35;
-    const lineas=doc.splitTextToSize(limpio,ancho);
+    /*
+       La fuente y el tamaño del bloque se fijan ANTES de cortar en renglones:
+       si no, splitTextToSize mide con la tipografía del bloque anterior
+       (p. ej. un título en negrita) y los renglones quedan más cortos o se
+       pasan del margen derecho.
+    */
+    doc.setFont('helvetica',style);
+    doc.setFontSize(size);
+    if(typeof doc.setCharSpace==='function') doc.setCharSpace(0);
+    const lineas=ajustarLineas(doc.splitTextToSize(limpio,ancho),ancho);
     lineas.forEach(linea=>{
       asegurar(lineHeight+3);
       /*
