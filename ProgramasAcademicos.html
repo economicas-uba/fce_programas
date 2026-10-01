@@ -1069,7 +1069,8 @@ function datosProgramaParaImprimir(p){
     }else{
       bloques.push({tipo:'label',texto:def.label});
       const contenido=sec.content||'—';
-      contenido.split(/\r?\n/).forEach(linea=>{const t=linea.trim(); if(t) bloques.push({tipo:'texto',texto:t});});
+      const esBiblio=def.sectionTitle==='C. Bibliografía';
+      contenido.split(/\r?\n/).forEach(linea=>{const t=linea.trim(); if(t) bloques.push({tipo:'texto',texto:t,links:esBiblio});});
     }
   });
   return bloques;
@@ -1196,7 +1197,32 @@ function imprimirPrograma(id){
     });
     return res;
   }
-  function addText(texto,{size=10,style='normal',align='left',gapBefore=0,gapAfter=7,indent=0}={}){
+  /* ---- URLs clicables en bibliografía ---- */
+  function detectarUrls(texto){
+    const rangos=[], re=/\b(?:https?:\/\/|www\.)[^\s<>"]+/gi; let m;
+    while((m=re.exec(texto))){
+      let u=m[0];
+      /* se descarta puntuación final que no forma parte de la dirección */
+      while(u.length && (/[.,;:!?'"\u2019\u201D\]}]$/.test(u) || (u.endsWith(')') && (u.match(/\)/g)||[]).length>(u.match(/\(/g)||[]).length))) u=u.slice(0,-1);
+      if(u.length<=4) continue;
+      rangos.push({ini:m.index,fin:m.index+u.length,url:/^www\./i.test(u)?'https://'+u:u});
+    }
+    return rangos;
+  }
+  /* Parte un renglón en tramos (texto común / URL) según los rangos de URL. */
+  function tramosDeLinea(linea,ini,rangos){
+    const fin=ini+linea.length, res=[]; let pos=ini;
+    rangos.forEach(r=>{
+      const a=Math.max(r.ini,ini), b=Math.min(r.fin,fin);
+      if(a>=b) return;
+      if(a>pos) res.push({t:linea.slice(pos-ini,a-ini),url:null});
+      res.push({t:linea.slice(a-ini,b-ini),url:r.url});
+      pos=b;
+    });
+    if(pos<fin) res.push({t:linea.slice(pos-ini),url:null});
+    return res.length?res:[{t:linea,url:null}];
+  }
+  function addText(texto,{size=10,style='normal',align='left',gapBefore=0,gapAfter=7,indent=0,links=false}={}){
     const limpio=normalizarTextoPDF(texto);
     if(!limpio)return;
     if(typeof doc.setCharSpace==='function') doc.setCharSpace(0);
@@ -1213,7 +1239,9 @@ function imprimirPrograma(id){
     doc.setFontSize(size);
     if(typeof doc.setCharSpace==='function') doc.setCharSpace(0);
     const lineas=ajustarLineas(doc.splitTextToSize(limpio,ancho),ancho);
+    const rangosUrl=links?detectarUrls(limpio):[]; let cursor=0;
     lineas.forEach(linea=>{
+      let iniLinea=limpio.indexOf(linea,cursor); if(iniLinea<0) iniLinea=cursor; cursor=iniLinea+linea.length;
       asegurar(lineHeight+3);
       /*
          Fijar explícitamente fuente y espaciado en cada renglón evita que
@@ -1223,7 +1251,23 @@ function imprimirPrograma(id){
       doc.setFontSize(size);
       if(typeof doc.setCharSpace==='function') doc.setCharSpace(0);
       const x=align==='center'?297.64:marginX+indent;
-      doc.text(linea,x,y,{align:'left'});
+      if(!rangosUrl.length){
+        doc.text(linea,x,y,{align:'left'});
+      }else{
+        let xi=x;
+        tramosDeLinea(linea,iniLinea,rangosUrl).forEach(tr=>{
+          doc.setFont('helvetica',style); doc.setFontSize(size);
+          if(tr.url) doc.setTextColor(5,99,193); else doc.setTextColor(0,0,0);
+          doc.text(tr.t,xi,y,{align:'left'});
+          const wt=doc.getTextWidth(tr.t);
+          if(tr.url){
+            doc.setDrawColor(5,99,193); doc.setLineWidth(0.5); doc.line(xi,y+1.5,xi+wt,y+1.5);
+            doc.link(xi,y-size*0.85,wt,size*1.15,{url:tr.url});
+          }
+          xi+=wt;
+        });
+        doc.setTextColor(0,0,0); doc.setDrawColor(0,0,0);
+      }
       y+=lineHeight;
     });
     y+=gapAfter;
@@ -1234,7 +1278,7 @@ function imprimirPrograma(id){
     else if(b.tipo==='subseccion') addText(b.texto,{size:11,style:'bold',gapBefore:6,gapAfter:5});
     else if(b.tipo==='label') addText(b.texto,{size:10,style:'bold',gapAfter:4});
     else if(b.tipo==='bullet') addText(`• ${b.texto}`,{size:10,indent:10,gapAfter:3});
-    else addText(b.texto,{size:10,style:'normal',gapAfter:6});
+    else addText(b.texto,{size:10,style:'normal',gapAfter:6,links:!!b.links});
   });
   const pdfBlob=doc.output('blob'), pdfUrl=URL.createObjectURL(pdfBlob), nuevaVentana=window.open(pdfUrl,'_blank');
   if(!nuevaVentana){const enlace=document.createElement('a'); enlace.href=pdfUrl; enlace.download=nombreArchivoPrograma(p); enlace.click();}
