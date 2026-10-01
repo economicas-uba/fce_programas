@@ -1,0 +1,227 @@
+{
+    "programs": [
+        {
+            "id": 2,
+            "name": "SISTEMAS ADMINISTRATIVOS",
+            "career": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
+            "year": "2026",
+            "state": "EN_REVISION_ACADEMICA",
+            "origenCorreccion": null,
+            "sections": {
+                "contenidosMinimos": {
+                    "content": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo  de  sistemas  y  su  relación  con  la  naturaleza  de  la  organización.  Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad.  Relación  entre  las  estructuras  y  los  procesos.  Las  formas  básicas  de articular  tareas,  flujos  de  información  y  decisiones.  Caracterización  de  los  sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas. ",
+                    "completed": true
+                },
+                "razonesInclusion": {
+                    "content": "Las  organizaciones,  en  sus  diversas  tipologías  ‐públicas,  privadas,  mixtas,  del  tercer sector,  cooperativas,  ONG,  entre  otras‐,  así  como  en  sus  variadas  dimensiones  y actividades (pequeñas, medianas o grandes; productivas o de servicios), constituyen el tejido vital de la sociedad. Su accionar, tanto a nivel nacional como internacional, tengan o no fin de lucro, dan vida a la dinámica social en su conjunto. \n\nLa Administración, como disciplina científica, se erige como un pilar fundamental en la gestión  de  estas  organizaciones.  A  través  de  sus  funciones  básicas,  metodologías  y técnicas  especializadas,  contribuye  a  optimizar  el  funcionamiento  de  cada  entidad, adaptándose a sus características particulares. El objetivo primordial es garantizar una gestión profesional, fluida y comprometida, que permita alcanzar tanto los propósitos corporativos de la organización en su conjunto como los de cada una de las unidades que la integran, funcionando como un sistema. \n\nEn  este  contexto,  la  disciplina  de  Sistemas  Administrativos  adquiere  relevancia  al proporcionar conocimientos y herramientas esenciales para el diseño estructural de las organizaciones.  Asimismo,  facilita  el  análisis,  diseño  e  implementación  de  procesos optimizados  que  impulsen  el  logro  de  los  objetivos  organizacionales.  Un  elemento distintivo  de  esta  disciplina  es  su  enfoque  en  el  cambio  permanente  y  la  evaluación constante  de  las  tecnologías  emergentes.  La  adopción  de  una  filosofía  de  mejora continua se erige como un factor clave para el éxito en el dinámico entorno actual. \n\nLa  complejidad  y  la  evolución  constante  del  mundo  contemporáneo  exigen  que  las organizaciones se mantengan a la vanguardia en términos de cambio y tecnología. Estos dos  elementos  se  han  convertido  en  ingredientes  indispensables  para  garantizar  la eficiencia, un factor crítico para la supervivencia y el éxito organizacional. La aplicación de  herramientas  como  la  robótica,  la  inteligencia  artificial  y  las  metodologías  ágiles, entre otras, se  revela como una necesidad ineludible para optimizar los procesos y el diseño organizacional. \n\nAnte  este  escenario,  la  formación  de  futuros  profesionales  en  el  campo  de  la Administración se torna crucial. Estos profesionales deben estar capacitados no solo para aplicar conocimientos técnicos en organizaciones de diversa índole, sino también para visualizar y proponer cambios estructurales y de procesos que impulsen la eficiencia y la calidad  en  el  funcionamiento  organizacional.  Su  labor  debe  estar  orientada  a  dar respuesta, e incluso a modificar cuando sea necesario, la estrategia corporativa y/o del área correspondiente. \n\nFinalmente,  la  Responsabilidad  Social  se  erige  como  un  concepto  fundamental  en  la gestión organizacional contemporánea. Al igual que la Alta Gerencia debe considerar las aristas  económica,  social  y  ambiental  en  su  estrategia  corporativa,  es  imprescindible integrar estos mismos criterios en el diseño e implementación de estructuras y procesos. De  esta  manera,  se  redefine  el  concepto  de  eficiencia,  otorgándole  un  significado transformador que abarca las mencionadas dimensiones en el quehacer organizacional. ",
+                    "completed": true
+                },
+                "ubicacionCurriculum": {
+                    "content": "La  materia  forma  parte  del  Ciclo  Profesional  de  las  Carreras  de  Licenciado  en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para  estar  en  condiciones  de  inscribirse  a  cursar  la  materia,  es  requisito  haber regularizado/aprobado la asignatura Administración General (6)",
+                    "completed": true
+                },
+                "objetivosAprendizaje": {
+                    "content": "La asignatura se propone que los alumnos: \n- se formen integralmente en el ámbito del diseño y desarrollo organizacional; tanto en lo relacionado con las configuraciones estructurales como en los procesos; \n- comprendan  que  las  organizaciones  son  sistemas  complejos  e  interdependientes, donde cada área y proceso cumplen un rol fundamental en la obtención del propósito organizacional. \n- desarrollen el pensamiento crítico y el debate constructivo, promovidos a través del trabajo interactivo con docentes y compañeros; lo cual permite que los estudiantes desarrollen criterios propios y una visión holística de las organizaciones. \n- analicen, diseñen e implementen procesos eficientes, transparentes y orientados a la mejora continua; así como la adaptación de estructuras y procesos a las estrategias establecidas,  entendidas  como  competencias  clave  para  asegurar  la  calidad  y  la satisfacción de las partes interesadas. \n- dominen metodologías y  herramientas  tradicionales, actuales y  de  vanguardia  que comprendan la importancia de la tecnología y la sustentabilidad; \n- se  capaciten  para liderar  procesos  de  cambio  y  transformación  organizacional  que impulsen  el  desarrollo  y  el  éxito  de  las  organizaciones  en  un  entorno  dinámico  y competitivo.",
+                    "completed": true
+                },
+                "programaAnalitico": {
+                    "unidades": [
+                        {
+                            "id": 1,
+                            "unidadTematica": "LA ORGANIZACIÓN COMO SISTEMA COMPLEJO",
+                            "objetivoAprendizaje": "- Enfoque de sistemas. Visión de la organización como sistema complejo. \n- Perspectivas de los sistemas. Sistemas abiertos y cerrados. Características. \n- Diseño de sistemas. Objetivos del diseño de sistemas. Elementos componentes de los \nsistemas.  \n- Formas de articular tareas, flujo de información y decisiones. \n- Dinámica para vincular las estructuras con los procesos.",
+                            "temasDesarrollar": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Características de los sistemas. Condiciones de los sistemas. Clasificación de los sistemas. Modelo de sistemas y su relación con la naturaleza de la organización. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones."
+                        },
+                        {
+                            "id": 2,
+                            "unidadTematica": "DISEÑO DE LA ESTRUCTURA",
+                            "objetivoAprendizaje": "Que los estudiantes identifiquen las partes que componen la organización y los parámetros  de  diseño  que  dan  lugar  al  funcionamiento  de  las  organizaciones  a  partir  del  diseño  de tipologías a determinar; y que a partir de su aplicación en la práctica estén en condiciones de identificar estos conceptos en todo tipo de organizaciones.",
+                            "temasDesarrollar": "Elementos y características que definen  áreas de las organizaciones, funciones y procesos. Niveles  de  autoridad  y  áreas  de  responsabilidad.  Las  formas  básicas  de  articular  tareas, flujos de información y decisiones. Fundamentos del diseño de las estructuras. Partes de las organizaciones y parámetros de diseño que permiten la elaboración de estructuras"
+                        },
+                        {
+                            "id": 3,
+                            "unidadTematica": "CONFIGURACIONES ESTRUCTURALES",
+                            "objetivoAprendizaje": "Que los estudiantes, a partir de las características desarrolladas en la Unidad Temática Nro. 2,  conozcan  y  comprendan  las alternativas  de  diseño  particular que  pueden adoptar  las organizaciones  (privadas  o  públicas,  con  o  sin  fin  de lucro,  nacionales  o internacionales, pequeñas, medianas o grandes, etc.); y las apliquen en casos prácticos reales.",
+                            "temasDesarrollar": "Evolución  de  las  formas  organizacionales  a  lo  largo  de  tiempo  hasta  el  presente. Interpretación y análisis de las diferentes formas estructurales que se presentan, ya se trate de tradicionales, innovadoras e híbridas."
+                        }
+                    ],
+                    "unidadTematica": "LA ORGANIZACIÓN COMO SISTEMA COMPLEJO",
+                    "objetivoAprendizaje": "- Enfoque de sistemas. Visión de la organización como sistema complejo. \n- Perspectivas de los sistemas. Sistemas abiertos y cerrados. Características. \n- Diseño de sistemas. Objetivos del diseño de sistemas. Elementos componentes de los \nsistemas.  \n- Formas de articular tareas, flujo de información y decisiones. \n- Dinámica para vincular las estructuras con los procesos.",
+                    "temasDesarrollar": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Características de los sistemas. Condiciones de los sistemas. Clasificación de los sistemas. Modelo de sistemas y su relación con la naturaleza de la organización. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones.",
+                    "content": "LA ORGANIZACIÓN COMO SISTEMA COMPLEJO\nDISEÑO DE LA ESTRUCTURA\nCONFIGURACIONES ESTRUCTURALES",
+                    "completed": true
+                },
+                "bibliografiaObligatoria": {
+                    "content": "GILLI, J. y otros (2007). Diseño Organizativo: Estructura y Procesos. Buenos Aires. Granica. \nGILLI, J. (2017). Claves de la estructura administrativa. Buenos Aires. Granica. \nHAMMER, M. y CHAMPY, J. (1994). Reingeniería, Bogotá. Norma. \nMINTZBERG, H. (2000). Diseño de Organizaciones Eficientes. Bs. Aires. El Ateneo.  \nMINTZBERG,  H.  (2023). Understanding Organizations…  Finally! Oakland,  CA.    Berrett‐Koehler Publishers Inc. \nPRAHALAD, C. y KRISHNAN, M. (2009). La nueva era de la innovación. México: Mc Graw Hill.",
+                    "completed": true
+                },
+                "bibliografiaAmpliatoria": {
+                    "content": "ACKOFF, R. (2000), Recreación de las Organizaciones: Un diseño organizacional para el Siglo XXI. México. Oxford. \nALCAIN,  M.  (2019).  RSE  ‐  Responsabilidad  Social  Empresaria  aplicada  a  los  bancos privados nacionales. Buenos Aires. Pluma Digital \nCASTILLO, O., CHAHIN, T., MARTIN, M. (2006). Introducción a la Calidad Total. Buenos Aires. Nueva Técnica. \nCLERI, C. (2007). El libro de las PyMes. Buenos Aires. Granica \nDAFT, R. (2011), Teoría y diseño organizacional. México. Cengage Learning Editores. \nDRUCKER,  P.  (1999),  Los  Desafíos  de  la  Gerencia  en  el  Siglo  XXI.  Buenos  Aires. Sudamericana. \nDRUCKER, P. (2001), Dirección de Instituciones sin fines de lucro. Buenos Aires. El Ateneo \nDRUCKER,  P.  (1987).  La  innovación  y  el  empresariado  innovador  ‐  La  práctica  y  los principios. Buenos Aires. Sudamericana. \nECHEVERRÍA, R. (2007). La empresa emergente. Buenos Aires. Granica  \nEVANS,  J.  y  LINDSAY,  W.  (2000).  Administración  y  control  de  la  calidad.  México. International Thomson Editores. \nGILLI y otros.  (1992) Diseño de estructuras para la motivación y la excelencia. Buenos Aires. Docencia. \nGILLI y otros. (1995). Sistemas Administrativos  ‐ Técnicas y aplicaciones. Buenos Aires. Hernandarias. \nGORROCHATEGUI,  N.  et  al  Compiladores  (2016)  Responsabilidad  Social  de  las organizaciones. Bogotá: Ediciones USTA.  \nISO 9001 (2015). Norma ISO 9001:2015 Sistemas de gestión de la calidad ‐ Requisitos – Traducción oficial IDT, Buenos Aires: IRAM, Referencia numérica: IRAM‐ISO 9001:2015. \nJURAN, J. y GRYNA, F. (1996), Análisis y Planeación de la Calidad. México. Editorial Mc Graw Hill. \nKOFMAN F. (2022). La empresa consciente. Bogotá. Hipertexto \nLALOUX, F. (2017). Reinventar las organizaciones. Madrid. Arpa \nMARTIN, M. (2002). Organigramas. Buenos Aires.  Nueva Técnica. \nMINTZBERG, H., Quinn, J. y Voyer, J. (1987). El proceso estratégico. México. Prentice Hall Hispanoamericana. \nMINTZBERG, H., AHLSTRAND, B., y LAMPEL, J. (2003). Safari a la Estrategia. Buenos Aires.Granica. \nROBBINS, S. (2009). Comportamiento Organizacional. Teoría y práctica. México. Prentice Hall. \nSCHODERBEK y otros. (1984). Sistemas Administrativos. Buenos Aires. El Ateneo.",
+                    "completed": true
+                },
+                "objetivosGeneralesCursos": {
+                    "content": "Como marco general, los  cursos  de  la  cátedra aspiran a  formar  futuros  profesionales íntegros y comprometidos, brindando una educación de calidad que vaya más allá de la simple  transmisión de conocimientos. \nDe este propósito, se desprenden los siguientes objetivos: \n- Promover en los alumnos el pensamiento crítico a partir de la lectura, el intercambio y la opinión; \n- Alentar la capacidad de análisis; \n- Fomentar en los alumnos el interés  por aprender,  por  cuestionarse  y  por explorar nuevas ideas a partir de la formulación de preguntas; \n- Desarrollar  habilidades  de  análisis,  de  reflexión  y  de  participación  a  partir  de argumentaciones sólidas; \n- Incorporar los conocimientos teóricos y habilidades que propone la materia y poder aplicarlos en casos prácticos, de  forma  tal que los alumnos se puedan desenvolver profesionalmente \n- Desarrollar  en  los  alumnos  habilidades  de  aprendizaje  permanente  y  de  la actualización permanente de los conocimientos y habilidades, para estar en sintonía con la evolución de las temáticas de la asignatura en el mundo laboral; Promocionar en  los  alumnos  los  valores  éticos  y  sociales,  de  forma  tal  que  desarrollen  la responsabilidad social y respondan a los valores éticos de las organizaciones; \n- Desarrollar en  los alumnos  la autonomía,  la  capacidad  de  aprendizaje  continuo,  la autogestión y la toma de decisiones responsables; \n- Fomentar  el  trabajo  en  equipo,  con  el  debido  respeto  por  las  opiniones  de  los restantes integrantes y sosteniendo con argumento sus posturas;\n- Preparar a los estudiantes para enfrentar los desafíos del mundo del trabajo y para  que sean capaces de adaptarse a los cambios, dado que le tecnología, el trabajo y las disciplinas evolucionan constantemente. \n- Que  los  estudiantes  entiendan  la  dinámica  de  las  organizaciones  a  partir  de  sus estructuras y sus procesos, de modo tal que logren comprender la vinculación entre ambos,  como así  también  tener  la  capacidad  de  diseñarlos  (y  rediseñarlos  cuando corresponda) en función de las circunstancias y características que se presenten en un momento dado. ",
+                    "completed": true
+                },
+                "metodologiaProceso": {
+                    "content": "La cátedra tendrá preferencia por las metodologías activas por sobre las tradicionales ‐donde el estudiante desarrolla un papel pasivo‐, es decir que: \n- Privilegiará la participación activa de los estudiantes: el estudiante se debe involucrar activamente en el proceso de aprendizaje; \n- Fomentará la reflexión, la participación, el desarrollo de habilidades, el aprendizaje en equipo y colaborativo; \n- Promoverá el trabajo en equipo, tanto en el ámbito áulico como fuera de él; \n- Utilizará  recursos  variados  (libros,  videos,  juegos,  casos  prácticos  a  resolver)  y recurrirá a técnicas de avanzada como gamificación, aula invertida, etc. \n\nLa elección de la metodología de enseñanza‐aprendizaje adecuada dependerá de: \n- Los objetivos de aprendizaje: ¿Qué se quiere que los estudiantes aprendan? \n- Las  características  de  los  estudiantes:  ¿Cuáles  son  sus  conocimientos  previos,  sus intereses y sus estilos de aprendizaje? \n- Los recursos disponibles: ¿Qué materiales y recursos se pueden utilizar? \n- El contexto: ¿Cuál es el entorno en el que se desarrolla la enseñanza? \n",
+                    "completed": true
+                },
+                "dinamicaClases": {
+                    "content": "La dinámica del dictado de las clases, de acuerdo a lo descripto en los ítems anteriores, se basa en la aplicación de modelos interactivos y participativos por sobre el enfoque tradicional (centrado en la transmisión de información por parte del profesor). \n\nA  continuación  se  describen  distintos  tipos  de  dinámicas  de  clase,  las  cuales  no  son excluyentes  y  los  profesores  están  en  condiciones  de  aplicar  todas  aquellas  que consideren viables: \n\n1. Clase tradicional \nEl  profesor  expone  el  tema  a  los  estudiantes,  utilizando  recursos  tales  como presentaciones,  pizarra  o  proyecciones.  Permite  cubrir  una  gran  cantidad  de contenido en un tiempo limitado, ideal para temas complejos o introductorios, pero fomenta la pasividad de los estudiantes. \n\n2.  Clase participativa \nEl profesor fomenta la participación activa de los estudiantes a través de preguntas, debates,  resolución  de  problemas  en  grupo,  etc.  Esta  dinámica  estimula  el pensamiento crítico, la comunicación y el trabajo en equipo, facilita la comprensión y asimilación de conceptos. Necesita de una planificación y gestión del tiempo. Se debe analizar la factibilidad de aplicación en cursos con muchos alumnos.\n \n3. Aprendizaje basado en trabajo en equipo y colaborativo Los  estudiantes  trabajan  en  equipos  para  investigar  y  desarrollar  un  proyecto relacionado con los contenidos del curso. Esta dinámica es de utilidad y sugerida para utilizar en los cursos de la asignatura; tanto para desarrollarse en el aula como para hacerlo  por  fuera  de  dicho  ámbito.  Se  fomenta  la  autonomía,  la  creatividad,  la investigación y la aplicación práctica de los conocimientos.  \n\n4.  Aula invertida \nEl  profesor  indica  a  los  estudiantes  que  deben  asistir  a  la  clase  habiendo estudiado/visto/leído/tratado  contenidos  teóricos  previamente  informados/ suministrados (videos, artículos, capítulos libros, etc.) y utiliza el tiempo de clase para responder dudas, llevar a cabo actividades prácticas en el aula, generar debate, etc.). Esta  dinámica maximiza el  tiempo de la  clase y genera en el estudiante  no  solo el compromiso  con el  tema  propuesto,  sino  también la elaboración  y argumentación necesaria para desarrollar la formación profesional y la profundización de conceptos. \n\n5.  Gamificación \nEl  docente  recurre  a  juegos  (Mentimeter,  Kahoot,  Quiz  etc.)  con puntos/recompensas)  para  motivar  a  los  estudiantes  y  hacer  el  aprendizaje  más \ninteractivo. Esta dinámica  aumenta el compromiso, la participación y la motivación de los estudiantes y facilita la asimilación de conceptos de forma lúdica. \n\n6.  Estudio de casos \nEl  docente  presenta  a  los  estudiantes  casos  (reales  o  simulados)  relacionados  con alguna  de  los  temas  para  que  los  analicen,  discutan  y  propongan  soluciones.  Esta dinámica facilita la aplicación de los conocimientos teóricos a situaciones prácticas. Además estimula el pensamiento crítico, la toma de decisiones y la argumentación de parte de los alumnos.\n\nIMPORTANTE: \n- Estas dinámicas no son excluyentes y pueden combinarse para crear experiencias de aprendizaje más enriquecedoras y efectivas. \n- La elección de la dinámica o combinación de las mismas dependerá de factores tales como  los objetivos de aprendizaje, las características de los estudiantes, los recursos disponibles y el contexto educativo. \n- La innovación y la creatividad en el diseño de las clases son clave para promover un aprendizaje significativo y duradero en los estudiantes universitarios. ",
+                    "completed": true
+                },
+                "evaluacionPresenciales": {
+                    "content": "Los  alumnos  serán  evaluados,  como  mínimo,  con  dos  exámenes  escritos  en  días  y horarios  de  clase  (Resolución  CD  386/2006)  que  contemplarán  aspectos  teóricos  y prácticos de la asignatura. Se destaca que solo serán examinados los alumnos regulares e inscriptos en cada curso.  \n\nCada parcial abarcará temas y aspectos teórico‐prácticos y deberá ser aprobado con una nota igual o superior a 4 (cuatro) puntos.  \n\nDe acuerdo con la normativa vigente, el alumno podrá recuperar un parcial cuya nota haya  sido  inferior  a  4  (cuatro)  puntos  o  en  caso  de  ausencia.  La  instancia  de Recuperatorio también podrá ser utilizada para aquellos casos que tengan calificaciones iguales  o  superiores a  4  (cuatro) y menores a  7  (siete)  y  deseen elevar la  nota  para alcanzar la promoción. \n\nLa calificación obtenida en el examen recuperatorio reemplazará a la nota del parcial que se recupera.  \n\nLos alumnos que de acuerdo con la Resolución CD 455/2006:  \n\n1. Hubieran  aprobado  todas  las  instancias  de  evaluación  (con  Nota  Parcial  4  o  más puntos) y la Nota Final fuera 7 (siete) puntos o más de promedio, serán Promovidos automáticamente y su calificación será el promedio resultante de ellas. Cabe agregar que debe entenderse que las evaluaciones individuales serán aquellas que respondan a los exámenes parciales en forma directa o luego de haber aprobado la única prueba recuperatoria a que tienen derecho. \n  \n2. Hubieran aprobado todas las instancias de evaluación (Nota Parcial 4 o más puntos) y la Nota Final fuera 4 (cuatro) puntos o más puntos de promedio, pero inferiores a 7 (siete)  serán  considerados  “Regulares” a  los  fines  de  rendir  un examen  final  de  la asignatura; cabe destacar al igual que en el punto anterior, sean ellas obtenidas en forma directa o luego de haber aprobado la única prueba recuperatoria a que tienen derecho. \n\n3. Hubieran  obtenido,  luego  de  todas  las  instancias  de  evaluación,  notas  finales inferiores a 4 (cuatro) puntos de promedio se les asignará la nota “Insuficiente”.  \n\nIMPORTANTE:  Los alumnos de los cursos presenciales, remotos sincrónicos e híbridos que  no  cumplan  con  la  condición  de  estar  presentes  en  el  75%  de  las  clases  serán calificados con la condición de “Ausente”. \n\nDado  que  solamente  serán  calificados  los  alumnos  inscriptos  en  la  lista  del  curso respectivo que brinda la Facultad, aquellos alumnos que hayan asistido a las clases en carácter de oyentes o voluntarios no podrán presentarse a rendir los exámenes parciales respectivos,  por  cuanto  la  Facultad  no  labrará  acta  alguna  en  tales  condiciones  ni  se admitirán cambios de curso o la rendición de exámenes parciales en otros cursos.  ",
+                    "completed": true
+                },
+                "evaluacionFinales": {
+                    "content": "El  examen  final  integrador  comprenderá́   temas  teóricos  y  prácticos  de  la  asignatura,  debiendo  el  alumno  aprobar  ambos  temarios  para  que  su  calificación  resulte promediada, con un puntaje que alcance por lo menos un 60% de los contenidos. \n\nPor consiguiente, los alumnos que obtengan una calificación inferior a 4 (cuatro) puntos serán  considerados  Insuficientes  y  aquellos  con  una  calificación  igual  o  superior  a  4 (cuatro) aprobarán la asignatura con dicha nota (Resolución CD 406/2006).  \n\nEn el caso de los Cursos Intensivos la evaluación se  realizará con una nota  final para cada  alumno  inscripto,  que  surgirá  de  un  único  examen  final,  el  promedio  de  dos exámenes, la combinación de seguimiento de lectura y trabajos prácticos con exámenes parciales. \n\nLas calificaciones deberán ser informadas a los alumnos dentro de los 15 días corridos siguientes a la fecha del examen final. En caso de no existir aula disponible, el acto de lectura y entrega de notas se realizará en Sala de Profesores (Resolución CD 374/2006)  ",
+                    "completed": true
+                },
+                "criterioPromedio": {
+                    "content": "En los casos en que fuere necesario expresar en número entero el promedio de notas parciales o de estas y el examen parcial, se aplicará el número entero superior si la fracción fuere de 0.50 puntos o más y el número entero inferior si fuere de 0.49 o menos. Cuando la nota fuese de 3.01 a 3.99 se calificará con 3 (tres) puntos. (Resolución CS 4994/93)",
+                    "completed": true
+                }
+            },
+            "conformidadDirector": {
+                "status": "OK",
+                "observacion": "",
+                "fecha": "2026-09-29T18:39:45.481Z"
+            },
+            "revisionAcademica": {
+                "encuadre": {
+                    "status": "PENDIENTE"
+                },
+                "metodos": {
+                    "status": "PENDIENTE"
+                },
+                "bibliografia": {
+                    "status": "PENDIENTE"
+                }
+            },
+            "expediente": null,
+            "history": [
+                {
+                    "fecha": "2026-09-29T18:24:58.463Z",
+                    "actor": "Dirección Académica",
+                    "accion": "Solicita nuevo programa",
+                    "detalle": "Se genera el programa en estado BORRADOR con contenidos mínimos y ubicación curricular precargados desde el listado de materias."
+                },
+                {
+                    "fecha": "2026-09-29T18:39:35.385Z",
+                    "actor": "Titular de cátedra",
+                    "accion": "Solicita conformidad",
+                    "detalle": "Queda a la espera de la conformidad del Director/a de carrera."
+                },
+                {
+                    "fecha": "2026-09-29T18:39:45.481Z",
+                    "actor": "Director/a de carrera",
+                    "accion": "Da conformidad",
+                    "detalle": "El programa pasa a revisión académica (Dirección Académica y Subsecretaría)."
+                }
+            ],
+            "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+            "titular": "Marcelo Fabián Alcain",
+            "codigo_materia": 274,
+            "departamento": "Administración",
+            "materiaId": null
+        },
+        {
+            "id": 1,
+            "name": "ANÁLISIS ESTADÍSTICO I",
+            "career": "Actuario (RCS Nº 1824/24) y Lic. en Economía (RCS Nº 1696/24)",
+            "year": "2026",
+            "state": "BORRADOR",
+            "origenCorreccion": null,
+            "sections": {
+                "contenidosMinimos": {
+                    "content": "Población  y  muestra.  Experimentos.  Análisis  de  datos.  Números  índice.  Teoría  de  la probabilidad.  Variables  aleatorias  continuas  y  discretas.  Distribuciones  de  probabilidades. Fundamentos de la teoría de la inferencia estadística. Teorema central del límite. Estimación puntual. Estimación por intervalo. Test de hipótesis. Nociones de inferencia no paramétrica e inferencia bayesiana.",
+                    "completed": true
+                },
+                "razonesInclusion": {
+                    "content": "Entre las aptitudes y habilidades necesarias para los egresados de las carreras de Licenciatura en Economía y Actuario se destaca la capacidad de tomar decisiones informadas en sus campos profesionales.  Estas  decisiones  suelen  enfrentarse  al  desafío  de  partir  de  información incompleta. Aunque la era de la informática ha facilitado el procesamiento, almacenamiento y resumen  de  datos,  la  correcta  interpretación  y  el  análisis  de  los  mismos  dependen  del profesional.  En  este  contexto,  el  estudio  de  la  Estadística  aporta  los  conocimientos  y herramientas  necesarios  para  desarrollar  habilidades  fundamentales,  como  la  resolución  de problemas  de  naturaleza  aleatoria,  el  pensamiento  crítico  y  la  comunicación  efectiva  de resultados. Además, la amplia variedad de conceptos y procedimientos que se abordan en esta asignatura la convierten en una herramienta esencial, tanto para la investigación en diversos campos como para la práctica profesional en organizaciones privadas y públicas.  ",
+                    "completed": true
+                },
+                "ubicacionCurriculum": {
+                    "content": "La asignatura Análisis Estadístico se ubica en el Ciclo Profesional de las carreras Licenciatura en Economía  y  Actuario.  Exige  como requisito  previo  haber  aprobado  el  Ciclo  General,  lo  que implica que el alumno ha aprobado las asignaturas Análisis Matemático y Álgebra. ",
+                    "completed": true
+                },
+                "objetivosAprendizaje": {
+                    "content": "Objetivos generales \n\n* Manejar los conceptos principales del análisis estadístico, como así también la terminología básica, los métodos estadísticos y sus representaciones gráficas.  \n* Adquirir las habilidades y capacidades apropiadas para el desarrollo de técnicas estadísticas en los campos de actuación profesional de los licenciados en Economía y de los actuarios.  \n* Conocer los elementos  básicos  de  un  diseño experimental, articulando los conceptos  de \nuniverso, población y muestra.  \n* Relacionar  los  resultados  estadísticos  con  las  conclusiones  de  trabajos  científicos  y académicos del ámbito de la economía y de la matemática actuarial.  \n* Interpretar  los  resultados  de  salida  de  procesamientos  estadísticos  derivados  de  la utilización de programación en un lenguaje multiparadigma. \n\n\nObjetivos específicos \n\n* Manejar conceptos básicos de probabilidad. \n* Reconocer variables aleatorias y conocer las principales distribuciones de probabilidad. \n* Manejar técnicas del análisis exploratorio y descriptivo de datos \n* Representar e interpretar formas gráficas de análisis de datos.\n* Conocer los fundamentos de la inferencia estadística paramétrica.  \n* Adquirir nociones de inferencia estadística no paramétrica y de inferencia bayesiana.  \n* Incorporar el concepto de series cronológicas y sus componentes. ",
+                    "completed": true
+                },
+                "programaAnalitico": {
+                    "unidades": [
+                        {
+                            "id": 1,
+                            "unidadTematica": "Teoría de la Probabilidad",
+                            "objetivoAprendizaje": "Entender la importancia de la estadística como disciplina para el análisis de fenómenos socioeconómicos. Incorporar el concepto de aleatoriedad como resultado del conocimiento incompleto de los fenómenos fácticos y de la probabilidad como medida de dicha aleatoriedad. Manejar el cálculo de probabilidades de sucesos aleatorios. Comprender la noción de probabilidad condicional y la de independencia de sucesos aleatorios.",
+                            "temasDesarrollar": "Experimentos determinísticos y experimentos aleatorios. Concepto de evento aleatorio. Teoría axiomática de la probabilidad. Propiedades. Probabilidad condicional. Propiedades de la probabilidad condicional. Independencia estocástica entre eventos. Teorema de la probabilidad total. Teorema de Bayes. Sucesos mutuamente excluyentes. Sucesos independientes."
+                        },
+                        {
+                            "id": 2,
+                            "unidadTematica": "Variables aleatorias",
+                            "objetivoAprendizaje": "Comprender el comportamiento probabilístico de las variables que intervienen en el desarrollo de la actividad profesional. Distinguir variables aleatorias unidimensionales discretas y continuas. Calcular los momentos de una variable aleatoria y comprender sus relaciones. Conocer y distinguir los conceptos de esperanza, varianza y desvío estándar de una variable aleatoria, así como sus métodos de cálculo. Tener nociones del estudio de variables aleatorias bidimensionales.",
+                            "temasDesarrollar": "Concepto de variable aleatoria unidimensional. Variables aleatorias unidimensionales discretas:función de probabilidad y función de probabilidad acumulada. Variables aleatorias unidimensionales continuas: función de densidad y función de distribución. Momentos absolutos y momentos centrados de una variable aleatoria unidimensional. Esperanza, varianza y desvío estándar. Propiedades. Variables aleatorias bidimensionales. Distribuciones de probabilidad conjunta y marginal. Independencia. Covarianza y correlación de variables aleatorias."
+                        }
+                    ],
+                    "unidadTematica": "Teoría de la Probabilidad",
+                    "objetivoAprendizaje": "Entender la importancia de la estadística como disciplina para el análisis de fenómenos socioeconómicos. Incorporar el concepto de aleatoriedad como resultado del conocimiento incompleto de los fenómenos fácticos y de la probabilidad como medida de dicha aleatoriedad. Manejar el cálculo de probabilidades de sucesos aleatorios. Comprender la noción de probabilidad condicional y la de independencia de sucesos aleatorios.",
+                    "temasDesarrollar": "Experimentos determinísticos y experimentos aleatorios. Concepto de evento aleatorio. Teoría axiomática de la probabilidad. Propiedades. Probabilidad condicional. Propiedades de la probabilidad condicional. Independencia estocástica entre eventos. Teorema de la probabilidad total. Teorema de Bayes. Sucesos mutuamente excluyentes. Sucesos independientes.",
+                    "content": "Teoría de la Probabilidad\nVariables aleatorias",
+                    "completed": true
+                },
+                "bibliografiaObligatoria": {
+                    "content": "– Bacchini, R.; Vázquez, L ; Bianco, M. J.; García Fronti, J.; Casparri, M. T. (2018) Introducción a la Probabilidad y a la Estadística. Facultad de Ciencias Económicas. Universidad de Buenos Aires. \nhttp://bibliotecadigital.econ.uba.ar/download/libros/Bacchini_Introduccion‐a‐la‐probabilidad‐y‐a‐la‐estadistica‐2018.pdf\n– Gómez Villegas, M.A. (2005). Inferencia Estadística. Ediciones Díaz de Santos \n– Hossack,  I.  B.;  Pollard,  J.  H.;  Zehnwirth,  B.  (2001).  Introducción  a  la  estadística  con aplicaciones a los seguros generales. Fundación MAPFRE Estudios.\n  – Landro, A. H.; González, M. L. (2018) Teoría general de las variables aleatorias. Facultad de Ciencias Económicas. Universidad de Buenos Aires.\nhttp://bibliotecadigital.econ.uba.ar/download/libros/Landro‐Gonzalez_Teoria‐general‐de‐las‐variables‐aleatorias‐2018.pdf \n– Levin,  R.;  Rubin, D.S.  (2004). Estadística  para  Administración  y  Economía.  (7ma Edición). Ediciones Pearson Prentice Hall.\n– Mendenhall, W., Beaver, R., & Beaver, B. (2013). Introducción a la probabilidad y estadística (14ª ed.). Brooks/Cole.\n– Newbold, P.; Carlson W.; Thorne, B. (2013). Estadística para los negocios y la economía. (8va Edición). Pearson. Prentice Hall. ",
+                    "completed": true
+                },
+                "bibliografiaAmpliatoria": {
+                    "content": "– Canavos,  G.  (2003)  Probabilidad  y  estadística.  Aplicaciones  y  métodos.  McGraw‐Hill, Mexico.  \n– Hassett,  M.;  Stewart,  D.;  Milovanovic  J.  (2021).  Probability  for  Risk  Management.  3rd Edition. ACTEX \n– Hogg, R.V.; Tanis, E.A.; Zimmerman, D. L. (2020). Probability and Statistical Inference. 10th Edition. Prentice Hall.  \n– Miller, I.; Miller, M. (2014). Mathematical statistics with applications. 8th edition. Boston, MA: Pearson.  \n– McQuire, P.; Kume, A.  (2023). R programming  for actuarial science. Chichester, UK:  John Wiley & Sons.  \n– Ross, S. (2019). A First Course in Probability. 10th Edition. Editorial Pearson.  \n– Wackerly, D.; Mendenhall W.; Scheaffer, R. (2010) Estadística matemática con aplicaciones. Cengage Learning Editores, México. ",
+                    "completed": true
+                },
+                "objetivosGeneralesCursos": {
+                    "content": "Durante los seis valores horarios de los que consta la asignatura se tendrá especial dedicación en aplicar medios para que la enseñanza de los contenidos brinde ventajas al estudiante de las carreras  de  Licenciatura  en  Economía  y  Actuario,  de  la  Facultad  de  Ciencias  Económicas, mostrando la posibilidad de aplicación en su práctica profesional de los principales conceptos estadísticos desarrollados.",
+                    "completed": true
+                },
+                "metodologiaProceso": {
+                    "content": "En  el  dictado  de  las  clases  teóricas  el  docente  arbitrará  una  metodología  que  contemple  la introducción de los temas, la fundamentación teórica que se considere necesaria para su mejor comprensión y ejemplificación con aplicaciones al ámbito de la economía y/o de la gestión de riesgos. Para ello podrá utilizar clases expositivas dialogadas, presentación de interrogantes o problemas, pequeños grupos de discusión o trabajos específicos de indagación bibliográfica. \n\nEn las clases prácticas el docente se dedicará a guiar, controlar y apoyar metodológicamente a los alumnos en el trabajo que cada uno de ellos deberá hacer sobre los problemas propuestos, ya  sean  a  través  de  guía  de  trabajos  prácticos,  trabajos  de  campo  grupales  o  trabajos  de investigación  monográficos.  Asimismo,  se  contempla  asistencia  en  la  lectura  de  las  salidas generadas por algún lenguaje de programación multiparadigma.  \n\nComo  complemento  de  las  clases  presenciales,  el  docente  podrá  establecer  pautas  para  el estudio  independiente,  como  hacer  lecturas  adicionales  de  artículos,  revistas  o  capítulos  de libros sobre puntos teóricos del programa. \n\nTodos los cursos de la Cátedra podrán hacer uso de los sitios de Apoyo Tecnológico del Campus Virtual con el fin de incorporar materiales específicos relacionados con las Ciencias Económicas acordes a los contenidos de la asignatura. ",
+                    "completed": true
+                },
+                "dinamicaClases": {
+                    "content": "Se sugiere cuatro valores horarios para el dictado de clases teóricas y dos valores horarios para el dictado de la clase práctica. ",
+                    "completed": true
+                },
+                "evaluacionPresenciales": {
+                    "content": "Los alumnos serán evaluados, como mínimo, con dos exámenes escritos –en días y horarios de clase‐ (Resolución CD 386/2006) que contemplarán aspectos teóricos y prácticos de la asignatura. Se  destaca  que  solo  serán examinados los alumnos  regulares e inscriptos en cada curso.  \n\nCada  parcial  se  dividirá  en  dos  partes:  práctica  y  otra  teórica,  y  ambas  deben  resultar aprobadas, con nota igual o superior a 4 (cuatro) puntos. Si una parte se calificara con nota inferior a 4 (cuatro) puntos el parcial completo merecerá como calificación dicha nota. De acuerdo con la normativa vigente, el alumno podrá recuperar un parcial cuya nota haya sido inferior a 4 (cuatro) puntos o en caso de ausencia. La instancia de recuperatorio también podrá ser utilizada para aquellos casos que tengan calificaciones iguales o superiores a 4 (cuatro) y menores a 7 (siete) y deseen elevar la nota para alcanzar la promoción. La calificación obtenida en el examen recuperatorio reemplazará a la nota del parcial que se recupera.  \n\nLos alumnos que de acuerdo con la Resolución CD 455/2006:  \n1. hubieran aprobado todas las instancias de evaluación (nota parcial 4 o más puntos) y la nota final fuere siete (7) puntos o más de promedio, serán promovidos automáticamente y su calificación será el promedio resultante de ellas. Cabe agregar que debe entenderse que las evaluaciones  individuales  serán  aquellas  que  respondan  a  los exámenes  parciales  en forma  directa  o  luego  de  haber  aprobado  la  única  prueba  recuperatoria  a  que  tienen derecho.  \n2. hubieran aprobado todas las instancias de evaluación (nota parcial 4 o más puntos) y la nota  final  fuere cuatro  (4) puntos o más puntos de promedio, pero inferiores a  siete  (7) serán considerados “regulares” a los fines de rendir un examen final de la asignatura, cabe destacar al igual que en el punto anterior sean ellas obtenidas en forma directa o luego de haber aprobado la única prueba recuperatoria a que tienen derecho,  \n3.  que  hubieran  obtenido,  luego  de  todas  las  instancias  de  evaluación,  notas  finales inferiores a cuatro (4) puntos de promedio se les asignará la nota “insuficiente”.  \n\nDado que solamente serán calificados los alumnos inscriptos en la lista del curso respectivo, que  brinda  la  Facultad,  aquellos  alumnos  que  hayan  asistido  a  las  clases en  carácter  de oyentes o voluntarios no podrán presentarse a rendir los exámenes parciales respectivos, por cuanto la Facultad no labrará acta alguna en tales condiciones ni se admitirán cambios de curso o la rendición de exámenes parciales en otros cursos. ",
+                    "completed": true
+                },
+                "evaluacionFinales": {
+                    "content": "El  examen  final  integrador  comprenderá́  temas  teóricos  y  prácticos  de  la  asignatura, debiendo el alumno aprobar ambos temarios, para que su calificación resulte promediada, con un puntaje que alcance por lo menos un 60% de los contenidos. Por consiguiente, los alumnos  que  obtengan  una  calificación  inferior  a  4  (cuatro)  puntos  serán  considerados insuficientes  y  aquellos  con  una  calificación  igual  o  superior  a  4  (cuatro)  aprobarán  la \nasignatura con dicha nota (Resolución CD 406/2006).  \n\nEn  el  caso  de  cursos  intensivos  la  evaluación  se  realizará  con  una  nota  final  para  cada alumno inscripto, que surgirá de un único examen final, el promedio de dos exámenes, la combinación de seguimiento de lectura y trabajos prácticos con exámenes parciales  Las  calificaciones  deberán  ser  informadas  a  los  alumnos  dentro  de  los  15  días  corridos siguientes a la fecha del examen final. En caso de no existir aula disponible, el acto de lectura \ny entrega de notas se realizará en Sala de Profesores (Resolución CD 374/2006)  ",
+                    "completed": false
+                },
+                "criterioPromedio": {
+                    "content": "En los casos en que fuere necesario expresar en número entero el promedio de notas parciales o de estas y el examen parcial, se aplicará el número entero superior si la fracción fuere de 0.50 puntos o más y el número entero inferior si fuere de 0.49 o menos. Cuando la nota fuese de 3.01 a 3.99 se calificará con 3 (tres) puntos. (Resolución CS 4994/93)",
+                    "completed": false
+                }
+            },
+            "conformidadDirector": null,
+            "revisionAcademica": null,
+            "expediente": null,
+            "history": [
+                {
+                    "fecha": "2026-09-29T18:12:34.688Z",
+                    "actor": "Dirección Académica",
+                    "accion": "Solicita nuevo programa",
+                    "detalle": "Se genera el programa en estado BORRADOR con contenidos mínimos y ubicación curricular precargados desde el listado de materias."
+                }
+            ],
+            "nombre_materia": "ANÁLISIS ESTADÍSTICO I",
+            "titular": "Pablo Nicolás Caviezel",
+            "codigo_materia": 540,
+            "departamento": "Actuario",
+            "materiaId": null
+        }
+    ],
+    "nextId": 3
+}
