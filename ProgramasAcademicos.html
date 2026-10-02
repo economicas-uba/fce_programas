@@ -136,7 +136,7 @@ textarea:disabled,input:disabled{background:#eef1f4;color:#596775;cursor:not-all
       <option value="SUBSECRETARIA_1">Subsecretaría_1 (Métodos)</option>
       <option value="SUBSECRETARIA_2">Subsecretaría_2 (Bibliografía)</option>
       <option value="DIRECCION_ACADEMICA">Dirección Académica</option>
-      <option value="DIRECTOR_DEPARTAMENTO">Director/a de carrera</option>
+      <option value="DIRECTOR_DEPARTAMENTO">Director/a de Departamento</option>
     </select></div>
   </header>
   <main class="main">
@@ -197,7 +197,7 @@ const roleNames={
  SUBSECRETARIA_1:'Subsecretaría_1',
  SUBSECRETARIA_2:'Subsecretaría_2',
  DIRECCION_ACADEMICA:'Dirección Académica',
- DIRECTOR_DEPARTAMENTO:'Director/a de carrera'
+ DIRECTOR_DEPARTAMENTO:'Director/a de Departamento'
 };
 
 let role='TITULAR_CATEDRA';
@@ -303,7 +303,7 @@ function changeRole(v){ role=v; render('dashboard'); }
 
 function statusBadge(s){
  const cls={BORRADOR:'draft',EN_REVISION:'review',EN_REVISION_ACADEMICA:'academic',APROBADO:'approved',FINALIZADO:'approved'};
- const label={BORRADOR:'BORRADOR',EN_REVISION:'EN REVISIÓN (Director de carrera)',EN_REVISION_ACADEMICA:'EN REVISIÓN ACADÉMICA',APROBADO:'APROBADO',FINALIZADO:'FINALIZADO'};
+ const label={BORRADOR:'BORRADOR',EN_REVISION:'EN REVISIÓN (Director de Departamento)',EN_REVISION_ACADEMICA:'EN REVISIÓN ACADÉMICA',APROBADO:'APROBADO',FINALIZADO:'FINALIZADO'};
  return `<span class="badge ${cls[s]||'draft'}">${label[s]||s}</span>`;
 }
 
@@ -435,7 +435,7 @@ function programList(){
  <select id="estadoFilter" onchange="aplicarFiltros()">
    <option value="">Estado: Todos</option>
    <option value="BORRADOR">Borrador</option>
-   <option value="EN_REVISION">En revisión (Director de carrera)</option>
+   <option value="EN_REVISION">En revisión (Director de departamento)</option>
    <option value="EN_REVISION_ACADEMICA">En revisión académica</option>
    <option value="APROBADO">Aprobado</option>
    <option value="FINALIZADO">Finalizado</option>
@@ -617,7 +617,7 @@ function openProgram(id){
 
  if(p.state==='BORRADOR' && p.origenCorreccion){
    const obs=p.origenCorreccion==='DIRECTOR'?(p.conformidadDirector&&p.conformidadDirector.observacion):observacionAcademica(p);
-   const origenLabel=p.origenCorreccion==='DIRECTOR'?'el Director/a de carrera':'la revisión académica';
+   const origenLabel=p.origenCorreccion==='DIRECTOR'?'el Director/a de Departamento':'la revisión académica';
    html+=`<div class="notice warn"><b>Corrección solicitada</b><br>Observación de ${origenLabel}: ${escapeHtml(obs||'Se solicitaron correcciones sobre el programa.')}</div>`;
  }
 
@@ -955,7 +955,7 @@ function solicitarConformidad(id){
    const reenvio=p.origenCorreccion==='DIRECTOR';
    p.state='EN_REVISION';
    p.conformidadDirector={status:'PENDIENTE'};
-   addHistory(p,roleNames.TITULAR_CATEDRA,reenvio?'Reenvía programa corregido':'Solicita conformidad','Queda a la espera de la conformidad del Director/a de carrera.');
+   addHistory(p,roleNames.TITULAR_CATEDRA,reenvio?'Reenvía programa corregido':'Solicita conformidad','Queda a la espera de la conformidad del/de la Director/a de Departamento.');
  }
  p.origenCorreccion=null;
  save();
