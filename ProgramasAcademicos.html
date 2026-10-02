@@ -33,6 +33,7 @@ p{color:var(--muted);line-height:1.5}
 .card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.grid4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:15px}
 .toolbar .left,.toolbar .right{display:flex;gap:9px;align-items:center}
 input,select,textarea{border:1px solid #ccd6df;border-radius:5px;padding:9px 11px;background:#fff}
@@ -43,6 +44,7 @@ textarea{width:100%;min-height:180px;resize:vertical}
 .btn.success{background:var(--green);border-color:var(--green);color:#fff}
 .btn.warn{background:#fff7e3;border-color:#f0d18b;color:#986800}
 .btn.danger{background:#fff1f1;border-color:#efc1c1;color:#a03b3b}
+.btn.red{background:#c62828;border-color:#c62828;color:#fff}
 .btn.small{padding:6px 10px;font-size:12px}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .badge{display:inline-block;padding:4px 8px;border-radius:12px;font-size:11px;font-weight:700}
@@ -74,6 +76,9 @@ td:last-child,th:last-child{text-align:right}
 .notice{padding:13px 15px;border-radius:6px;background:#fff4e9;border:1px solid #ffd9b3;margin-bottom:15px}
 .notice.success{background:#edfaf4;border-color:#c9ecd9}
 .notice.warn{background:#fff8e8;border-color:#f0d89f}
+.alert-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(20,30,40,.45)}
+.alert-box{background:#fff;border-radius:10px;padding:26px 28px 22px;max-width:420px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.alert-msg{margin:0 0 20px;font-size:15px;line-height:1.45;white-space:pre-line;color:var(--text)}
 .comment{border-left:3px solid #f0b73a;padding:10px 13px;background:#fffaf0;margin:9px 0}
 textarea:disabled,input:disabled{background:#eef1f4;color:#596775;cursor:not-allowed;opacity:1}
 .bullet-preview{margin-top:12px;padding:12px 15px;background:#f7f9fb;border:1px solid #e3e8ed;border-radius:5px;min-height:45px}
@@ -171,6 +176,38 @@ textarea:disabled,input:disabled{background:#eef1f4;color:#596775;cursor:not-all
    ========================================================= */
 
 const STORAGE_KEY='pa_mock_data_v2';
+
+/* ---------- Alertas centradas (reemplazan al alert nativo del navegador) ---------- */
+const colaAlertas=[]; let alertaAbierta=false;
+function mostrarAlerta(mensaje,alCerrar){
+  colaAlertas.push({mensaje:String(mensaje==null?'':mensaje),alCerrar});
+  if(!alertaAbierta) abrirSiguienteAlerta();
+}
+function abrirSiguienteAlerta(){
+  const item=colaAlertas.shift();
+  if(!item){ alertaAbierta=false; return; }
+  alertaAbierta=true;
+  const overlay=document.createElement('div');
+  overlay.className='alert-overlay';
+  overlay.setAttribute('role','alertdialog'); overlay.setAttribute('aria-modal','true');
+  const box=document.createElement('div'); box.className='alert-box';
+  const msg=document.createElement('p'); msg.className='alert-msg'; msg.textContent=item.mensaje;
+  const btn=document.createElement('button'); btn.type='button'; btn.className='btn primary'; btn.textContent='Aceptar';
+  let cerrado=false;
+  function cerrar(){
+    if(cerrado) return; cerrado=true;
+    document.removeEventListener('keydown',onKey,true);
+    overlay.remove();
+    if(item.alCerrar) item.alCerrar();
+    abrirSiguienteAlerta();
+  }
+  function onKey(e){ if(e.key==='Escape'||e.key==='Enter'){ e.preventDefault(); e.stopPropagation(); cerrar(); } }
+  btn.addEventListener('click',cerrar);
+  document.addEventListener('keydown',onKey,true);
+  box.appendChild(msg); box.appendChild(btn); overlay.appendChild(box); document.body.appendChild(overlay);
+  btn.focus();
+}
+window.alert=function(mensaje){ mostrarAlerta(mensaje); };
 
 const SECTION_DEFS=[
  {key:'contenidosMinimos',label:'Contenidos mínimos',sectionTitle:'A. Encuadre',locked:true,reviewGroup:'encuadre'},
@@ -278,6 +315,7 @@ function seedData(){
 /* ---------- Helpers ---------- */
 function getProgram(id){ return db.programs.find(p=>p.id===Number(id)); }
 function addHistory(p,actor,accion,detalle){ p.history=p.history||[]; p.history.push({fecha:new Date().toISOString(),actor,accion,detalle:detalle||'—'}); }
+function tieneResolucion(p){ return p.resolucion!=null && String(p.resolucion).trim()!==''; }
 function fmtDate(iso){ if(!iso) return ''; const d=new Date(iso); return d.toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
 function pad(n,len){ return String(n).padStart(len,'0'); }
 function progreso(p){ const keys=SECTION_DEFS.map(s=>s.key); const done=keys.filter(k=>p.sections[k].completed).length; return Math.round(100*done/keys.length); }
@@ -336,24 +374,29 @@ function taskSummary(){
    if(role==='DIRECCION_ACADEMICA' && p.state==='APROBADO' && !p.resolucion){
      items.push({p,tarea:'Completar Resolución',descripcion:'Completar Resolución',accionLabel:'Ver',cls:'primary'});
    }
+   if(role==='DIRECTOR_DEPARTAMENTO' && p.state==='FINALIZADO' && tieneResolucion(p) && !p.directorNotificado){
+     items.push({p,tarea:'Se solicita su notificación',descripcion:'Programa con número de resolución asignado',accionLabel:'Notificarse',cls:'primary',onclick:`notificarseResolucion(${p.id})`});
+   }
  });
  return {items};
 }
 function renderTaskTable(items){
  if(!items.length) return `<p class="muted">No tenés tareas pendientes.</p>`;
- return `<table><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Descripción</th><th>Acción</th></tr>${items.map(it=>`<tr><td>${escapeHtml(it.p.nombre_materia||it.p.name||'')}</td><td>${escapeHtml(it.p.career||'')}</td><td>${escapeHtml(it.tarea)}</td><td>${escapeHtml(it.descripcion||it.tarea)}</td><td><button class="btn small ${it.cls}" onclick="openProgram(${it.p.id})">${escapeHtml(it.accionLabel)}</button></td></tr>`).join('')}</table>`;
+ return `<table><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Descripción</th><th>Acción</th></tr>${items.map(it=>`<tr><td>${escapeHtml(it.p.nombre_materia||it.p.name||'')}</td><td>${escapeHtml(it.p.career||'')}</td><td>${escapeHtml(it.tarea)}</td><td>${escapeHtml(it.descripcion||it.tarea)}</td><td><button class="btn small ${it.cls}" onclick="${it.onclick||'openProgram('+it.p.id+')'}">${escapeHtml(it.accionLabel)}</button></td></tr>`).join('')}</table>`;
 }
 
 /* ---------- Pantallas ---------- */
 function dashboard(){
  const t=taskSummary();
  const aprobados=db.programs.filter(p=>p.state==='APROBADO').length;
+ const finalizadosConResolucion=db.programs.filter(p=>p.state==='FINALIZADO' && tieneResolucion(p)).length;
  return `<div class="toolbar"><div><h1>Bienvenido</h1><p>Aquí encontrás tus tareas pendientes y el estado de tus programas.</p></div>
  ${role==='DIRECCION_ACADEMICA'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
- <div class="grid3">
+ <div class="grid3 grid4">
    <div class="card"><div class="muted">Programas</div><div class="stat">${db.programs.length}</div><div class="muted">en el sistema</div></div>
    <div class="card"><div class="muted">Tareas pendientes</div><div class="stat">${t.items.length}</div><div class="muted">requieren intervención</div></div>
    <div class="card"><div class="muted">Aprobados</div><div class="stat">${aprobados}</div><div class="muted">este ciclo</div></div>
+   <div class="card"><div class="muted">Finalizados con resolución</div><div class="stat">${finalizadosConResolucion}</div><div class="muted">programas con número de resolución</div></div>
  </div>
  <div class="card"><h2>Mis tareas</h2>${renderTaskTable(t.items)}</div>
  <div class="card"><h2>Acceso rápido</h2><button class="btn primary" onclick="render('programs')">Ver todos los programas</button> <button class="btn primary" onclick="render('tasks')">Ver mis tareas</button></div>`;
@@ -361,8 +404,9 @@ function dashboard(){
 function tasks(){ return `<h1>Mis tareas</h1><p>Las tareas se muestran según el rol seleccionado.</p><div class="card">${renderTaskTable(taskSummary().items)}</div>`; }
 function notifications(){
  const t=taskSummary();
- if(!t.items.length) return `<h1>Notificaciones</h1><div class="card"><p class="muted">No tenés notificaciones nuevas.</p></div>`;
- return `<h1>Notificaciones</h1><div class="card">${t.items.map(it=>`<div class="notice ${it.p.origenCorreccion?'warn':''}"><b>${it.tarea}</b><br>${escapeHtml(it.p.nombre_materia||it.p.name||'')} (${escapeHtml(it.p.career||'')}) requiere tu intervención.</div>`).join('')}</div>`;
+ const guardadas=(db.notificaciones||[]).filter(n=>(n.roles||[]).includes(role)).slice().reverse();
+ if(!t.items.length && !guardadas.length) return `<h1>Notificaciones</h1><div class="card"><p class="muted">No tenés notificaciones nuevas.</p></div>`;
+ return `<h1>Notificaciones</h1><div class="card">${guardadas.map(n=>`<div class="notice success"><b>${escapeHtml(n.titulo||'Notificación')}</b><br>${escapeHtml(n.texto||'')}<br><span class="muted">${fmtDate(n.fecha)}</span></div>`).join('')}${t.items.map(it=>`<div class="notice ${it.p.origenCorreccion?'warn':''}"><b>${it.tarea}</b><br>${escapeHtml(it.p.nombre_materia||it.p.name||'')} (${escapeHtml(it.p.career||'')}) requiere tu intervención.</div>`).join('')}</div>`;
 }
 function profile(){
  return `<h1>Perfil</h1>
@@ -420,8 +464,8 @@ function importarDatosUBA(input) {
                 localStorage.setItem(clave, datosGuardados[clave]);
             }
             
-            alert("¡Programas importados con éxito! La página se recargará para actualizar la vista.");
-            location.reload(); 
+            mostrarAlerta("¡Programas importados con éxito! La página se recargará para actualizar la vista.",()=>location.reload());
+
         } catch (error) {
             alert("Error: El archivo seleccionado no es válido.");
         }
@@ -624,7 +668,8 @@ function openProgram(id){
  html+=`<div class="card"><div class="toolbar"><div><b>Estado del programa</b></div><div>${progreso(p)}% completo</div></div><div class="progress"><span style="width:${progreso(p)}%"></span></div></div>`;
 
  if(role==='DIRECCION_ACADEMICA' && ['APROBADO','FINALIZADO'].includes(p.state)){
-   html+=`<div class="card"><h2>Resolución del Consejo Directivo</h2>${p.state==='APROBADO'?`<p class="muted">Completá el número de la resolución que formaliza el programa. Al guardar, el programa pasará a estado FINALIZADO.</p><div class="toolbar" style="justify-content:flex-start;gap:10px;margin-bottom:0"><input id="numeroResolucion" placeholder="Número de resolución" value="${escapeHtml(p.resolucion||'')}"><button class="btn primary" onclick="guardarResolucion(${p.id})">Guardar</button><button class="btn" onclick="imprimirPrograma(${p.id})">Imprimir</button></div>`:`<div class="toolbar" style="justify-content:flex-start;gap:10px;margin-bottom:0"><div><label>Número de resolución</label><input id="numeroResolucion" value="${escapeHtml(p.resolucion||'')}" disabled></div><button class="btn primary" onclick="imprimirPrograma(${p.id})">Imprimir</button></div>`}</div>`;
+   const finalizado=p.state==='FINALIZADO';
+   html+=`<div class="card"><h2>Resolución del Consejo Directivo</h2>${finalizado?'':`<p class="muted">Completá el número de la resolución que formaliza el programa. Al guardar, el programa pasará a estado FINALIZADO.</p>`}<div class="toolbar" style="justify-content:flex-start;gap:10px;margin-bottom:0"><div>${finalizado?'<label>Número de resolución</label>':''}<input id="numeroResolucion" placeholder="Número de resolución" value="${escapeHtml(p.resolucion||'')}" ${finalizado?'disabled':''} oninput="sincronizarEditarResolucion()"></div><button class="btn red" id="btnEditarResolucion" onclick="habilitarEdicionResolucion()" ${finalizado && tieneResolucion(p)?'':'disabled'}>Editar</button><button class="btn primary" id="btnGuardarResolucion" onclick="guardarResolucion(${p.id})" ${finalizado?'disabled':''}>Guardar</button><button class="btn ${finalizado?'primary':''}" onclick="imprimirPrograma(${p.id})">Imprimir</button></div></div>`;
  }
 
  const rolesConEdicion=['TITULAR_CATEDRA','DIRECCION_ACADEMICA','SUBSECRETARIA_1','SUBSECRETARIA_2','DIRECTOR_DEPARTAMENTO'];
@@ -767,13 +812,13 @@ function editSection(id,key){
         <textarea id="secContent" ${locked?'disabled':''} placeholder="${locked?'Sección precargada y no editable.':'Ingrese '+escapeHtml(def.label.toLowerCase())+'...'}">${escapeHtml(sec.content||'')}</textarea>
         ${locked
           ? '<p class="muted" style="margin-bottom:0">Esta sección está precargada y no puede modificarse.</p>'
-          : `<label style="display:flex;align-items:center;gap:8px;margin-top:10px;color:var(--text);font-size:13px"><input type="checkbox" id="secCompleted" ${sec.completed?'checked':''}> Marcar sección como completa</label>`}
+          : `<label style="display:flex;align-items:center;gap:8px;margin-top:10px;color:var(--text);font-size:13px"><input type="checkbox" id="secCompleted" ${sec.completed?'checked':''} onchange="actualizarBotonGuardar(${id},'${key}')"> Marcar sección como completa</label>`}
       </div>`;
   }
 
   const actionHtml=locked
     ? `<div style="text-align:right;margin-top:12px"><button class="btn primary" onclick="openProgram(${id})">Volver al programa</button></div>`
-    : `<div style="text-align:right;margin-top:12px"><button class="btn" onclick="saveSection(${id},'${key}',false)">Guardar cambios</button> <button class="btn primary" onclick="saveSection(${id},'${key}',true)">${editableIndex<EDITABLE_KEYS.length-1?'Guardar y continuar':'Guardar y volver'}</button></div>`;
+    : `<div style="text-align:right;margin-top:12px"><button class="btn" onclick="openProgram(${id})">Volver</button> <button class="btn" onclick="saveSection(${id},'${key}',false)">Guardar cambios</button> <button class="btn primary" id="btnGuardarContinuar" onclick="saveSection(${id},'${key}',true)">${editableIndex<EDITABLE_KEYS.length-1?'Guardar y continuar':'Guardar y volver'}</button></div>`;
 
   document.getElementById('content').innerHTML=`
     <div class="toolbar">
@@ -789,6 +834,7 @@ function editSection(id,key){
     <div class="card"><h2>Ayuda</h2><p>${ayuda}</p></div>`;
 
   if(key==='programaAnalitico') actualizarBullets();
+  actualizarBotonGuardar(id,key);
 }
 
 function renderListaUnidades(unidades){
@@ -860,6 +906,7 @@ function guardarUnidadTematica(id){
   document.getElementById('listaUnidades').innerHTML=renderListaUnidades(sec.unidades);
   limpiarEditorUnidad();
   document.getElementById('secCompleted').checked=sec.completed;
+  actualizarBotonGuardar(id,'programaAnalitico');
 }
 
 function sincronizarProgramaAnalitico(sec){
@@ -879,6 +926,19 @@ function actualizarBullets(){
   preview.innerHTML=temas.length
     ? `<ul>${temas.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}`
     : '<span class="muted">Los temas ingresados aparecerán aquí como bullets.</span>';
+}
+/* ¿El titular completó todas las tarjetas editables? Considera el checkbox en pantalla para la sección actual. */
+function programaCompletoEnPantalla(p,key){
+  if(role!=='TITULAR_CATEDRA') return false;
+  const chk=document.getElementById('secCompleted');
+  return EDITABLE_KEYS.every(k=>(k===key && key!=='programaAnalitico' && chk)?chk.checked:p.sections[k].completed);
+}
+/* "Guardar y volver" si es la última sección del flujo o si ya no queda ninguna tarjeta pendiente (en cualquier posición). */
+function actualizarBotonGuardar(id,key){
+  const p=getProgram(id), b=document.getElementById('btnGuardarContinuar');
+  if(!p || !b) return;
+  const ultima=EDITABLE_KEYS.indexOf(key)>=EDITABLE_KEYS.length-1;
+  b.textContent=(ultima || programaCompletoEnPantalla(p,key))?'Guardar y volver':'Guardar y continuar';
 }
 function saveSection(id,key,advance){
   const p=getProgram(id); if(!p) return;
@@ -924,10 +984,19 @@ function saveSection(id,key,advance){
 
   save();
 
+  /* Programa completo (todas las tarjetas editables completas): Guardar cambios también vuelve al resumen. */
+  const completo=role==='TITULAR_CATEDRA' && seccionesCompletas(p);
+  if(!advance && completo){
+    alert('Programa completo. Los cambios se guardaron correctamente.');
+    openProgram(id);
+    return;
+  }
+  alert('Los cambios se guardaron correctamente.');
+
   if(!advance){ editSection(id,key); return; }
 
   const idx=EDITABLE_KEYS.indexOf(key);
-  if(idx<EDITABLE_KEYS.length-1) editSection(id,EDITABLE_KEYS[idx+1]);
+  if(idx<EDITABLE_KEYS.length-1 && !completo) editSection(id,EDITABLE_KEYS[idx+1]);
   else openProgram(id);
 }
 
@@ -1014,18 +1083,56 @@ function aprobarPrograma(p){
  addHistory(p,'Subs. de Planificación Educativa','Genera expediente GEDO',`Expediente ${p.expediente.gedo} generado. Programa APROBADO.`);
 }
 
+function sincronizarEditarResolucion(){
+ const i=document.getElementById('numeroResolucion'), b=document.getElementById('btnEditarResolucion');
+ if(i && b) b.disabled=!(i.value.trim() && i.disabled);
+}
+function habilitarEdicionResolucion(){
+ const i=document.getElementById('numeroResolucion'), g=document.getElementById('btnGuardarResolucion');
+ if(!i || !i.disabled) return;
+ i.disabled=false;
+ if(g) g.disabled=false;
+ sincronizarEditarResolucion();
+ i.focus(); i.select();
+}
 function guardarResolucion(id){
  const p=getProgram(id);
- if(!p || role!=='DIRECCION_ACADEMICA' || p.state!=='APROBADO') return;
+ if(!p || role!=='DIRECCION_ACADEMICA' || !['APROBADO','FINALIZADO'].includes(p.state)) return;
  const input=document.getElementById('numeroResolucion');
  const numero=input?input.value.trim():'';
  if(!numero){ alert('Ingresá el número de resolución.'); return; }
+ if(p.state==='FINALIZADO'){
+   /* Corrección del número: el programa sigue FINALIZADO */
+   const anterior=p.resolucion||'';
+   if(numero!==anterior){
+     p.resolucion=numero;
+     addHistory(p,roleNames.DIRECCION_ACADEMICA,'Corrige Resolución',`Número de resolución corregido: de ${anterior} a ${numero}.`);
+     save();
+   }
+   openProgram(id);
+   return;
+ }
  p.resolucion=numero;
  p.resolucionFecha=new Date().toISOString();
  p.state='FINALIZADO';
  addHistory(p,roleNames.DIRECCION_ACADEMICA,'Completa Resolución',`Resolución del Consejo Directivo: ${numero}. El programa pasa a estado FINALIZADO.`);
  save();
  openProgram(id);
+}
+
+/* ---------- Notificación del Director/a de Departamento ---------- */
+function notificarseResolucion(id){
+ const p=getProgram(id);
+ if(!p || role!=='DIRECTOR_DEPARTAMENTO' || p.state!=='FINALIZADO' || !tieneResolucion(p) || p.directorNotificado) return;
+ const ahora=new Date().toISOString();
+ const materia=p.nombre_materia||p.name||'', titular=p.titular||'';
+ p.directorNotificado={fecha:ahora};
+ addHistory(p,roleNames.DIRECTOR_DEPARTAMENTO,'Se notifica del número de Resolución',`El Director/a de Departamento se notificó del número de Resolución ${p.resolucion}.`);
+ db.notificaciones=db.notificaciones||[];
+ db.notificaciones.push({id:Date.now(),fecha:ahora,programaId:p.id,roles:['DIRECCION_ACADEMICA','TITULAR_CATEDRA'],titulo:'Notificación de Resolución',texto:`El Director de Departamento de la asignatura ${materia} del titular ${titular} se ha notificado del número de Resolución`});
+ save();
+ const activa=document.querySelector('.nav button.active');
+ render(activa?activa.dataset.screen:'dashboard');
 }
 
 /* ---------- Historial ---------- */
