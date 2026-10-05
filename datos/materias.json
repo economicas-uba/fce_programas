@@ -1,0 +1,405 @@
+{
+  "_nota": "Datos de PRUEBA derivados del materias.json de referencia: se agregaron catedra_id, departamento_id, carrera_ids y titular_id; los textos de contenidos mínimos y ubicación están abreviados; a TEORÍA CONTABLE (sin departamento en el original) se le asignó Contabilidad; las cátedras 990-01 y 991-01 son ficticias.",
+  "departamentos": [
+    {
+      "id": "ECO",
+      "nombre": "Economía"
+    },
+    {
+      "id": "ADM",
+      "nombre": "Administración"
+    },
+    {
+      "id": "ACT",
+      "nombre": "Actuario"
+    },
+    {
+      "id": "CON",
+      "nombre": "Contabilidad"
+    }
+  ],
+  "carreras": [
+    {
+      "id": "LIC_ECO",
+      "nombre": "Lic. en Economía"
+    },
+    {
+      "id": "ACTUARIO",
+      "nombre": "Actuario"
+    },
+    {
+      "id": "CP",
+      "nombre": "Contador Público"
+    },
+    {
+      "id": "LIC_ADM",
+      "nombre": "Lic. en Administración"
+    },
+    {
+      "id": "LIC_SIST",
+      "nombre": "Lic. en Sistemas de Información de las Organizaciones"
+    }
+  ],
+  "materias": [
+    {
+      "catedra_id": "262-01",
+      "departamento_id": "ECO",
+      "carrera_ids": [
+        "LIC_ECO",
+        "ACTUARIO"
+      ],
+      "titular_id": "u-0001",
+      "codigo_materia": 262,
+      "departamento": "Economía",
+      "titular": "Guido Zack",
+      "nombre_materia": "MACROECONOMIA I",
+      "carreras": "Lic. en Economía (RCS N.º 1696/24) y Actuario (RCS N.º 1824/24)",
+      "contenidos_minimos": "La problemática macroeconómica: hechos estilizados y esquemas básicos de modelización. Fenómenos nominales y reales: ciclo y tendencia, desempleo e inflación. […]",
+      "ubicacion_curriculum": "No cuenta con requisitos previos, solo tener aprobado el primer tramo."
+    },
+    {
+      "catedra_id": "540-01",
+      "departamento_id": "ACT",
+      "carrera_ids": [
+        "ACTUARIO",
+        "LIC_ECO"
+      ],
+      "titular_id": "u-0002",
+      "codigo_materia": 540,
+      "departamento": "Actuario",
+      "titular": "Pablo Nicolás Caviezel",
+      "nombre_materia": "ANÁLISIS ESTADÍSTICO I",
+      "carreras": "Actuario (RCS Nº 1824/24) y Lic. en Economía (RCS Nº 1696/24)",
+      "contenidos_minimos": "Población y muestra. Experimentos. Análisis de datos. Números índice. Teoría de la probabilidad. Variables aleatorias continuas y discretas. […]",
+      "ubicacion_curriculum": "La asignatura Análisis Estadístico se ubica en el Ciclo Profesional de las carreras Licenciatura en Economía y Actuario. […]"
+    },
+    {
+      "catedra_id": "540-02",
+      "departamento_id": "ACT",
+      "carrera_ids": [
+        "ACTUARIO",
+        "LIC_ECO"
+      ],
+      "titular_id": "u-0003",
+      "codigo_materia": 540,
+      "departamento": "Actuario",
+      "titular": "Blanca Rosa Vitale",
+      "nombre_materia": "ANÁLISIS ESTADÍSTICO I",
+      "carreras": "Actuario (RCS Nº 1824/24) y Lic. en Economía (RCS Nº 1696/24)",
+      "contenidos_minimos": "Población y muestra. Experimentos. Análisis de datos. Números índice. Teoría de la probabilidad. Variables aleatorias continuas y discretas. […]",
+      "ubicacion_curriculum": "La asignatura Análisis Estadístico se ubica en el Ciclo Profesional de las carreras Licenciatura en Economía y Actuario. […]"
+    },
+    {
+      "catedra_id": "540-03",
+      "departamento_id": "ACT",
+      "carrera_ids": [
+        "ACTUARIO",
+        "LIC_ECO"
+      ],
+      "titular_id": "u-0004",
+      "codigo_materia": 540,
+      "departamento": "Actuario",
+      "titular": "María José Bianco",
+      "nombre_materia": "ANÁLISIS ESTADÍSTICO I",
+      "carreras": "Actuario (RCS Nº 1824/24) y Lic. en Economía (RCS Nº 1696/24)",
+      "contenidos_minimos": "Población y muestra. Experimentos. Análisis de datos. Números índice. Teoría de la probabilidad. Variables aleatorias continuas y discretas. […]",
+      "ubicacion_curriculum": "La asignatura Análisis Estadístico se ubica en el Ciclo Profesional de las carreras Licenciatura en Economía y Actuario. […]"
+    },
+    {
+      "catedra_id": "558-01",
+      "departamento_id": "ECO",
+      "carrera_ids": [
+        "LIC_ECO"
+      ],
+      "titular_id": "u-0005",
+      "codigo_materia": 558,
+      "departamento": "Economía",
+      "titular": "Juan Carlos Hallak",
+      "nombre_materia": "ECONOMÍA INTERNACIONAL",
+      "carreras": "Lic. en Economía (RCS Nº 1696/24)",
+      "contenidos_minimos": "Panorama de la economía internacional: patrones de comercio mundial y regional. Teorías del comercio internacional basadas en ventajas comparativas. […]",
+      "ubicacion_curriculum": "Esta asignatura se encuentra dentro del Ciclo Profesional de la carrera. Para inscribirse, requiere haber aprobado las asignaturas “Macroeconomía I” y “Microeconomía II”"
+    },
+    {
+      "catedra_id": "247-01",
+      "departamento_id": "CON",
+      "carrera_ids": [
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST",
+        "LIC_ECO",
+        "ACTUARIO"
+      ],
+      "titular_id": "u-0006",
+      "codigo_materia": 247,
+      "departamento": "Contabilidad",
+      "titular": "Ana María Campo",
+      "nombre_materia": "TEORÍA CONTABLE",
+      "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+    },
+    {
+      "catedra_id": "247-02",
+      "departamento_id": "CON",
+      "carrera_ids": [
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST",
+        "LIC_ECO",
+        "ACTUARIO"
+      ],
+      "titular_id": "u-0007",
+      "codigo_materia": 247,
+      "departamento": "Contabilidad",
+      "titular": "Paula Alejandra D'Onofrio",
+      "nombre_materia": "TEORÍA CONTABLE",
+      "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+    },
+    {
+      "catedra_id": "247-03",
+      "departamento_id": "CON",
+      "carrera_ids": [
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST",
+        "LIC_ECO",
+        "ACTUARIO"
+      ],
+      "titular_id": "u-0008",
+      "codigo_materia": 247,
+      "departamento": "Contabilidad",
+      "titular": "Gustavo Amado Montanini",
+      "nombre_materia": "TEORÍA CONTABLE",
+      "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+    },
+    {
+      "catedra_id": "247-04",
+      "departamento_id": "CON",
+      "carrera_ids": [
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST",
+        "LIC_ECO",
+        "ACTUARIO"
+      ],
+      "titular_id": "u-0009",
+      "codigo_materia": 247,
+      "departamento": "Contabilidad",
+      "titular": "Graciela María Scavone",
+      "nombre_materia": "TEORÍA CONTABLE",
+      "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+    },
+    {
+      "catedra_id": "247-05",
+      "departamento_id": "CON",
+      "carrera_ids": [
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST",
+        "LIC_ECO",
+        "ACTUARIO"
+      ],
+      "titular_id": "u-0010",
+      "codigo_materia": 247,
+      "departamento": "Contabilidad",
+      "titular": "Suárez Kimura Elsa Beatriz",
+      "nombre_materia": "TEORÍA CONTABLE",
+      "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+    },
+    {
+      "catedra_id": "274-01",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "ACTUARIO",
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST"
+      ],
+      "titular_id": "u-0011",
+      "codigo_materia": 274,
+      "departamento": "Administración",
+      "titular": "Marcelo Fabián Alcain",
+      "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+      "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+    },
+    {
+      "catedra_id": "274-02",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "ACTUARIO",
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST"
+      ],
+      "titular_id": "u-0012",
+      "codigo_materia": 274,
+      "departamento": "Administración",
+      "titular": "Angel Oscar Arostegui",
+      "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+      "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+    },
+    {
+      "catedra_id": "274-03",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "ACTUARIO",
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST"
+      ],
+      "titular_id": "u-0013",
+      "codigo_materia": 274,
+      "departamento": "Administración",
+      "titular": "Tomás Chahin",
+      "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+      "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+    },
+    {
+      "catedra_id": "274-04",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "ACTUARIO",
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST"
+      ],
+      "titular_id": "u-0014",
+      "codigo_materia": 274,
+      "departamento": "Administración",
+      "titular": "Juan José Gilli",
+      "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+      "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+    },
+    {
+      "catedra_id": "274-05",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "ACTUARIO",
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST"
+      ],
+      "titular_id": "u-0015",
+      "codigo_materia": 274,
+      "departamento": "Administración",
+      "titular": "Juan Carlos Gómez Fulao",
+      "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+      "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+    },
+    {
+      "catedra_id": "274-06",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "ACTUARIO",
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST"
+      ],
+      "titular_id": "u-0016",
+      "codigo_materia": 274,
+      "departamento": "Administración",
+      "titular": "Rubén César Moleón",
+      "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+      "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+    },
+    {
+      "catedra_id": "274-07",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "ACTUARIO",
+        "CP",
+        "LIC_ADM",
+        "LIC_SIST"
+      ],
+      "titular_id": "u-0017",
+      "codigo_materia": 274,
+      "departamento": "Administración",
+      "titular": "Federico Saravia",
+      "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
+      "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+    },
+    {
+      "catedra_id": "467-01",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "LIC_ADM"
+      ],
+      "titular_id": "u-0018",
+      "codigo_materia": 467,
+      "departamento": "Administración",
+      "titular": "Ladislao Ludovico Huber",
+      "nombre_materia": "GESTIÓN DEL TALENTO",
+      "carreras": "Lic. en Administración (RCS N.º 1695/24)",
+      "contenidos_minimos": "El mundo del trabajo. El ser humano y el trabajo. Estrategia organizacional y de gestión de personas. El mercado laboral. […]",
+      "ubicacion_curriculum": "La materia pertenece al Ciclo Profesional."
+    },
+    {
+      "catedra_id": "467-02",
+      "departamento_id": "ADM",
+      "carrera_ids": [
+        "LIC_ADM"
+      ],
+      "titular_id": "u-0019",
+      "codigo_materia": 467,
+      "departamento": "Administración",
+      "titular": "Roberto César Mazza",
+      "nombre_materia": "GESTIÓN DEL TALENTO",
+      "carreras": "Lic. en Administración (RCS N.º 1695/24)",
+      "contenidos_minimos": "El mundo del trabajo. El ser humano y el trabajo. Estrategia organizacional y de gestión de personas. El mercado laboral. […]",
+      "ubicacion_curriculum": "La materia pertenece al Ciclo Profesional."
+    },
+    {
+      "catedra_id": "990-01",
+      "departamento_id": "ECO",
+      "carrera_ids": [
+        "LIC_ECO"
+      ],
+      "titular_id": "u-1005",
+      "codigo_materia": 990,
+      "departamento": "Economía",
+      "titular": "Lucía Paz",
+      "nombre_materia": "TALLER DE PRUEBA I",
+      "carreras": "Lic. en Economía (RCS Nº 1696/24)",
+      "contenidos_minimos": "Materia ficticia creada solo para pruebas (titular con más de un rol).",
+      "ubicacion_curriculum": "Materia de prueba. No existe en el materias.json real."
+    },
+    {
+      "catedra_id": "991-01",
+      "departamento_id": "ECO",
+      "carrera_ids": [
+        "LIC_ECO"
+      ],
+      "titular_id": "u-1001",
+      "codigo_materia": 991,
+      "departamento": "Economía",
+      "titular": "Carla Méndez",
+      "nombre_materia": "SEMINARIO DE PRUEBA II",
+      "carreras": "Lic. en Economía (RCS Nº 1696/24)",
+      "contenidos_minimos": "Materia ficticia creada solo para pruebas (titular que además es director/a del departamento).",
+      "ubicacion_curriculum": "Materia de prueba. No existe en el materias.json real."
+    }
+  ]
+}

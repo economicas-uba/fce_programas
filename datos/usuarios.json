@@ -1,0 +1,484 @@
+{
+  "_nota": "Datos de PRUEBA. Contraseña de todos los usuarios en el prototipo: Prueba. Los titulares reales salen del materias.json de referencia; las autoridades y revisores son ficticios.",
+  "roles": [
+    {
+      "id": "TITULAR_CATEDRA",
+      "nombre": "Titular de cátedra",
+      "ambito": "CATEDRA"
+    },
+    {
+      "id": "DIRECTOR_DEPARTAMENTO",
+      "nombre": "Director/a de Departamento",
+      "ambito": "DEPARTAMENTO"
+    },
+    {
+      "id": "SUBSECRETARIA_1",
+      "nombre": "Subsecretaría - Rev. Pedagógica",
+      "ambito": "GLOBAL"
+    },
+    {
+      "id": "SUBSECRETARIA_2",
+      "nombre": "Subsecretaría - Rev. Bibliográfica",
+      "ambito": "GLOBAL"
+    },
+    {
+      "id": "DIRECCION_ACADEMICA",
+      "nombre": "Dirección Académica",
+      "ambito": "GLOBAL"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "u-1001",
+      "username": "cmendez",
+      "email": "cmendez@ejemplo.edu.ar",
+      "apellido": "Méndez",
+      "nombre": "Carla",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ECO"
+            ]
+          }
+        },
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-1002",
+      "username": "hsosa",
+      "email": "hsosa@ejemplo.edu.ar",
+      "apellido": "Sosa",
+      "nombre": "Hugo",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ADM",
+              "ACT"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1003",
+      "username": "ribarra",
+      "email": "ribarra@ejemplo.edu.ar",
+      "apellido": "Ibarra",
+      "nombre": "Raúl",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ECO"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1004",
+      "username": "ebravo",
+      "email": "ebravo@ejemplo.edu.ar",
+      "apellido": "Bravo",
+      "nombre": "Elena",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "CON"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1005",
+      "username": "lpaz",
+      "email": "lpaz@ejemplo.edu.ar",
+      "apellido": "Paz",
+      "nombre": "Lucía",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "SUBSECRETARIA_1"
+        },
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-1006",
+      "username": "sreyes",
+      "email": "sreyes@ejemplo.edu.ar",
+      "apellido": "Reyes",
+      "nombre": "Silvia",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "SUBSECRETARIA_1"
+        }
+      ]
+    },
+    {
+      "id": "u-1007",
+      "username": "druiz",
+      "email": "druiz@ejemplo.edu.ar",
+      "apellido": "Ruiz",
+      "nombre": "Diego",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECCION_ACADEMICA"
+        }
+      ]
+    },
+    {
+      "id": "u-1008",
+      "username": "mquiroga",
+      "email": "mquiroga@ejemplo.edu.ar",
+      "apellido": "Quiroga",
+      "nombre": "Marta",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECCION_ACADEMICA"
+        }
+      ]
+    },
+    {
+      "id": "u-1009",
+      "username": "pferreyra",
+      "email": "pferreyra@ejemplo.edu.ar",
+      "apellido": "Ferreyra",
+      "nombre": "Pablo",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECCION_ACADEMICA"
+        },
+        {
+          "rol": "SUBSECRETARIA_2"
+        }
+      ]
+    },
+    {
+      "id": "u-1010",
+      "username": "tvega",
+      "email": "tvega@ejemplo.edu.ar",
+      "apellido": "Vega",
+      "nombre": "Tomás",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "SUBSECRETARIA_2"
+        }
+      ]
+    },
+    {
+      "id": "u-1011",
+      "username": "icosta",
+      "email": "icosta@ejemplo.edu.ar",
+      "apellido": "Costa",
+      "nombre": "Irene",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "SUBSECRETARIA_2"
+        }
+      ]
+    },
+    {
+      "id": "u-1012",
+      "username": "nacosta",
+      "email": "nacosta@ejemplo.edu.ar",
+      "apellido": "Acosta",
+      "nombre": "Nora",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ADM"
+            ]
+          },
+          "hasta": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": "u-1013",
+      "username": "jinactivo",
+      "email": "jinactivo@ejemplo.edu.ar",
+      "apellido": "Inactivo",
+      "nombre": "Julián",
+      "activo": false,
+      "roles": [
+        {
+          "rol": "DIRECCION_ACADEMICA"
+        }
+      ]
+    },
+    {
+      "id": "u-0001",
+      "username": "t-262-01",
+      "email": "t-262-01@ejemplo.edu.ar",
+      "apellido": "Zack",
+      "nombre": "Guido",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0002",
+      "username": "t-540-01",
+      "email": "t-540-01@ejemplo.edu.ar",
+      "apellido": "Caviezel",
+      "nombre": "Pablo Nicolás",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0003",
+      "username": "t-540-02",
+      "email": "t-540-02@ejemplo.edu.ar",
+      "apellido": "Vitale",
+      "nombre": "Blanca Rosa",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0004",
+      "username": "t-540-03",
+      "email": "t-540-03@ejemplo.edu.ar",
+      "apellido": "Bianco",
+      "nombre": "María José",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0005",
+      "username": "t-558-01",
+      "email": "t-558-01@ejemplo.edu.ar",
+      "apellido": "Hallak",
+      "nombre": "Juan Carlos",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0006",
+      "username": "t-247-01",
+      "email": "t-247-01@ejemplo.edu.ar",
+      "apellido": "Campo",
+      "nombre": "Ana María",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0007",
+      "username": "t-247-02",
+      "email": "t-247-02@ejemplo.edu.ar",
+      "apellido": "D'Onofrio",
+      "nombre": "Paula Alejandra",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0008",
+      "username": "t-247-03",
+      "email": "t-247-03@ejemplo.edu.ar",
+      "apellido": "Montanini",
+      "nombre": "Gustavo Amado",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0009",
+      "username": "t-247-04",
+      "email": "t-247-04@ejemplo.edu.ar",
+      "apellido": "Scavone",
+      "nombre": "Graciela María",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0010",
+      "username": "t-247-05",
+      "email": "t-247-05@ejemplo.edu.ar",
+      "apellido": "Suárez Kimura",
+      "nombre": "Elsa Beatriz",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0011",
+      "username": "t-274-01",
+      "email": "t-274-01@ejemplo.edu.ar",
+      "apellido": "Alcain",
+      "nombre": "Marcelo Fabián",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0012",
+      "username": "t-274-02",
+      "email": "t-274-02@ejemplo.edu.ar",
+      "apellido": "Arostegui",
+      "nombre": "Angel Oscar",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0013",
+      "username": "t-274-03",
+      "email": "t-274-03@ejemplo.edu.ar",
+      "apellido": "Chahin",
+      "nombre": "Tomás",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0014",
+      "username": "t-274-04",
+      "email": "t-274-04@ejemplo.edu.ar",
+      "apellido": "Gilli",
+      "nombre": "Juan José",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0015",
+      "username": "t-274-05",
+      "email": "t-274-05@ejemplo.edu.ar",
+      "apellido": "Gómez Fulao",
+      "nombre": "Juan Carlos",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0016",
+      "username": "t-274-06",
+      "email": "t-274-06@ejemplo.edu.ar",
+      "apellido": "Moleón",
+      "nombre": "Rubén César",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0017",
+      "username": "t-274-07",
+      "email": "t-274-07@ejemplo.edu.ar",
+      "apellido": "Saravia",
+      "nombre": "Federico",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0018",
+      "username": "t-467-01",
+      "email": "t-467-01@ejemplo.edu.ar",
+      "apellido": "Huber",
+      "nombre": "Ladislao Ludovico",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-0019",
+      "username": "t-467-02",
+      "email": "t-467-02@ejemplo.edu.ar",
+      "apellido": "Mazza",
+      "nombre": "Roberto César",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    }
+  ]
+}

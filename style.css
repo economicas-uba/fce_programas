@@ -21,6 +21,9 @@ button{cursor:pointer}
 .campana{display:inline-flex;vertical-align:middle;margin-left:6px;color:#e8590c}
 .campana[hidden]{display:none}
 .role{font-size:13px;color:var(--muted);padding:10px 0}
+.role{display:flex;align-items:center;gap:12px}
+.usuario-actual{text-align:right;line-height:1.25;color:var(--navy)}
+.usuario-actual small{display:block;font-size:11px;color:var(--muted)}
 .content{padding:28px;max-width:1250px;margin:auto}
 h1{font-size:25px;margin:0 0 7px}
 h2{font-size:18px;margin:0 0 14px}
@@ -92,6 +95,9 @@ textarea:disabled,input:disabled{background:#eef1f4;color:#596775;cursor:not-all
 .login-box{width:58%;display:flex;align-items:center;justify-content:center}
 .login-card{background:#fff;width:390px;padding:36px;border:1px solid var(--border);border-radius:10px}
 .login-card input{width:100%;margin:6px 0 15px}
+.login-card select{width:100%;margin:6px 0 15px}
+.login-card input:disabled{background:#f3f5f7;color:#5b6b7a;cursor:not-allowed}
+.login-card .btn:disabled{opacity:.55;cursor:not-allowed}
 .login-card .btn{width:100%;margin-top:8px}
 .timeline{border-left:2px solid #d7e0e8;margin:15px 0 5px 8px;padding-left:20px}
 .timeline div{margin:0 0 18px;position:relative}.timeline div:before{content:"";position:absolute;left:-27px;top:2px;width:10px;height:10px;border-radius:50%;background:#ff770c}

@@ -115,6 +115,237 @@ let role='TITULAR_CATEDRA';
 let db=loadData();
 let programaAnaliticoActualId=null;
 
+/* =========================================================
+   Usuarios, roles y alcance
+   - El flujo del programa sigue definido por ROLES (estados y tareas).
+   - Las personas (usuarios) tienen uno o más roles. Cada rol tiene un ámbito:
+       CATEDRA       -> el titular de la cátedra (titular_id del programa)
+       DEPARTAMENTO  -> programas cuyo departamento_id está en su alcance
+       GLOBAL        -> todos los programas
+   - Una tarea se deriva a todos los usuarios elegibles (rol + alcance).
+     Si hay más de uno, hay que "tomarla": los demás la ven como "Tomada por X".
+   ========================================================= */
+/* Con un servidor (o GitHub Pages) se leen estos JSON. Abriendo el HTML con doble clic (file://)
+   el navegador bloquea la lectura de archivos locales y se usa la copia de datos/datos-prueba.js. */
+const USUARIOS_JSON_URL='datos/usuarios.json';
+const MATERIAS_JSON_URL='datos/materias.json';
+const LOGIN_PASS='Prueba';
+const AMBITO_POR_DEFECTO={TITULAR_CATEDRA:'CATEDRA',DIRECTOR_DEPARTAMENTO:'DEPARTAMENTO',SUBSECRETARIA_1:'GLOBAL',SUBSECRETARIA_2:'GLOBAL',DIRECCION_ACADEMICA:'GLOBAL'};
+const PRIORIDAD_ROLES=['TITULAR_CATEDRA','DIRECTOR_DEPARTAMENTO','DIRECCION_ACADEMICA','SUBSECRETARIA_1','SUBSECRETARIA_2'];
+const ROL_POR_GRUPO={encuadre:'DIRECCION_ACADEMICA',metodos:'SUBSECRETARIA_1',bibliografia:'SUBSECRETARIA_2'};
+const TAREAS={
+ COMPLETAR_PROGRAMA:{rol:'TITULAR_CATEDRA',titulo:'Completar programa',accion:'Continuar',cls:'primary'},
+ CORREGIR_PROGRAMA:{rol:'TITULAR_CATEDRA',titulo:'Corregir programa',accion:'Corregir',cls:'warn'},
+ DAR_CONFORMIDAD:{rol:'DIRECTOR_DEPARTAMENTO',titulo:'Dar conformidad',accion:'Revisar',cls:'primary'},
+ CHEQUEAR_ENCUADRE:{rol:'DIRECCION_ACADEMICA',titulo:'Chequear Encuadre',accion:'Revisar',cls:'primary'},
+ CHEQUEAR_METODOS:{rol:'SUBSECRETARIA_1',titulo:'Chequear Métodos de conducción y de evaluación',accion:'Revisar',cls:'primary'},
+ CHEQUEAR_BIBLIOGRAFIA:{rol:'SUBSECRETARIA_2',titulo:'Chequear Bibliografía',accion:'Revisar',cls:'primary'},
+ COMPLETAR_RESOLUCION:{rol:'DIRECCION_ACADEMICA',titulo:'Completar Resolución',descripcion:'Completar Resolución',accion:'Ver',cls:'primary'},
+ NOTIFICARSE:{rol:'DIRECTOR_DEPARTAMENTO',titulo:'Se solicita su notificación',descripcion:'Programa con número de resolución asignado',accion:'Notificarse',cls:'primary',directa:'notificarseResolucion'}
+};
+let directorio={roles:[],usuarios:[]};
+let fuenteDirectorio='';
+let directorioPromise=null;
+let usuarioActual=null;
+let catalogoMaterias={departamentos:[],carreras:[]};
+
+function leerJson(url,clave){
+  return Promise.resolve().then(()=>fetch(url))
+    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json().then(datos=>({datos,fuente:url})); })
+    .catch(err=>{
+      const respaldo=window.DATOS_PRUEBA && window.DATOS_PRUEBA[clave];
+      if(respaldo){ console.warn('Se usa la copia embebida de "'+clave+'" ('+err.message+')'); return {datos:respaldo,fuente:'copia embebida (datos/datos-prueba.js)'}; }
+      throw err;
+    });
+}
+function cargarDirectorio(){
+  if(directorioPromise) return directorioPromise;
+  directorioPromise=leerJson(USUARIOS_JSON_URL,'usuarios').then(({datos,fuente})=>{
+    directorio={roles:Array.isArray(datos.roles)?datos.roles:[],usuarios:Array.isArray(datos.usuarios)?datos.usuarios:[]};
+    fuenteDirectorio=fuente;
+    return directorio;
+  }).catch(err=>{ directorioPromise=null; console.error('No se pudo cargar usuarios.json',err); throw err; });
+  return directorioPromise;
+}
+
+function nombreCompleto(u){ return `${u.nombre||''} ${u.apellido||''}`.trim()||u.email||u.id; }
+/* Nombre con el que se muestra un rol: el del JSON (roles[].nombre); si falta, el de roleNames; solo como último recurso, el id. */
+function nombreRol(id){ const r=directorio.roles.find(x=>x.id===id); return (r&&r.nombre)||roleNames[id]||id; }
+function ambitoDeRol(rol){ const r=directorio.roles.find(x=>x.id===rol); return (r&&r.ambito)||AMBITO_POR_DEFECTO[rol]||'GLOBAL'; }
+function asignacionVigente(a){ const hoy=new Date().toISOString().slice(0,10); return (!a.desde||a.desde<=hoy)&&(!a.hasta||a.hasta>=hoy); }
+function asignacionesDe(u,rol){ return ((u&&u.roles)||[]).filter(a=>a.rol===rol&&asignacionVigente(a)); }
+function rolesActivosDe(u){ if(!u||u.activo===false) return []; return [...new Set((u.roles||[]).filter(asignacionVigente).map(a=>a.rol))]; }
+function tieneRol(rol){ return rolesActivosDe(usuarioActual).includes(rol); }
+/* ¿El rol `rol` del usuario `u` alcanza al programa `p`? */
+function usuarioAlcanza(u,rol,p){
+  if(!u||!p||u.activo===false) return false;
+  const asig=asignacionesDe(u,rol);
+  if(!asig.length) return false;
+  const ambito=ambitoDeRol(rol);
+  if(ambito==='GLOBAL') return true;
+  if(ambito==='DEPARTAMENTO') return !!p.departamento_id && asig.some(a=>((a.alcance&&a.alcance.departamentos)||[]).includes(p.departamento_id));
+  if(ambito==='CATEDRA') return !!p.titular_id && p.titular_id===u.id;
+  return false;
+}
+function usuariosElegibles(rol,p){ return directorio.usuarios.filter(u=>usuarioAlcanza(u,rol,p)); }
+function usuariosConRol(rol){ return directorio.usuarios.filter(u=>rolesActivosDe(u).includes(rol)); }
+function programasVisibles(){
+  const u=usuarioActual; if(!u) return [];
+  const roles=rolesActivosDe(u);
+  return db.programs.filter(p=>roles.some(r=>usuarioAlcanza(u,r,p)));
+}
+
+/* ---------- Tareas derivadas del estado del programa ---------- */
+function tareasPendientesDePrograma(p){
+  const r=[];
+  if(p.state==='BORRADOR') r.push(p.origenCorreccion?'CORREGIR_PROGRAMA':'COMPLETAR_PROGRAMA');
+  if(p.state==='EN_REVISION') r.push('DAR_CONFORMIDAD');
+  if(p.state==='EN_REVISION_ACADEMICA' && p.revisionAcademica){
+    ['encuadre','metodos','bibliografia'].forEach(g=>{ if(p.revisionAcademica[g] && p.revisionAcademica[g].status==='PENDIENTE') r.push('CHEQUEAR_'+g.toUpperCase()); });
+  }
+  if(p.state==='APROBADO' && !p.resolucion) r.push('COMPLETAR_RESOLUCION');
+  if(p.state==='FINALIZADO' && tieneResolucion(p) && !p.directorNotificado) r.push('NOTIFICARSE');
+  return r;
+}
+function codigoTareaDelRol(p,rol){ return tareasPendientesDePrograma(p).find(c=>TAREAS[c].rol===rol)||null; }
+/* Estado de una tarea: con un solo elegible queda tomada por él; con varios, hay que tomarla. */
+function estadoTarea(p,codigo){
+  const elegibles=usuariosElegibles(TAREAS[codigo].rol,p);
+  if(elegibles.length===1) return {estado:'TOMADA',tomadaPor:elegibles[0],implicita:true};
+  const t=(db.tomas||[]).find(x=>x.programa_id===p.id && x.tarea===codigo);
+  if(t){
+    const dueno=elegibles.find(e=>e.id===t.tomada_por);
+    if(dueno) return {estado:'TOMADA',tomadaPor:dueno,implicita:false};
+  }
+  return {estado:'DISPONIBLE',tomadaPor:null,implicita:false};
+}
+function tareasDeUsuario(u){
+  const items=[];
+  db.programs.forEach(p=>{
+    tareasPendientesDePrograma(p).forEach(codigo=>{
+      const def=TAREAS[codigo];
+      if(!usuarioAlcanza(u,def.rol,p)) return;
+      const e=estadoTarea(p,codigo);
+      const mia=e.estado==='TOMADA' && e.tomadaPor.id===u.id;
+      items.push({p,codigo,rol:def.rol,tarea:def.titulo,descripcion:def.descripcion||def.titulo,accionLabel:def.accion,cls:def.cls,directa:def.directa||null,
+        estado:e.estado==='DISPONIBLE'?'DISPONIBLE':(mia?'MIA':'OTRO'),tomadaPor:e.tomadaPor,implicita:e.implicita});
+    });
+  });
+  return items;
+}
+/* El usuario puede actuar si la tarea sigue pendiente, le corresponde y la tiene tomada. */
+function puedeActuar(p,codigo){
+  const u=usuarioActual;
+  if(!p||!u||!codigo||!TAREAS[codigo]) return false;
+  if(!tareasPendientesDePrograma(p).includes(codigo)) return false;
+  if(!usuarioAlcanza(u,TAREAS[codigo].rol,p)) return false;
+  const e=estadoTarea(p,codigo);
+  return e.estado==='TOMADA' && e.tomadaPor.id===u.id;
+}
+function avisoNoPuedeActuar(p,codigo,rol){
+  if(!usuarioActual || !codigo || !tareasPendientesDePrograma(p).includes(codigo)) return 'Esta tarea ya no está pendiente.';
+  if(!usuarioAlcanza(usuarioActual,rol||TAREAS[codigo].rol,p)) return 'No tenés permisos para actuar sobre este programa con ese rol.';
+  const e=estadoTarea(p,codigo);
+  if(e.estado==='DISPONIBLE') return 'Tomá la tarea antes de actuar sobre el programa.';
+  return `La tarea fue tomada por ${nombreCompleto(e.tomadaPor)}.`;
+}
+function exigirTarea(p,rol,codigo){
+  codigo=codigo||codigoTareaDelRol(p,rol);
+  if(puedeActuar(p,codigo)) return codigo;
+  alert(avisoNoPuedeActuar(p,codigo,rol));
+  return null;
+}
+function refrescarPantalla(){
+  const activa=document.querySelector('.nav button.active');
+  render(activa?activa.dataset.screen:'dashboard');
+}
+function tomarTarea(programaId,codigo,enPrograma){
+  const p=getProgram(programaId), u=usuarioActual;
+  if(!p||!u||!TAREAS[codigo]) return;
+  const salir=()=>enPrograma?openProgram(programaId):refrescarPantalla();
+  if(!tareasPendientesDePrograma(p).includes(codigo) || !usuarioAlcanza(u,TAREAS[codigo].rol,p)){ alert('La tarea ya no está disponible.'); salir(); return; }
+  const e=estadoTarea(p,codigo);
+  if(e.estado==='TOMADA'){
+    if(e.tomadaPor.id!==u.id) alert(`La tarea ya fue tomada por ${nombreCompleto(e.tomadaPor)}.`);
+    salir(); return;
+  }
+  db.tomas=db.tomas||[];
+  db.tomas.push({programa_id:p.id,tarea:codigo,rol:TAREAS[codigo].rol,tomada_por:u.id,fecha:new Date().toISOString()});
+  addHistory(p,nombreRol(TAREAS[codigo].rol),`Toma la tarea "${TAREAS[codigo].titulo}"`,'');
+  save();
+  salir();
+}
+function liberarTarea(programaId,codigo,enPrograma){
+  const p=getProgram(programaId), u=usuarioActual;
+  if(!p||!u||!TAREAS[codigo]) return;
+  const t=(db.tomas||[]).find(x=>x.programa_id===p.id && x.tarea===codigo && x.tomada_por===u.id);
+  if(t){
+    db.tomas=db.tomas.filter(x=>x!==t);
+    addHistory(p,nombreRol(TAREAS[codigo].rol),`Libera la tarea "${TAREAS[codigo].titulo}"`,'');
+    save();
+  }
+  enPrograma?openProgram(programaId):refrescarPantalla();
+}
+/* Rol con el que se muestra un programa: el que tiene una tarea del usuario sobre él o, si no, uno que lo alcance. */
+function ajustarRolParaPrograma(p,preferido){
+  const u=usuarioActual; if(!u||!p) return;
+  const roles=rolesActivosDe(u).filter(r=>usuarioAlcanza(u,r,p));
+  if(!roles.length) return;
+  if(preferido && roles.includes(preferido)){ role=preferido; return; }
+  const propias=tareasDeUsuario(u).filter(it=>it.p.id===p.id);
+  const elegida=(propias.find(it=>it.estado==='MIA')||propias.find(it=>it.estado==='DISPONIBLE')||{}).rol;
+  if(elegida){ role=elegida; return; }
+  if(roles.includes(role)) return;
+  role=PRIORIDAD_ROLES.find(r=>roles.includes(r))||roles[0];
+}
+function abrirTarea(id,rol){ openProgram(id,rol); }
+function rolesProgramaHtml(p){
+  const u=usuarioActual; if(!u) return '';
+  const roles=rolesActivosDe(u).filter(r=>usuarioAlcanza(u,r,p));
+  if(roles.length<=1) return `<p class="muted" style="margin:4px 0 0">Participás como: ${escapeHtml(nombreRol(role))}</p>`;
+  return `<p class="muted" style="margin:4px 0 0">Participás como: ${roles.map(r=>`<button type="button" class="btn small ${r===role?'primary':''}" onclick="openProgram(${p.id},'${r}')">${escapeHtml(nombreRol(r))}</button>`).join(' ')}</p>`;
+}
+/* Mensaje (y botón para tomar) cuando el usuario todavía no puede actuar sobre una tarea. */
+function bloqueoTarea(p,codigo){
+  if(!codigo || puedeActuar(p,codigo)) return '';
+  const def=TAREAS[codigo], e=estadoTarea(p,codigo);
+  const rolLabel=escapeHtml(nombreRol(def.rol));
+  if(e.estado==='DISPONIBLE') return `<div class="card"><h2>${escapeHtml(def.titulo)}</h2><p>Esta tarea la puede realizar cualquiera de los usuarios con el rol ${rolLabel}. Tomala para poder actuar sobre el programa.</p><button class="btn primary" onclick="tomarTarea(${p.id},'${codigo}',true)">Tomar tarea</button></div>`;
+  if(e.estado==='TOMADA' && e.tomadaPor && usuarioActual && e.tomadaPor.id!==usuarioActual.id) return `<div class="card"><h2>${escapeHtml(def.titulo)}</h2><p>Tarea tomada por <b>${escapeHtml(nombreCompleto(e.tomadaPor))}</b> (${rolLabel}). Podés ver el programa, pero no actuar sobre esta tarea.</p></div>`;
+  return '';
+}
+function tareasTomadasHtml(p){
+  if(!usuarioActual) return '';
+  const mias=tareasDeUsuario(usuarioActual).filter(it=>it.p.id===p.id && it.estado==='MIA' && !it.implicita);
+  if(!mias.length) return '';
+  return `<div class="card"><h2>Tareas que tomaste</h2>${mias.map(it=>`<p style="margin:6px 0">${escapeHtml(it.tarea)} <button class="btn small" onclick="liberarTarea(${p.id},'${it.codigo}',true)">Liberar tarea</button></p>`).join('')}</div>`;
+}
+
+/* ---------- Datos guardados de versiones anteriores ---------- */
+function aplicarCatedra(p,m){
+  p.catedra_id=m.catedra_id||null; p.departamento_id=m.departamento_id||null;
+  p.carrera_ids=m.carrera_ids||[]; p.titular_id=m.titular_id||null;
+}
+function migrarDatos(){
+  let cambio=false;
+  const norm=x=>String(x||'').trim().toLowerCase();
+  db.programs.forEach(p=>{
+    if(!p.catedra_id && materiasCache){
+      const m=materiasCache.find(x=>x.catedra_id && norm(x.nombre_materia)===norm(p.nombre_materia||p.name) && norm(x.titular)===norm(p.titular));
+      if(m){ aplicarCatedra(p,m); cambio=true; }
+    }
+  });
+  (db.notificaciones||[]).forEach(n=>{
+    if(!Array.isArray(n.usuarios)){
+      const p=getProgram(n.programaId), ids=[];
+      if((n.roles||[]).includes('DIRECCION_ACADEMICA')) usuariosConRol('DIRECCION_ACADEMICA').forEach(u=>ids.push(u.id));
+      if((n.roles||[]).includes('TITULAR_CATEDRA') && p && p.titular_id) ids.push(p.titular_id);
+      n.usuarios=[...new Set(ids)]; delete n.roles; cambio=true;
+    }
+  });
+  if(cambio) saveData(db);
+}
+
 /* ---------- Persistencia ---------- */
 function loadData(){
  try{
@@ -129,39 +360,42 @@ function saveData(data){
  try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(data)); }
  catch(e){ console.error('No se pudo guardar en localStorage',e); alert('No se pudieron guardar los cambios en este navegador.'); }
 }
-function save(){ saveData(db); actualizarCampanas(); }
+/* Las tomas de tareas ya resueltas se descartan. */
+function limpiarTomas(){
+  if(!Array.isArray(db.tomas)||!db.tomas.length) return;
+  const vivas=db.tomas.filter(t=>{ const p=getProgram(t.programa_id); return p && tareasPendientesDePrograma(p).includes(t.tarea); });
+  if(vivas.length!==db.tomas.length) db.tomas=vivas;
+}
+function save(){ limpiarTomas(); saveData(db); actualizarCampanas(); }
 
-/* ---------- Campanas de novedades (Tareas / Notificaciones) ---------- */
-function claveTareas(){ return taskSummary().items.map(it=>it.p.id+'|'+it.tarea); }
+/* ---------- Campanas de novedades (Tareas / Notificaciones), por usuario ---------- */
+function claveTareas(){ return taskSummary().pendientes.map(it=>it.p.id+'|'+it.codigo); }
 function claveNotificaciones(){
-  return taskSummary().items.map(it=>'t'+it.p.id+'|'+it.tarea)
-    .concat((db.notificaciones||[]).filter(n=>(n.roles||[]).includes(role)).map(n=>'n'+n.id));
+  const u=usuarioActual;
+  return taskSummary().pendientes.map(it=>'t'+it.p.id+'|'+it.codigo)
+    .concat(u?(db.notificaciones||[]).filter(n=>(n.usuarios||[]).includes(u.id)).map(n=>'n'+n.id):[]);
 }
-/* La primera vez, todo lo existente se toma como ya visto: solo lo que se cree después enciende la campana. */
-function inicializarVistos(){
-  const actual=role; db.vistos={};
-  Object.keys(roleNames).forEach(r=>{ role=r; db.vistos[r]={notificaciones:claveNotificaciones()}; });
-  role=actual; saveData(db);
-}
-function vistosDelRol(){
-  if(!db.vistos) inicializarVistos();
-  if(!db.vistos[role]) db.vistos[role]={notificaciones:[]};
-  if(!Array.isArray(db.vistos[role].notificaciones)) db.vistos[role].notificaciones=[];
-  return db.vistos[role];
+/* La primera vez que un usuario entra, todo lo existente se toma como ya visto en Notificaciones. */
+function vistosDelUsuario(){
+  const id=usuarioActual?usuarioActual.id:'_sin_usuario';
+  db.vistos=db.vistos||{};
+  if(!db.vistos[id] || !Array.isArray(db.vistos[id].notificaciones)){ db.vistos[id]={notificaciones:claveNotificaciones()}; saveData(db); }
+  return db.vistos[id];
 }
 /* Al entrar a Notificaciones todo lo que se lista queda como visto y la campana se apaga. Tareas no se marca: depende de que haya tareas pendientes. */
 function marcarVisto(pantalla){
-  if(pantalla!=='notifications') return;
-  const v=vistosDelRol();
+  if(pantalla!=='notifications' || !usuarioActual) return;
+  const v=vistosDelUsuario();
   v.notificaciones=claveNotificaciones();
   saveData(db);
 }
 function actualizarCampanas(){
-  const v=vistosDelRol(), kt=claveTareas(), kn=claveNotificaciones();
+  const mostrar=(id,flag)=>{ const e=document.getElementById(id); if(e) e.hidden=!flag; };
+  if(!usuarioActual){ mostrar('campanaTareas',false); mostrar('campanaNotificaciones',false); return; }
+  const v=vistosDelUsuario(), kt=claveTareas(), kn=claveNotificaciones();
   /* Lo que ya no existe se descarta: si un aviso vuelve a generarse, se considera nuevo. */
   const vn=v.notificaciones.filter(k=>kn.includes(k));
   if(vn.length!==v.notificaciones.length){ v.notificaciones=vn; saveData(db); }
-  const mostrar=(id,flag)=>{ const e=document.getElementById(id); if(e) e.hidden=!flag; };
   /* Tareas: la campana está encendida mientras quede al menos una tarea pendiente y se apaga cuando se completan todas. */
   mostrar('campanaTareas',kt.length>0);
   /* Notificaciones: se enciende con un aviso o notificación nueva y se apaga al entrar a la solapa. */
@@ -225,7 +459,15 @@ function seedData(){
 
 /* ---------- Helpers ---------- */
 function getProgram(id){ return db.programs.find(p=>p.id===Number(id)); }
-function addHistory(p,actor,accion,detalle){ p.history=p.history||[]; p.history.push({fecha:new Date().toISOString(),actor,accion,detalle:detalle||'—'}); }
+function addHistory(p,actor,accion,detalle,opciones){
+  /* `actor` es el nombre del rol con el que se actúa; se registra además el usuario que lo hizo (salvo pasos automáticos). */
+  p.history=p.history||[];
+  const ids=[...new Set([...Object.keys(roleNames),...directorio.roles.map(r=>r.id)])];
+  const rolCodigo=ids.find(k=>nombreRol(k)===actor||roleNames[k]===actor)||null;
+  const sinUsuario=!!(opciones&&opciones.sinUsuario);
+  const quien=(!sinUsuario&&usuarioActual)?nombreCompleto(usuarioActual):null;
+  p.history.push({fecha:new Date().toISOString(),actor:quien?`${quien} (${actor})`:actor,usuarioId:quien?usuarioActual.id:null,rol:rolCodigo,accion,detalle:detalle||'—'});
+}
 function tieneResolucion(p){ return p.resolucion!=null && String(p.resolucion).trim()!==''; }
 function fmtDate(iso){ if(!iso) return ''; const d=new Date(iso); return d.toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
 function pad(n,len){ return String(n).padStart(len,'0'); }
@@ -238,21 +480,58 @@ function observacionAcademica(p){
  return rej?rej.observacion:'';
 }
 
-const LOGIN_USER='Prueba', LOGIN_PASS='Prueba';
+/* El ingreso solo es posible eligiendo un usuario de la lista: usuario y clave se completan solos (y están bloqueados). */
+function elegirUsuarioPrueba(username){
+ document.getElementById('loginUser').value=username||'';
+ document.getElementById('loginPass').value=username?LOGIN_PASS:'';
+ const btn=document.getElementById('btnIngresar'); if(btn) btn.disabled=!username;
+}
+function poblarUsuariosPrueba(){
+ const sel=document.getElementById('loginPrueba'); if(!sel) return;
+ const etiqueta=u=>`${nombreCompleto(u)} — ${rolesActivosDe(u).map(r=>nombreRol(r)).join(', ')||'sin roles vigentes'}${u.activo===false?' (inactivo)':''}`;
+ const ordenar=(x,y)=>nombreCompleto(x).localeCompare(nombreCompleto(y),'es',{sensitivity:'base'});
+ const soloTitular=u=>(u.roles||[]).every(a=>a.rol==='TITULAR_CATEDRA');
+ const grupo=(titulo,lista)=>lista.length?`<optgroup label="${titulo}">${lista.map(u=>`<option value="${escapeHtml(u.username||u.email||u.id)}">${escapeHtml(etiqueta(u))}</option>`).join('')}</optgroup>`:'';
+ const us=directorio.usuarios.slice().sort(ordenar);
+ sel.innerHTML='<option value="">Elegí un usuario de prueba…</option>'+grupo('Autoridades, revisores y usuarios con varios roles',us.filter(u=>!soloTitular(u)))+grupo('Titulares de cátedra',us.filter(soloTitular));
+ sel.value=''; elegirUsuarioPrueba('');
+}
 function enterApp(){
- const u=document.getElementById('loginUser').value.trim();
- const p=document.getElementById('loginPass').value;
- if(!u || !p){ alert('Ingresá usuario y contraseña.'); return; }
- if(u!==LOGIN_USER || p!==LOGIN_PASS){ alert('Usuario o contraseña incorrectos.'); return; }
+ /* El usuario sale siempre de la lista, no de los campos de texto (que están bloqueados). */
+ const sel=document.getElementById('loginPrueba');
+ const entrada=((sel&&sel.value)||'').trim().toLowerCase();
+ const clave=document.getElementById('loginPass').value;
+ if(!entrada){ alert('Elegí un usuario de la lista para ingresar.'); return; }
+ return cargarDirectorio().then(()=>{
+   const u=directorio.usuarios.find(x=>[x.username,x.email,x.id].some(v=>v && String(v).toLowerCase()===entrada));
+   if(!u || clave!==LOGIN_PASS){ alert('Usuario o contraseña incorrectos.'); return; }
+   if(u.activo===false){ alert('El usuario está inactivo.'); return; }
+   const roles=rolesActivosDe(u);
+   if(!roles.length){ alert('El usuario no tiene roles vigentes asignados.'); return; }
+   usuarioActual=u;
+   role=PRIORIDAD_ROLES.find(r=>roles.includes(r))||roles[0];
+   return cargarMaterias().catch(()=>{}).then(()=>{ migrarDatos(); mostrarApp(); });
+ }).catch(()=>alert('No se pudo cargar el listado de usuarios. Verificá la ruta de usuarios.json o la conexión.'));
+}
+function mostrarApp(){
  document.getElementById('login').classList.add('hidden');
  document.getElementById('app').classList.remove('hidden');
+ const cab=document.getElementById('cabUsuario');
+ if(cab) cab.innerHTML=`<b>${escapeHtml(nombreCompleto(usuarioActual))}</b><small>${rolesActivosDe(usuarioActual).map(r=>escapeHtml(nombreRol(r))).join(' · ')}</small>`;
  render('dashboard');
 }
-function changeRole(v){ role=v; render('dashboard'); }
+function salir(){
+ usuarioActual=null;
+ document.getElementById('app').classList.add('hidden');
+ document.getElementById('login').classList.remove('hidden');
+ const sel=document.getElementById('loginPrueba'); if(sel) sel.value='';
+ elegirUsuarioPrueba('');
+ actualizarCampanas();
+}
 
 function statusBadge(s){
  const cls={BORRADOR:'draft',EN_REVISION:'review',EN_REVISION_ACADEMICA:'academic',APROBADO:'approved',FINALIZADO:'approved'};
- const label={BORRADOR:'BORRADOR',EN_REVISION:'EN REVISIÓN (Director de Departamento)',EN_REVISION_ACADEMICA:'EN REVISIÓN ACADÉMICA',APROBADO:'APROBADO',FINALIZADO:'FINALIZADO'};
+ const label={BORRADOR:'BORRADOR',EN_REVISION:`EN REVISIÓN (${nombreRol('DIRECTOR_DEPARTAMENTO')})`,EN_REVISION_ACADEMICA:'EN REVISIÓN ACADÉMICA',APROBADO:'APROBADO',FINALIZADO:'FINALIZADO'};
  return `<span class="badge ${cls[s]||'draft'}">${label[s]||s}</span>`;
 }
 
@@ -268,70 +547,69 @@ function render(screen){
  actualizarCampanas();
 }
 
-/* ---------- Tareas por rol ---------- */
+/* ---------- Tareas del usuario (unión de todos sus roles) ---------- */
 function taskSummary(){
- let items=[];
- db.programs.forEach(p=>{
-   if(role==='TITULAR_CATEDRA' && p.state==='BORRADOR'){
-     items.push({p,tarea:p.origenCorreccion?'Corregir programa':'Completar programa',accionLabel:p.origenCorreccion?'Corregir':'Continuar',cls:p.origenCorreccion?'warn':'primary'});
-   }
-   if(role==='DIRECTOR_DEPARTAMENTO' && p.state==='EN_REVISION'){
-     items.push({p,tarea:'Dar conformidad',accionLabel:'Revisar',cls:'primary'});
-   }
-   if(p.state==='EN_REVISION_ACADEMICA'){
-     const grupo=REVIEW_GROUP_BY_ROLE[role];
-     if(grupo && p.revisionAcademica[grupo].status==='PENDIENTE'){
-       items.push({p,tarea:'Chequear '+GROUP_LABELS[grupo],accionLabel:'Revisar',cls:'primary'});
-     }
-   }
-   if(role==='DIRECCION_ACADEMICA' && p.state==='APROBADO' && !p.resolucion){
-     items.push({p,tarea:'Completar Resolución',descripcion:'Completar Resolución',accionLabel:'Ver',cls:'primary'});
-   }
-   if(role==='DIRECTOR_DEPARTAMENTO' && p.state==='FINALIZADO' && tieneResolucion(p) && !p.directorNotificado){
-     items.push({p,tarea:'Se solicita su notificación',descripcion:'Programa con número de resolución asignado',accionLabel:'Notificarse',cls:'primary',onclick:`notificarseResolucion(${p.id})`});
-   }
- });
- return {items};
+ const items=usuarioActual?tareasDeUsuario(usuarioActual):[];
+ return {items,pendientes:items.filter(it=>it.estado!=='OTRO')};
+}
+function accionesTarea(it){
+ const id=it.p.id, ver=`<button class="btn small" onclick="abrirTarea(${id},'${it.rol}')">Ver</button>`;
+ if(it.estado==='DISPONIBLE') return `<button class="btn small primary" onclick="tomarTarea(${id},'${it.codigo}')">Tomar</button> ${ver}`;
+ if(it.estado==='OTRO') return `<span class="muted">Tomada por ${escapeHtml(nombreCompleto(it.tomadaPor))}</span> ${ver}`;
+ const accion=it.directa?`${it.directa}(${id})`:`abrirTarea(${id},'${it.rol}')`;
+ return `<button class="btn small ${it.cls}" onclick="${accion}">${escapeHtml(it.accionLabel)}</button>`+(it.implicita?'':` <button class="btn small" onclick="liberarTarea(${id},'${it.codigo}')">Liberar</button>`);
 }
 function renderTaskTable(items){
  if(!items.length) return `<p class="muted">No tenés tareas pendientes.</p>`;
- return `<table><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Descripción</th><th>Acción</th></tr>${items.map(it=>`<tr><td>${escapeHtml(it.p.nombre_materia||it.p.name||'')}</td><td>${escapeHtml(it.p.career||'')}</td><td>${escapeHtml(it.tarea)}</td><td>${escapeHtml(it.descripcion||it.tarea)}</td><td><button class="btn small ${it.cls}" onclick="${it.onclick||'openProgram('+it.p.id+')'}">${escapeHtml(it.accionLabel)}</button></td></tr>`).join('')}</table>`;
+ return `<table><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Descripción</th><th>Rol</th><th>Acción</th></tr>${items.map(it=>`<tr><td>${escapeHtml(it.p.nombre_materia||it.p.name||'')}${it.p.titular?`<br><span class="muted">${escapeHtml(it.p.titular)}</span>`:''}</td><td>${escapeHtml(it.p.career||'')}</td><td>${escapeHtml(it.tarea)}</td><td>${escapeHtml(it.descripcion||it.tarea)}</td><td>${escapeHtml(nombreRol(it.rol))}</td><td>${accionesTarea(it)}</td></tr>`).join('')}</table>`;
 }
 
 /* ---------- Pantallas ---------- */
 function dashboard(){
  const t=taskSummary();
- const aprobados=db.programs.filter(p=>p.state==='APROBADO').length;
- const finalizadosConResolucion=db.programs.filter(p=>p.state==='FINALIZADO' && tieneResolucion(p)).length;
+ const visibles=programasVisibles();
+ const aprobados=visibles.filter(p=>p.state==='APROBADO').length;
+ const finalizadosConResolucion=visibles.filter(p=>p.state==='FINALIZADO' && tieneResolucion(p)).length;
  return `<div class="toolbar"><div><h1>Bienvenido</h1><p>Aquí encontrás tus tareas pendientes y el estado de tus programas.</p></div>
- ${role==='DIRECCION_ACADEMICA'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
+ ${tieneRol('DIRECCION_ACADEMICA')?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
  <div class="grid3 grid4">
-   <div class="card"><div class="muted">Programas</div><div class="stat">${db.programs.length}</div><div class="muted">en el sistema</div></div>
-   <div class="card"><div class="muted">Tareas pendientes</div><div class="stat">${t.items.length}</div><div class="muted">requieren intervención</div></div>
+   <div class="card"><div class="muted">Programas</div><div class="stat">${visibles.length}</div><div class="muted">a tu alcance</div></div>
+   <div class="card"><div class="muted">Tareas pendientes</div><div class="stat">${t.pendientes.length}</div><div class="muted">requieren intervención</div></div>
    <div class="card"><div class="muted">Aprobados</div><div class="stat">${aprobados}</div><div class="muted">este ciclo</div></div>
    <div class="card"><div class="muted">Finalizados con resolución</div><div class="stat">${finalizadosConResolucion}</div><div class="muted">programas con número de resolución</div></div>
  </div>
  <div class="card"><h2>Mis tareas</h2>${renderTaskTable(t.items)}</div>
  <div class="card"><h2>Acceso rápido</h2><button class="btn primary" onclick="render('programs')">Ver todos los programas</button> <button class="btn primary" onclick="render('tasks')">Ver mis tareas</button></div>`;
 }
-function tasks(){ return `<h1>Mis tareas</h1><p>Las tareas se muestran según el rol seleccionado.</p><div class="card">${renderTaskTable(taskSummary().items)}</div>`; }
-/* Borra la notificación solo para el rol actual; si ya no queda ningún rol destinatario, se elimina. */
+function tasks(){ return `<h1>Mis tareas</h1><p>Las tareas se muestran según tus roles y el alcance de cada uno.</p><div class="card">${renderTaskTable(taskSummary().items)}</div>`; }
+/* Borra la notificación solo para el usuario actual; si ya no queda ningún destinatario, se elimina. */
 function borrarNotificacion(id){
   const n=(db.notificaciones||[]).find(x=>String(x.id)===String(id));
-  if(!n) return;
-  n.roles=(n.roles||[]).filter(r=>r!==role);
-  if(!n.roles.length) db.notificaciones=db.notificaciones.filter(x=>x!==n);
+  if(!n || !usuarioActual) return;
+  n.usuarios=(n.usuarios||[]).filter(x=>x!==usuarioActual.id);
+  if(!n.usuarios.length) db.notificaciones=db.notificaciones.filter(x=>x!==n);
   save();
   render('notifications');
 }
 function notifications(){
- const t=taskSummary();
- const guardadas=(db.notificaciones||[]).filter(n=>(n.roles||[]).includes(role)).slice().reverse();
- if(!t.items.length && !guardadas.length) return `<h1>Notificaciones</h1><div class="card"><p class="muted">No tenés notificaciones nuevas.</p></div>`;
- return `<h1>Notificaciones</h1><div class="card">${guardadas.map(n=>`<div class="notice success cerrable"><button type="button" class="notice-x" title="Borrar notificación" aria-label="Borrar notificación" onclick="borrarNotificacion(${n.id})">&times;</button><b>${escapeHtml(n.titulo||'Notificación')}</b><br>${escapeHtml(n.texto||'')}<br><span class="muted">${fmtDate(n.fecha)}</span></div>`).join('')}${t.items.map(it=>`<div class="notice ${it.p.origenCorreccion?'warn':''}"><b>${it.tarea}</b><br>${escapeHtml(it.p.nombre_materia||it.p.name||'')} (${escapeHtml(it.p.career||'')}) requiere tu intervención.</div>`).join('')}</div>`;
+ const t=taskSummary(), u=usuarioActual;
+ const guardadas=u?(db.notificaciones||[]).filter(n=>(n.usuarios||[]).includes(u.id)).slice().reverse():[];
+ if(!t.pendientes.length && !guardadas.length) return `<h1>Notificaciones</h1><div class="card"><p class="muted">No tenés notificaciones nuevas.</p></div>`;
+ return `<h1>Notificaciones</h1><div class="card">${guardadas.map(n=>`<div class="notice success cerrable"><button type="button" class="notice-x" title="Borrar notificación" aria-label="Borrar notificación" onclick="borrarNotificacion(${n.id})">&times;</button><b>${escapeHtml(n.titulo||'Notificación')}</b><br>${escapeHtml(n.texto||'')}<br><span class="muted">${fmtDate(n.fecha)}</span></div>`).join('')}${t.pendientes.map(it=>`<div class="notice ${it.p.origenCorreccion?'warn':''}"><b>${it.tarea}</b><br>${escapeHtml(it.p.nombre_materia||it.p.name||'')}${it.p.titular?' — '+escapeHtml(it.p.titular):''} (${escapeHtml(it.p.career||'')}) requiere tu intervención.</div>`).join('')}</div>`;
+}
+function perfilUsuarioHtml(){
+ const u=usuarioActual; if(!u) return '';
+ const nombreDep=id=>((catalogoMaterias.departamentos||[]).find(d=>d.id===id)||{}).nombre||id;
+ const filas=(u.roles||[]).filter(asignacionVigente).map(a=>{
+   const amb=ambitoDeRol(a.rol); let alcance='Todos los programas';
+   if(amb==='DEPARTAMENTO') alcance='Departamento/s: '+(((a.alcance||{}).departamentos)||[]).map(nombreDep).join(', ');
+   if(amb==='CATEDRA'){ const cs=(materiasCache||[]).filter(m=>m.titular_id===u.id); alcance='Cátedras: '+(cs.length?cs.map(m=>m.nombre_materia).join(', '):'—'); }
+   return `<tr><td>${escapeHtml(nombreRol(a.rol))}</td><td>${escapeHtml(alcance)}</td></tr>`;
+ }).join('');
+ return `<div class="card"><h2>Mi usuario</h2><p><b>${escapeHtml(nombreCompleto(u))}</b>${u.email?' · '+escapeHtml(u.email):''}</p><table><tr><th>Rol</th><th>Alcance</th></tr>${filas}</table><p class="muted" style="margin-bottom:0">Origen de los datos de usuarios: ${escapeHtml(fuenteDirectorio)}.</p></div>`;
 }
 function profile(){
- return `<h1>Perfil</h1>
+ return `<h1>Perfil</h1>${perfilUsuarioHtml()}
  <div class="card"><h2>Datos de la simulación</h2><p>Los datos de los programas se guardan en el almacenamiento local del navegador (localStorage), simulando una base de datos real. Podés cerrar la pestaña y volver: los cambios van a seguir ahí.</p><button class="btn danger" onclick="reiniciarDatos()">Reiniciar datos de demostración</button></div><!-- Dentro de la solapa Perfil -->
 <div class="perfil-seccion" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; background: #f9f9f9; border-radius: 4px;">
     <h4 style="margin-top: 0;">Sincronización de Dispositivo</h4>
@@ -396,28 +674,28 @@ function importarDatosUBA(input) {
 }
 
 function programList(){
- return `<div class="toolbar"><div><h1>Programas académicos</h1><p>Consulta y seguimiento de programas.</p></div>${role==='DIRECCION_ACADEMICA'?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
+ return `<div class="toolbar"><div><h1>Programas académicos</h1><p>Consulta y seguimiento de programas.</p></div>${tieneRol('DIRECCION_ACADEMICA')?'<button class="btn primary" onclick="newProgram()">+ Nuevo programa</button>':''}</div>
  <div class="card"><div class="toolbar"><div class="left"><input id="searchInput" placeholder="Buscar por nombre de programa..." oninput="aplicarFiltros()">
  <select id="estadoFilter" onchange="aplicarFiltros()">
    <option value="">Estado: Todos</option>
    <option value="BORRADOR">Borrador</option>
-   <option value="EN_REVISION">En revisión (Director de departamento)</option>
+   <option value="EN_REVISION">En revisión (${nombreRol('DIRECTOR_DEPARTAMENTO')})</option>
    <option value="EN_REVISION_ACADEMICA">En revisión académica</option>
    <option value="APROBADO">Aprobado</option>
    <option value="FINALIZADO">Finalizado</option>
  </select></div></div>
- <div id="programTable">${programRows(db.programs)}</div></div>`;
+ <div id="programTable">${programRows(programasVisibles())}</div></div>`;
 }
 function programRows(list){
  if(!list.length) return `<p class="muted">No hay programas que coincidan con la búsqueda.</p>`;
  return `<table><tr><th>Programa</th><th>Carrera</th><th>Año</th><th>Estado</th><th>Avance</th><th>Acciones</th></tr>${list.map(p=>`<tr>
- <td>${escapeHtml(p.nombre_materia||p.name||'')}</td><td>${escapeHtml(p.career||'')}</td><td>${escapeHtml(p.year||'')}</td><td>${statusBadge(p.state)}</td><td>${progreso(p)}%</td>
+ <td>${escapeHtml(p.nombre_materia||p.name||'')}${p.titular?`<br><span class="muted">${escapeHtml(p.titular)}</span>`:''}</td><td>${escapeHtml(p.career||'')}</td><td>${escapeHtml(p.year||'')}</td><td>${statusBadge(p.state)}</td><td>${progreso(p)}%</td>
  <td>${['APROBADO','FINALIZADO'].includes(p.state)?`<button class="btn small primary" onclick="imprimirPrograma(${p.id})">Imprimir</button> `:''}<button class="btn small" onclick="openProgram(${p.id})">Ver</button></td></tr>`).join('')}</table>`;
 }
 function aplicarFiltros(){
  const q=document.getElementById('searchInput').value.toLowerCase();
  const estado=document.getElementById('estadoFilter').value;
- const list=db.programs.filter(p=>(p.name.toLowerCase().includes(q)||p.career.toLowerCase().includes(q))&&(!estado||p.state===estado));
+ const list=programasVisibles().filter(p=>((p.name||'').toLowerCase().includes(q)||(p.career||'').toLowerCase().includes(q)||(p.titular||'').toLowerCase().includes(q))&&(!estado||p.state===estado));
  document.getElementById('programTable').innerHTML=programRows(list);
 }
 
@@ -427,20 +705,22 @@ function aplicarFiltros(){
    lectura, los "Contenidos mínimos" y la "Ubicación de la asignatura
    en el currículum" con los datos de esa materia. El Director/a de
    carrera ya no inicia el alta: solo da conformidad más adelante. */
-const MATERIAS_JSON_URL='https://economicas-uba.github.io/fce_programas/materias.json';
 let materiasCache=null;
 let materiasPromise=null;
 function cargarMaterias(){
  if(materiasCache) return Promise.resolve(materiasCache);
  if(materiasPromise) return materiasPromise;
- materiasPromise=fetch(MATERIAS_JSON_URL)
-   .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-   .then(data=>{ materiasCache=Array.isArray(data.materias)?data.materias:[]; materiasPromise=null; return materiasCache; })
+ materiasPromise=leerJson(MATERIAS_JSON_URL,'materias')
+   .then(({datos})=>{
+     materiasCache=Array.isArray(datos.materias)?datos.materias:[];
+     catalogoMaterias={departamentos:Array.isArray(datos.departamentos)?datos.departamentos:[],carreras:Array.isArray(datos.carreras)?datos.carreras:[]};
+     materiasPromise=null; return materiasCache;
+   })
    .catch(err=>{ materiasPromise=null; console.error('No se pudo cargar materias.json',err); throw err; });
  return materiasPromise;
 }
 function newProgram(){
- if(role!=='DIRECCION_ACADEMICA'){ alert('Solo Dirección Académica puede solicitar un nuevo programa.'); return; }
+ if(!tieneRol('DIRECCION_ACADEMICA')){ alert('Solo '+nombreRol('DIRECCION_ACADEMICA')+' puede solicitar un nuevo programa.'); return; }
  document.getElementById('content').innerHTML=`<div class="toolbar"><div><button class="btn small" onclick="render('programs')">‹ Volver</button><h1 style="margin-top:12px">Solicitar nuevo programa</h1><p>El sistema va a generar el programa en estado BORRADOR. Al elegir la asignatura se precargan, de solo lectura, sus contenidos mínimos y su ubicación en el currículum, para que la cátedra complete el resto.</p></div></div>
  <div class="card">
    <label>Asignatura</label>
@@ -473,6 +753,7 @@ function poblarSelectMaterias(){
      .filter(({materia})=>{
        const nombre=(materia.nombre_materia||'').trim().toLowerCase();
        const titular=(materia.titular||'').trim().toLowerCase();
+       if(materia.catedra_id && db.programs.some(p=>p.catedra_id===materia.catedra_id)) return false;
        return !db.programs.some(p=>{
          const nombrePrograma=(p.nombre_materia??p.name??'').trim().toLowerCase();
          const titularPrograma=(p.titular??'').trim().toLowerCase();
@@ -509,10 +790,12 @@ function actualizarMateriaSeleccionada(){
 }
 function crearNuevoPrograma(){
  const sel=document.getElementById('npName');
+ if(!tieneRol('DIRECCION_ACADEMICA')){ alert('Solo '+nombreRol('DIRECCION_ACADEMICA')+' puede solicitar un nuevo programa.'); return; }
  const idx=sel?sel.value:'';
  if(idx===''){ alert('Seleccioná una asignatura de la lista.'); return; }
  const materia=(materiasCache||[])[Number(idx)];
  if(!materia){ alert('No se pudo obtener la información de la materia seleccionada. Volvé a intentarlo.'); return; }
+ if(!materia.catedra_id || !materia.titular_id || !materia.departamento_id){ alert('El listado de materias no identifica la cátedra, el titular o el departamento de esta asignatura (catedra_id, titular_id, departamento_id). No se puede generar el programa.'); return; }
  const name=(materia.nombre_materia||'').trim();
  if(!name){ alert('La materia seleccionada no tiene nombre cargado.'); return; }
  const career=document.getElementById('npCareer').value.trim()||'Sin especificar';
@@ -523,10 +806,11 @@ function crearNuevoPrograma(){
  p.codigo_materia=materia.codigo_materia ?? null;
  p.departamento=materia.departamento ?? '';
  p.materiaId=materia.id_materia ?? null;
+ aplicarCatedra(p,materia);
  p.sections.contenidosMinimos.content=materia.contenidos_minimos||'Contenidos mínimos de la materia. No pueden modificarse.';
  p.sections.ubicacionCurriculum.content=materia.ubicacion_curriculum||'Ubicación de la asignatura en el currículum. No puede modificarse.';
  db.programs.unshift(p);
- addHistory(p,roleNames.DIRECCION_ACADEMICA,'Solicita nuevo programa','Se genera el programa en estado BORRADOR con contenidos mínimos y ubicación curricular precargados desde el listado de materias.');
+ addHistory(p,nombreRol('DIRECCION_ACADEMICA'),'Solicita nuevo programa','Se genera el programa en estado BORRADOR con contenidos mínimos y ubicación curricular precargados desde el listado de materias.');
  save();
  openProgram(p.id);
 }
@@ -560,26 +844,30 @@ function renderSectionContent(p,s){
 }
 // Permisos de edición por rol. Las secciones fuera del ámbito del rol se
 // comportan como las secciones protegidas: se pueden visualizar, pero no editar.
-function puedeEditarSeccion(key){
+function puedeEditarSeccion(key,p){
  const def=SECTION_DEFS.find(s=>s.key===key);
  if(!def || def.locked) return false;
- if(role==='TITULAR_CATEDRA') return true;
+ /* En la revisión académica, quien edita su sección tiene que tener tomada la tarea de chequeo (si todavía está pendiente). */
+ const grupo=REVIEW_GROUP_BY_ROLE[role];
+ if(p && grupo && p.state==='EN_REVISION_ACADEMICA' && p.revisionAcademica && p.revisionAcademica[grupo].status==='PENDIENTE' && !puedeActuar(p,'CHEQUEAR_'+grupo.toUpperCase())) return false;
+ if(role==='TITULAR_CATEDRA') return !p || usuarioAlcanza(usuarioActual,'TITULAR_CATEDRA',p);
  if(role==='DIRECCION_ACADEMICA') return def.reviewGroup==='encuadre';
  if(role==='SUBSECRETARIA_1') return def.sectionTitle==='D. Métodos de conducción del aprendizaje';
  if(role==='SUBSECRETARIA_2') return def.sectionTitle==='C. Bibliografía';
  return false;
 }
 function primeraSeccionEditablePorRol(p){
- const keys=SECTION_DEFS.filter(s=>puedeEditarSeccion(s.key)).map(s=>s.key);
+ const keys=SECTION_DEFS.filter(s=>puedeEditarSeccion(s.key,p)).map(s=>s.key);
  return keys.find(k=>!p.sections[k].completed)||keys[0]||null;
 }
 
-function openProgram(id){
+function openProgram(id,rolPreferido){
  const p=getProgram(id);
  if(!p){ render('programs'); return; }
+ ajustarRolParaPrograma(p,rolPreferido);
  const nombrePrograma=p.nombre_materia||p.name||'';
  const mostrarImpresion=['APROBADO','FINALIZADO'].includes(p.state);
- let html=`<div class="toolbar"><div><button class="btn small" onclick="render('programs')">‹ Volver</button><h1 style="margin-top:12px">${escapeHtml(nombrePrograma)}</h1><p>Carrera: ${escapeHtml(p.career||'')} · Plan: ${escapeHtml(p.year||'')}</p></div><div style="display:flex;gap:10px;align-items:center">${statusBadge(p.state)}${mostrarImpresion?`<button class="btn primary" onclick="imprimirPrograma(${p.id})">🖶&nbsp; Imprimir</button>`:''}</div></div>`;
+ let html=`<div class="toolbar"><div><button class="btn small" onclick="render('programs')">‹ Volver</button><h1 style="margin-top:12px">${escapeHtml(nombrePrograma)}</h1><p>Carrera: ${escapeHtml(p.career||'')} · Plan: ${escapeHtml(p.year||'')}${p.titular?`<br>Titular: ${escapeHtml(p.titular)}`:''}${p.departamento?`${p.titular?' · ':'<br>'}Departamento: ${escapeHtml(p.departamento)}`:''}</p>${rolesProgramaHtml(p)}</div><div style="display:flex;gap:10px;align-items:center">${statusBadge(p.state)}${mostrarImpresion?`<button class="btn primary" onclick="imprimirPrograma(${p.id})">🖶&nbsp; Imprimir</button>`:''}</div></div>`;
 
  if(p.state==='BORRADOR' && p.origenCorreccion){
    const obs=p.origenCorreccion==='DIRECTOR'?(p.conformidadDirector&&p.conformidadDirector.observacion):observacionAcademica(p);
@@ -591,13 +879,14 @@ function openProgram(id){
 
  if(role==='DIRECCION_ACADEMICA' && ['APROBADO','FINALIZADO'].includes(p.state)){
    const finalizado=p.state==='FINALIZADO';
-   html+=`<div class="card"><h2>Resolución del Consejo Directivo</h2>${finalizado?'':`<p class="muted">Completá el número de la resolución que formaliza el programa. Al guardar, el programa pasará a estado FINALIZADO.</p>`}<div class="toolbar" style="justify-content:flex-start;gap:10px;margin-bottom:0"><div>${finalizado?'<label>Número de resolución</label>':''}<input id="numeroResolucion" placeholder="Número de resolución" value="${escapeHtml(p.resolucion||'')}" ${finalizado?'disabled':''} oninput="sincronizarEditarResolucion()"></div><button class="btn red" id="btnEditarResolucion" onclick="habilitarEdicionResolucion()" ${finalizado && tieneResolucion(p)?'':'disabled'}>Editar</button><button class="btn primary" id="btnGuardarResolucion" onclick="guardarResolucion(${p.id})" ${finalizado?'disabled':''}>Guardar</button><button class="btn ${finalizado?'primary':''}" onclick="imprimirPrograma(${p.id})">Imprimir</button></div></div>`;
+   const bloqueoRes=finalizado?'':bloqueoTarea(p,'COMPLETAR_RESOLUCION');
+   html+=bloqueoRes||`<div class="card"><h2>Resolución del Consejo Directivo</h2>${finalizado?'':`<p class="muted">Completá el número de la resolución que formaliza el programa. Al guardar, el programa pasará a estado FINALIZADO.</p>`}<div class="toolbar" style="justify-content:flex-start;gap:10px;margin-bottom:0"><div>${finalizado?'<label>Número de resolución</label>':''}<input id="numeroResolucion" placeholder="Número de resolución" value="${escapeHtml(p.resolucion||'')}" ${finalizado?'disabled':''} oninput="sincronizarEditarResolucion()"></div><button class="btn red" id="btnEditarResolucion" onclick="habilitarEdicionResolucion()" ${finalizado && tieneResolucion(p)?'':'disabled'}>Editar</button><button class="btn primary" id="btnGuardarResolucion" onclick="guardarResolucion(${p.id})" ${finalizado?'disabled':''}>Guardar</button><button class="btn ${finalizado?'primary':''}" onclick="imprimirPrograma(${p.id})">Imprimir</button></div></div>`;
  }
 
  const rolesConEdicion=['TITULAR_CATEDRA','DIRECCION_ACADEMICA','SUBSECRETARIA_1','SUBSECRETARIA_2','DIRECTOR_DEPARTAMENTO'];
  const puedeEditarPrograma=rolesConEdicion.includes(role) &&
    (p.state==='BORRADOR' || (['DIRECCION_ACADEMICA','SUBSECRETARIA_1','SUBSECRETARIA_2','DIRECTOR_DEPARTAMENTO'].includes(role) && ['EN_REVISION','EN_REVISION_ACADEMICA'].includes(p.state))) &&
-   SECTION_DEFS.some(s=>puedeEditarSeccion(s.key));
+   SECTION_DEFS.some(s=>puedeEditarSeccion(s.key,p));
  const puedeRevisarContenido=rolesConEdicion.includes(role);
  html+=`<div class="card"><div class="toolbar"><h2>Secciones del programa</h2>${puedeEditarPrograma?`<button class="btn primary" onclick="editSection(${p.id})">Editar programa</button>`:''}</div>`
  + SECTION_DEFS.map(s=>section(s.label, s.locked?'Precargado':(p.sections[s.key].completed?'Completado':'Pendiente'), p.sections[s.key].completed, s.locked)).join('')
@@ -612,13 +901,16 @@ function openProgram(id){
  document.getElementById('content').innerHTML=html;
 }
 
-function accionCard(p){
+function accionCard(p){ return accionCardBase(p)+tareasTomadasHtml(p); }
+function accionCardBase(p){
  if(role==='TITULAR_CATEDRA' && p.state==='BORRADOR'){
+   const bloqueoT=bloqueoTarea(p,codigoTareaDelRol(p,'TITULAR_CATEDRA')); if(bloqueoT) return bloqueoT;
    const completo=seccionesCompletas(p);
    return `<div class="card"><h2>Enviar programa</h2><p>${completo?'El programa está completo y listo para enviarse.':'Completá todas las secciones editables para poder solicitar conformidad.'}</p>
    <button class="btn primary" ${completo?'':'disabled'} onclick="solicitarConformidad(${p.id})">${p.origenCorreccion?'Reenviar programa corregido':'Solicitar conformidad'}</button></div>`;
  }
  if(role==='DIRECTOR_DEPARTAMENTO' && p.state==='EN_REVISION'){
+   const bloqueoD=bloqueoTarea(p,'DAR_CONFORMIDAD'); if(bloqueoD) return bloqueoD;
    return `<div class="card"><h2>Dar conformidad</h2><p>Revisá el programa completo antes de dar conformidad para avanzar a la revisión académica (Dirección Académica + Subsecretaría).</p>
    <textarea id="obsDirector" placeholder="Observaciones (obligatorio para rechazar)"></textarea>
    <div style="text-align:right;margin-top:10px"><button class="btn danger" onclick="directorDarConformidad(${p.id},false)">Solicitar corrección</button> <button class="btn success" onclick="directorDarConformidad(${p.id},true)">Dar conformidad</button></div></div>`;
@@ -626,18 +918,23 @@ function accionCard(p){
  if(p.state==='EN_REVISION_ACADEMICA'){
    const grupo=REVIEW_GROUP_BY_ROLE[role];
    if(grupo && p.revisionAcademica[grupo].status==='PENDIENTE'){
+     const bloqueoG=bloqueoTarea(p,'CHEQUEAR_'+grupo.toUpperCase()); if(bloqueoG) return bloqueoG;
      return `<div class="card"><h2>Chequear ${GROUP_LABELS[grupo]}</h2><p>Revisá la sección correspondiente y registrá el resultado. Este chequeo es independiente del resto: el programa pasa a APROBADO solo cuando los tres estén sin errores.</p>
      <textarea id="obsAcademica" placeholder="Observaciones (obligatorio si hay errores)"></textarea>
      <div style="text-align:right;margin-top:10px"><button class="btn danger" onclick="revisarAcademica(${p.id},'${grupo}',false)">Solicitar corrección</button> <button class="btn success" onclick="revisarAcademica(${p.id},'${grupo}',true)">Sin errores</button></div></div>`;
    }
    return `<div class="card"><h2>Revisión académica en curso</h2><table><tr><th>Chequeo</th><th>Responsable</th><th>Estado</th></tr>
-   <tr><td>Encuadre</td><td>Dirección Académica</td><td>${estadoChip(p.revisionAcademica.encuadre.status)}</td></tr>
-   <tr><td>Métodos de conducción y de evaluación</td><td>Subsecretaría_1</td><td>${estadoChip(p.revisionAcademica.metodos.status)}</td></tr>
-   <tr><td>Bibliografía</td><td>Subsecretaría_2</td><td>${estadoChip(p.revisionAcademica.bibliografia.status)}</td></tr>
+   <tr><td>Encuadre</td><td>${escapeHtml(nombreRol('DIRECCION_ACADEMICA'))}</td><td>${estadoChip(p.revisionAcademica.encuadre.status)}</td></tr>
+   <tr><td>Métodos de conducción y de evaluación</td><td>${escapeHtml(nombreRol('SUBSECRETARIA_1'))}</td><td>${estadoChip(p.revisionAcademica.metodos.status)}</td></tr>
+   <tr><td>Bibliografía</td><td>${escapeHtml(nombreRol('SUBSECRETARIA_2'))}</td><td>${estadoChip(p.revisionAcademica.bibliografia.status)}</td></tr>
    </table></div>`;
  }
  if(p.state==='APROBADO'){
    return `<div class="card"><h2>Expediente</h2><p>Nota de elevación: <b>${p.expediente.notaElevacion}</b><br>Expediente GEDO: <b>${p.expediente.gedo}</b><br>Fecha: ${fmtDate(p.expediente.fecha)}</p></div>`;
+ }
+ if(role==='DIRECTOR_DEPARTAMENTO' && p.state==='FINALIZADO' && codigoTareaDelRol(p,'DIRECTOR_DEPARTAMENTO')==='NOTIFICARSE'){
+   const bloqueoN=bloqueoTarea(p,'NOTIFICARSE'); if(bloqueoN) return bloqueoN;
+   return `<div class="card"><h2>Notificación de Resolución</h2><p>El programa tiene número de resolución asignado (<b>${escapeHtml(p.resolucion)}</b>). Notificate para dejar constancia.</p><button class="btn primary" onclick="notificarseResolucion(${p.id})">Notificarse</button></div>`;
  }
  return `<div class="card"><p class="muted">No tenés acciones pendientes sobre este programa con tu rol actual.</p></div>`;
 }
@@ -658,13 +955,13 @@ function editSection(id,key){
   const def=SECTION_DEFS.find(s=>s.key===key);
   if(!def) return;
 
-  const puedeEditar=puedeEditarSeccion(key);
+  const puedeEditar=puedeEditarSeccion(key,p);
   const editableIndex=EDITABLE_KEYS.indexOf(key);
   const idx=editableIndex<0?0:editableIndex;
   const sec=p.sections[key]||{};
   const stepsHtml=SECTION_DEFS.map((s,i)=>{
     const editablePos=EDITABLE_KEYS.indexOf(s.key);
-    const esEditableRol=puedeEditarSeccion(s.key);
+    const esEditableRol=puedeEditarSeccion(s.key,p);
     const isDone=s.locked || (!esEditableRol && !s.locked) || (editablePos>=0 && editablePos<editableIndex) || (s.key===key && sec.completed);
     const isCurrent=s.key===key;
     const soloLectura=s.locked || !esEditableRol;
@@ -866,7 +1163,7 @@ function saveSection(id,key,advance){
   const p=getProgram(id); if(!p) return;
 
   const def=SECTION_DEFS.find(s=>s.key===key);
-  if(!def || !puedeEditarSeccion(key)) return;
+  if(!def || !puedeEditarSeccion(key,p)) return;
 
   if(key==='programaAnalitico'){
     const sec=p.sections[key];
@@ -925,7 +1222,8 @@ function saveSection(id,key,advance){
 /* ---------- Transiciones de estado ---------- */
 function solicitarConformidad(id,confirmado){
  const p=getProgram(id);
- if(!p||role!=='TITULAR_CATEDRA'||p.state!=='BORRADOR') return;
+ if(!p||p.state!=='BORRADOR') return;
+ if(!exigirTarea(p,'TITULAR_CATEDRA')) return;
  if(!seccionesCompletas(p)){ alert('Hay secciones sin completar.'); return; }
  if(!confirmado && !p.origenCorreccion){
    confirmarAccion('Va a solicitar conformidad del Director de Departamento','Solicitar',()=>solicitarConformidad(id,true));
@@ -945,12 +1243,12 @@ function solicitarConformidad(id,confirmado){
      }
    });
    p.revisionAcademica=nuevaRevision;
-   addHistory(p,roleNames.TITULAR_CATEDRA,'Reenvía programa corregido',reiniciados.length?`Se reinicia el chequeo de: ${reiniciados.join(', ')}. Los chequeos ya aprobados se mantienen.`:'Todos los chequeos ya estaban aprobados.');
+   addHistory(p,nombreRol('TITULAR_CATEDRA'),'Reenvía programa corregido',reiniciados.length?`Se reinicia el chequeo de: ${reiniciados.join(', ')}. Los chequeos ya aprobados se mantienen.`:'Todos los chequeos ya estaban aprobados.');
  } else {
    const reenvio=p.origenCorreccion==='DIRECTOR';
    p.state='EN_REVISION';
    p.conformidadDirector={status:'PENDIENTE'};
-   addHistory(p,roleNames.TITULAR_CATEDRA,reenvio?'Reenvía programa corregido':'Solicita conformidad','Queda a la espera de la conformidad del/de la Director/a de Departamento.');
+   addHistory(p,nombreRol('TITULAR_CATEDRA'),reenvio?'Reenvía programa corregido':'Solicita conformidad','Queda a la espera de la conformidad del/de la Director/a de Departamento.');
  }
  p.origenCorreccion=null;
  save();
@@ -959,7 +1257,8 @@ function solicitarConformidad(id,confirmado){
 
 function directorDarConformidad(id,aprobado,confirmado){
  const p=getProgram(id);
- if(!p||role!=='DIRECTOR_DEPARTAMENTO'||p.state!=='EN_REVISION') return;
+ if(!p||p.state!=='EN_REVISION') return;
+ if(!exigirTarea(p,'DIRECTOR_DEPARTAMENTO','DAR_CONFORMIDAD')) return;
  const obs=document.getElementById('obsDirector')?document.getElementById('obsDirector').value.trim():'';
  if(!aprobado && !obs){ alert('Ingresá una observación para solicitar la corrección.'); return; }
  if(!confirmado){
@@ -971,12 +1270,12 @@ function directorDarConformidad(id,aprobado,confirmado){
    p.conformidadDirector={status:'OK',observacion:obs,fecha:new Date().toISOString()};
    p.state='EN_REVISION_ACADEMICA';
    p.revisionAcademica={encuadre:{status:'PENDIENTE'},metodos:{status:'PENDIENTE'},bibliografia:{status:'PENDIENTE'}};
-   addHistory(p,roleNames.DIRECTOR_DEPARTAMENTO,'Da conformidad','El programa pasa a revisión académica (Dirección Académica y Subsecretaría).');
+   addHistory(p,nombreRol('DIRECTOR_DEPARTAMENTO'),'Da conformidad','El programa pasa a revisión académica (Dirección Académica y Subsecretaría).');
  } else {
    p.conformidadDirector={status:'RECHAZADO',observacion:obs,fecha:new Date().toISOString()};
    p.origenCorreccion='DIRECTOR';
    p.state='BORRADOR';
-   addHistory(p,roleNames.DIRECTOR_DEPARTAMENTO,'Solicita corrección',obs);
+   addHistory(p,nombreRol('DIRECTOR_DEPARTAMENTO'),'Solicita corrección',obs);
  }
  save();
  openProgram(id);
@@ -984,7 +1283,9 @@ function directorDarConformidad(id,aprobado,confirmado){
 
 function revisarAcademica(id,grupo,ok,confirmado){
  const p=getProgram(id);
- if(!p||REVIEW_GROUP_BY_ROLE[role]!==grupo||p.state!=='EN_REVISION_ACADEMICA'||p.revisionAcademica[grupo].status!=='PENDIENTE') return;
+ if(!p||!ROL_POR_GRUPO[grupo]||p.state!=='EN_REVISION_ACADEMICA'||p.revisionAcademica[grupo].status!=='PENDIENTE') return;
+ const rolGrupo=ROL_POR_GRUPO[grupo];
+ if(!exigirTarea(p,rolGrupo,'CHEQUEAR_'+grupo.toUpperCase())) return;
  const obs=document.getElementById('obsAcademica')?document.getElementById('obsAcademica').value.trim():'';
  if(!ok && !obs){ alert('Ingresá una observación para solicitar la corrección.'); return; }
  if(!confirmado){
@@ -994,14 +1295,14 @@ function revisarAcademica(id,grupo,ok,confirmado){
  }
  if(ok){
    p.revisionAcademica[grupo]={status:'OK',observacion:obs,fecha:new Date().toISOString()};
-   addHistory(p,roleNames[role],`Chequeo de ${GROUP_LABELS[grupo]} sin errores`,obs||'—');
+   addHistory(p,nombreRol(rolGrupo),`Chequeo de ${GROUP_LABELS[grupo]} sin errores`,obs||'—');
    const todoOk=['encuadre','metodos','bibliografia'].every(k=>p.revisionAcademica[k].status==='OK');
    if(todoOk) aprobarPrograma(p);
  } else {
    p.revisionAcademica[grupo]={status:'CON_OBSERVACIONES',observacion:obs,fecha:new Date().toISOString()};
    p.origenCorreccion='ACADEMICA';
    p.state='BORRADOR';
-   addHistory(p,roleNames[role],`Solicita corrección de ${GROUP_LABELS[grupo]}`,obs);
+   addHistory(p,nombreRol(rolGrupo),`Solicita corrección de ${GROUP_LABELS[grupo]}`,obs);
  }
  save();
  openProgram(id);
@@ -1015,7 +1316,7 @@ function aprobarPrograma(p){
   gedo:`GEDO-${now.getFullYear()}-${pad(Math.floor(Math.random()*900000+100000),6)}`,
   fecha:now.toISOString()
  };
- addHistory(p,'Dirección Académica','Genera nota de elevación','Se eleva el programa con conformidad de Dirección Académica y Subsecretaría.');
+ addHistory(p,nombreRol('DIRECCION_ACADEMICA'),'Genera nota de elevación','Se eleva el programa con conformidad de Dirección Académica y Subsecretaría.',{sinUsuario:true});
  addHistory(p,'Subs. de Planificación Educativa','Genera expediente GEDO',`Expediente ${p.expediente.gedo} generado. Programa APROBADO.`);
 }
 
@@ -1033,7 +1334,9 @@ function habilitarEdicionResolucion(){
 }
 function guardarResolucion(id){
  const p=getProgram(id);
- if(!p || role!=='DIRECCION_ACADEMICA' || !['APROBADO','FINALIZADO'].includes(p.state)) return;
+ if(!p || !['APROBADO','FINALIZADO'].includes(p.state)) return;
+ if(p.state==='APROBADO'){ if(!exigirTarea(p,'DIRECCION_ACADEMICA','COMPLETAR_RESOLUCION')) return; }
+ else if(!usuarioAlcanza(usuarioActual,'DIRECCION_ACADEMICA',p)){ alert('No tenés permisos para corregir la resolución.'); return; }
  const input=document.getElementById('numeroResolucion');
  const numero=input?input.value.trim():'';
  if(!numero){ alert('Ingresá el número de resolución.'); return; }
@@ -1042,7 +1345,7 @@ function guardarResolucion(id){
    const anterior=p.resolucion||'';
    if(numero!==anterior){
      p.resolucion=numero;
-     addHistory(p,roleNames.DIRECCION_ACADEMICA,'Corrige Resolución',`Número de resolución corregido: de ${anterior} a ${numero}.`);
+     addHistory(p,nombreRol('DIRECCION_ACADEMICA'),'Corrige Resolución',`Número de resolución corregido: de ${anterior} a ${numero}.`);
      save();
    }
    openProgram(id);
@@ -1051,7 +1354,7 @@ function guardarResolucion(id){
  p.resolucion=numero;
  p.resolucionFecha=new Date().toISOString();
  p.state='FINALIZADO';
- addHistory(p,roleNames.DIRECCION_ACADEMICA,'Completa Resolución',`Resolución del Consejo Directivo: ${numero}. El programa pasa a estado FINALIZADO.`);
+ addHistory(p,nombreRol('DIRECCION_ACADEMICA'),'Completa Resolución',`Resolución del Consejo Directivo: ${numero}. El programa pasa a estado FINALIZADO.`);
  save();
  openProgram(id);
 }
@@ -1059,13 +1362,17 @@ function guardarResolucion(id){
 /* ---------- Notificación del Director/a de Departamento ---------- */
 function notificarseResolucion(id){
  const p=getProgram(id);
- if(!p || role!=='DIRECTOR_DEPARTAMENTO' || p.state!=='FINALIZADO' || !tieneResolucion(p) || p.directorNotificado) return;
+ if(!p || p.state!=='FINALIZADO' || !tieneResolucion(p) || p.directorNotificado) return;
+ if(!exigirTarea(p,'DIRECTOR_DEPARTAMENTO','NOTIFICARSE')) return;
  const ahora=new Date().toISOString();
  const materia=p.nombre_materia||p.name||'', titular=p.titular||'';
- p.directorNotificado={fecha:ahora};
- addHistory(p,roleNames.DIRECTOR_DEPARTAMENTO,'Se notifica del número de Resolución',`El Director/a de Departamento se notificó del número de Resolución ${p.resolucion}.`);
+ p.directorNotificado={fecha:ahora,usuarioId:usuarioActual.id};
+ addHistory(p,nombreRol('DIRECTOR_DEPARTAMENTO'),'Se notifica del número de Resolución',`El Director/a de Departamento se notificó del número de Resolución ${p.resolucion}.`);
+ /* Destinatarios: los usuarios de Dirección Académica y el titular de la cátedra del programa. */
+ const destinatarios=usuariosConRol('DIRECCION_ACADEMICA').map(u=>u.id);
+ if(p.titular_id && directorio.usuarios.some(u=>u.id===p.titular_id && u.activo!==false)) destinatarios.push(p.titular_id);
  db.notificaciones=db.notificaciones||[];
- db.notificaciones.push({id:Date.now(),fecha:ahora,programaId:p.id,roles:['DIRECCION_ACADEMICA','TITULAR_CATEDRA'],titulo:'Notificación de Resolución',texto:`El Director de Departamento de la asignatura ${materia} del titular ${titular} se ha notificado del número de Resolución`});
+ db.notificaciones.push({id:Date.now(),fecha:ahora,programaId:p.id,usuarios:[...new Set(destinatarios)],titulo:'Notificación de Resolución',texto:`El Director de Departamento de la asignatura ${materia} del titular ${titular} se ha notificado del número de Resolución`});
  save();
  const activa=document.querySelector('.nav button.active');
  render(activa?activa.dataset.screen:'dashboard');
@@ -1329,6 +1636,8 @@ function imprimirPrograma(id){
 }
 
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.screen)));
+/* Usuarios de prueba disponibles en la pantalla de ingreso. */
+cargarDirectorio().then(poblarUsuariosPrueba).catch(()=>{ const sel=document.getElementById('loginPrueba'); if(sel) sel.innerHTML='<option value="">No se pudo cargar usuarios.json</option>'; });
 /* Cualquier cambio de pantalla (programas, secciones, etc.) refresca las campanas: sin tareas pendientes no hay campana. */
 if(typeof MutationObserver!=='undefined'){
   const contenido=document.getElementById('content');

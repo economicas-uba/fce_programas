@@ -1,0 +1,56 @@
+PROGRAMAS ACADÉMICOS — DATOS DE PRUEBA
+======================================
+
+Archivos
+  usuarios.json            Roles (con su ámbito) y usuarios con sus asignaciones de rol.
+  materias.json            Cátedras (una fila por asignatura + titular), departamentos y carreras, con ids.
+  datos-prueba.js          Copia de los dos anteriores para abrir el HTML con doble clic (file://),
+                           donde el navegador no deja leer archivos .json locales.
+  generar-datos-prueba.py  Regenera datos-prueba.js:  python generar-datos-prueba.py
+                           (hace falta solo si editás los JSON y abrís con doble clic).
+
+La aplicación intenta leer datos/usuarios.json y datos/materias.json. Si no puede (file://), usa
+datos-prueba.js. En Perfil > "Mi usuario" se ve cuál de las dos fuentes se está usando.
+Para usar los JSON reales, cambiar USUARIOS_JSON_URL y MATERIAS_JSON_URL al principio de app.js.
+
+Ingreso
+  Solo se puede ingresar eligiendo un usuario en la lista "Usuario de prueba" de la pantalla de ingreso.
+  Los campos Usuario y Contraseña se completan solos y están bloqueados (la contraseña de todos es: Prueba).
+
+Nombre de los roles
+  Lo que se ve en pantalla (Tareas, cabecera, Perfil, historial, etc.) es usuarios.json > roles[].nombre.
+  Se puede renombrar un rol cambiando solo ese campo. El "id" (p. ej. SUBSECRETARIA_1) NO se cambia solo en el
+  JSON: el flujo lo usa y está escrito en app.js. Si un rol no tiene nombre en el JSON se usa el de app.js (roleNames).
+
+Ámbito de cada rol (usuarios.json > roles[].ambito)
+  CATEDRA       El titular ve los programas de su cátedra (titular_id del programa).
+  DEPARTAMENTO  El director ve los programas cuyo departamento_id está en su alcance.departamentos.
+  GLOBAL        Subsecretarías y Dirección Académica ven todos los programas.
+
+Usuarios para probar cada caso
+  t-262-01 ... t-467-02   Titulares (uno por cátedra; el username es "t-" + catedra_id). Ej.: t-262-01 = Macroeconomía I.
+  cmendez     Carla Méndez     Director/a de ECO + titular de 991-01 (puede darse conformidad: no hay bloqueo de autorrevisión).
+  ribarra     Raúl Ibarra      Director/a de ECO (segundo director del mismo departamento: probar "Tomar tarea").
+  hsosa       Hugo Sosa        Director/a de ADM y ACT (un único director por departamento: las tareas ya vienen tomadas).
+  ebravo      Elena Bravo      Director/a de CON.
+  lpaz        Lucía Paz        Subsecretaría_1 + titular de 990-01 (dos roles).
+  sreyes      Silvia Reyes     Subsecretaría_1 (segunda persona del mismo rol).
+  druiz       Diego Ruiz       Dirección Académica.
+  mquiroga    Marta Quiroga    Dirección Académica (segunda persona del mismo rol).
+  pferreyra   Pablo Ferreyra   Dirección Académica + Subsecretaría_2 (dos tareas sobre el mismo programa).
+  tvega       Tomás Vega       Subsecretaría_2.
+  icosta      Irene Costa      Subsecretaría_2.
+  nacosta     Nora Acosta      Rol de director con vigencia vencida (hasta 2025-12-31): no puede ingresar.
+  jinactivo   Julián Inactivo   Usuario inactivo: no puede ingresar.
+
+Recorrido sugerido
+  1. druiz: "+ Nuevo programa" y elegir Macroeconomía I - Guido Zack (también 540-02, 274-01, 247-01, 991-01).
+  2. t-262-01: completar las secciones y "Solicitar conformidad".
+  3. cmendez (o ribarra): "Tomar" la tarea. La otra persona la ve "Tomada por ...". Probar "Liberar".
+  4. Revisión académica: tomar y completar el chequeo con druiz/mquiroga, sreyes/lpaz y tvega/icosta (o pferreyra, que hace dos).
+  5. Dirección Académica carga la resolución; el director se notifica; la notificación llega a Dirección Académica y al titular.
+
+Datos de la cátedra en materias.json (campos nuevos respecto del archivo original)
+  catedra_id, departamento_id, carrera_ids, titular_id.
+  Los textos de contenidos mínimos y ubicación están abreviados, a TEORÍA CONTABLE se le asignó el
+  departamento Contabilidad (no figuraba) y las cátedras 990-01 y 991-01 son ficticias.
