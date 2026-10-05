@@ -1,5 +1,4 @@
 {
-  "_nota": "Datos de PRUEBA derivados del materias.json de referencia: se agregaron catedra_id, departamento_id, carrera_ids y titular_id; los textos de contenidos mínimos y ubicación están abreviados; a TEORÍA CONTABLE (sin departamento en el original) se le asignó Contabilidad; las cátedras 990-01 y 991-01 son ficticias.",
   "departamentos": [
     {
       "id": "ECO",
@@ -10,12 +9,20 @@
       "nombre": "Administración"
     },
     {
-      "id": "ACT",
-      "nombre": "Actuario"
-    },
-    {
       "id": "CON",
       "nombre": "Contabilidad"
+    },
+    {
+      "id": "DER",
+      "nombre": "Derecho"
+    },
+    {
+      "id": "HUM",
+      "nombre": "Humanidades"
+    },
+    {
+      "id": "MAT",
+      "nombre": "Matemática"
     }
   ],
   "carreras": [
@@ -38,6 +45,10 @@
     {
       "id": "LIC_SIST",
       "nombre": "Lic. en Sistemas de Información de las Organizaciones"
+    },
+    {
+      "id": "ANA_DATOS",
+      "nombre": "Tecnicatura Universitaria en Análisis de Datos"
     }
   ],
   "materias": [
