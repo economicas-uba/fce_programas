@@ -59,7 +59,7 @@
         "LIC_ECO",
         "ACTUARIO"
       ],
-      "titular_id": "u-0001",
+      "titular_id": "u-1027",
       "codigo_materia": 262,
       "departamento": "Economía",
       "titular": "Guido Zack",
@@ -75,7 +75,7 @@
         "ACTUARIO",
         "LIC_ECO"
       ],
-      "titular_id": "u-0002",
+      "titular_id": "u-1028",
       "codigo_materia": 540,
       "departamento": "Actuario",
       "titular": "Pablo Nicolás Caviezel",
@@ -91,7 +91,7 @@
         "ACTUARIO",
         "LIC_ECO"
       ],
-      "titular_id": "u-0003",
+      "titular_id": "u-1029",
       "codigo_materia": 540,
       "departamento": "Actuario",
       "titular": "Blanca Rosa Vitale",
@@ -107,7 +107,7 @@
         "ACTUARIO",
         "LIC_ECO"
       ],
-      "titular_id": "u-0004",
+      "titular_id": "u-1030",
       "codigo_materia": 540,
       "departamento": "Actuario",
       "titular": "María José Bianco",
@@ -122,7 +122,7 @@
       "carrera_ids": [
         "LIC_ECO"
       ],
-      "titular_id": "u-0005",
+      "titular_id": "u-1031",
       "codigo_materia": 558,
       "departamento": "Economía",
       "titular": "Juan Carlos Hallak",
@@ -141,7 +141,7 @@
         "LIC_ECO",
         "ACTUARIO"
       ],
-      "titular_id": "u-0006",
+      "titular_id": "u-1032",
       "codigo_materia": 247,
       "departamento": "Contabilidad",
       "titular": "Ana María Campo",
@@ -160,7 +160,7 @@
         "LIC_ECO",
         "ACTUARIO"
       ],
-      "titular_id": "u-0007",
+      "titular_id": "u-1033",
       "codigo_materia": 247,
       "departamento": "Contabilidad",
       "titular": "Paula Alejandra D'Onofrio",
@@ -179,7 +179,7 @@
         "LIC_ECO",
         "ACTUARIO"
       ],
-      "titular_id": "u-0008",
+      "titular_id": "u-1034",
       "codigo_materia": 247,
       "departamento": "Contabilidad",
       "titular": "Gustavo Amado Montanini",
@@ -198,7 +198,7 @@
         "LIC_ECO",
         "ACTUARIO"
       ],
-      "titular_id": "u-0009",
+      "titular_id": "u-1035",
       "codigo_materia": 247,
       "departamento": "Contabilidad",
       "titular": "Graciela María Scavone",
@@ -217,7 +217,7 @@
         "LIC_ECO",
         "ACTUARIO"
       ],
-      "titular_id": "u-0010",
+      "titular_id": "u-1025",
       "codigo_materia": 247,
       "departamento": "Contabilidad",
       "titular": "Suárez Kimura Elsa Beatriz",
@@ -235,7 +235,7 @@
         "LIC_ADM",
         "LIC_SIST"
       ],
-      "titular_id": "u-0011",
+      "titular_id": "u-1036",
       "codigo_materia": 274,
       "departamento": "Administración",
       "titular": "Marcelo Fabián Alcain",
@@ -253,7 +253,7 @@
         "LIC_ADM",
         "LIC_SIST"
       ],
-      "titular_id": "u-0012",
+      "titular_id": "u-1037",
       "codigo_materia": 274,
       "departamento": "Administración",
       "titular": "Angel Oscar Arostegui",
@@ -271,7 +271,7 @@
         "LIC_ADM",
         "LIC_SIST"
       ],
-      "titular_id": "u-0013",
+      "titular_id": "u-1038",
       "codigo_materia": 274,
       "departamento": "Administración",
       "titular": "Tomás Chahin",
@@ -289,7 +289,7 @@
         "LIC_ADM",
         "LIC_SIST"
       ],
-      "titular_id": "u-0014",
+      "titular_id": "u-1039",
       "codigo_materia": 274,
       "departamento": "Administración",
       "titular": "Juan José Gilli",
@@ -307,7 +307,7 @@
         "LIC_ADM",
         "LIC_SIST"
       ],
-      "titular_id": "u-0015",
+      "titular_id": "u-1040",
       "codigo_materia": 274,
       "departamento": "Administración",
       "titular": "Juan Carlos Gómez Fulao",
@@ -325,7 +325,7 @@
         "LIC_ADM",
         "LIC_SIST"
       ],
-      "titular_id": "u-0016",
+      "titular_id": "u-1041",
       "codigo_materia": 274,
       "departamento": "Administración",
       "titular": "Rubén César Moleón",
@@ -343,7 +343,7 @@
         "LIC_ADM",
         "LIC_SIST"
       ],
-      "titular_id": "u-0017",
+      "titular_id": "u-1042",
       "codigo_materia": 274,
       "departamento": "Administración",
       "titular": "Federico Saravia",
@@ -358,7 +358,7 @@
       "carrera_ids": [
         "LIC_ADM"
       ],
-      "titular_id": "u-0018",
+      "titular_id": "u-1043",
       "codigo_materia": 467,
       "departamento": "Administración",
       "titular": "Ladislao Ludovico Huber",
@@ -373,7 +373,7 @@
       "carrera_ids": [
         "LIC_ADM"
       ],
-      "titular_id": "u-0019",
+      "titular_id": "u-1026",
       "codigo_materia": 467,
       "departamento": "Administración",
       "titular": "Roberto César Mazza",
