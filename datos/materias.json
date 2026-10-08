@@ -65,7 +65,7 @@
       "titular": "Guido Zack",
       "nombre_materia": "MACROECONOMIA I",
       "carreras": "Lic. en Economía (RCS N.º 1696/24) y Actuario (RCS N.º 1824/24)",
-      "contenidos_minimos": "La problemática macroeconómica: hechos estilizados y esquemas básicos de modelización. Fenómenos nominales y reales: ciclo y tendencia, desempleo e inflación. […]",
+      "contenidos_minimos": "La problemática macroeconómica: hechos estilizados y esquemas básicos de modelización. Fenómenos nominales y reales: ciclo y tendencia, desempleo e inflación. Cuentas nacionales, ahorro, inversión, restricción externa. Identidades contables ex-post y equilibrios ex-ante. Ajustes por precio y cantidad. Modelos de ingreso-gasto. Mercados financieros. El esquema ISLM; implicancias para políticas fiscales y monetarias. Mercado de trabajo y desempleo. Oferta y demanda agregadas. Inflación y expectativas. Macroeconomía abierta, regímenes cambiarios y trilema de la imposibilidad. Especificidades del desequilibrio macroeconómico en Argentina: crisis cambiarias, financieras y alta inflación. Políticas de estabilización.",
       "ubicacion_curriculum": "No cuenta con requisitos previos, solo tener aprobado el primer tramo."
     },
     {
@@ -81,8 +81,8 @@
       "titular": "Pablo Nicolás Caviezel",
       "nombre_materia": "ANÁLISIS ESTADÍSTICO I",
       "carreras": "Actuario (RCS Nº 1824/24) y Lic. en Economía (RCS Nº 1696/24)",
-      "contenidos_minimos": "Población y muestra. Experimentos. Análisis de datos. Números índice. Teoría de la probabilidad. Variables aleatorias continuas y discretas. […]",
-      "ubicacion_curriculum": "La asignatura Análisis Estadístico se ubica en el Ciclo Profesional de las carreras Licenciatura en Economía y Actuario. […]"
+      "contenidos_minimos": "La estadística como disciplina para el Análisis de los Fenómenos Socioeconómicos. La aleatoriedad y la regularidad estadística. Necesidad de su modelización. Elementos de la Teoría de la Probabilidad y de las Variables Aleatorias. Modelos Elementales de Probabilidad. Tratamiento de la Información. Estadística descriptiva: Análisis Exploratorio y Descriptivo de Datos. Relaciones entre variables. Elementos de muestreo e introducción a la Inferencia Estadística. Análisis de regresión. Tratamiento Elemental de las Series de tiempo. Números índices.",
+      "ubicacion_curriculum": "Esta materia es común a las cinco carreras que se dictan en la Facultad de Ciencias Económicas.\nLa ubicación de Estadística en el Segundo Tramo del Ciclo General de la currícula, permite que los alumnos puedan comprender toda la teoría matemática que se desarrolle ya que cuentan con Análisis Matemático I aprobada, materia del Primer Tramo del Ciclo General. La utilidad de los conocimientos que Estadística proporciona se pone de manifiesto en aquellas materias donde el análisis cuantitativo sea relevante para la comprensión de la disciplina en la cual se aplica. Estadística es un requisito previo de las materias Cálculo Financiero, Estadística para Administradores y Estadística II"
     },
     {
       "catedra_id": "540-02",
@@ -97,8 +97,8 @@
       "titular": "Blanca Rosa Vitale",
       "nombre_materia": "ANÁLISIS ESTADÍSTICO I",
       "carreras": "Actuario (RCS Nº 1824/24) y Lic. en Economía (RCS Nº 1696/24)",
-      "contenidos_minimos": "Población y muestra. Experimentos. Análisis de datos. Números índice. Teoría de la probabilidad. Variables aleatorias continuas y discretas. […]",
-      "ubicacion_curriculum": "La asignatura Análisis Estadístico se ubica en el Ciclo Profesional de las carreras Licenciatura en Economía y Actuario. […]"
+      "contenidos_minimos": "La estadística como disciplina para el Análisis de los Fenómenos Socioeconómicos. La aleatoriedad y la regularidad estadística. Necesidad de su modelización. Elementos de la Teoría de la Probabilidad y de las Variables Aleatorias. Modelos Elementales de Probabilidad. Tratamiento de la Información. Estadística descriptiva: Análisis Exploratorio y Descriptivo de Datos. Relaciones entre variables. Elementos de muestreo e introducción a la Inferencia Estadística. Análisis de regresión. Tratamiento Elemental de las Series de tiempo. Números índices.",
+      "ubicacion_curriculum": "Esta materia es común a las cinco carreras que se dictan en la Facultad de Ciencias Económicas.\nLa ubicación de Estadística en el Segundo Tramo del Ciclo General de la currícula, permite que los alumnos puedan comprender toda la teoría matemática que se desarrolle ya que cuentan con Análisis Matemático I aprobada, materia del Primer Tramo del Ciclo General. La utilidad de los conocimientos que Estadística proporciona se pone de manifiesto en aquellas materias donde el análisis cuantitativo sea relevante para la comprensión de la disciplina en la cual se aplica. Estadística es un requisito previo de las materias Cálculo Financiero, Estadística para Administradores y Estadística II"
     },
     {
       "catedra_id": "540-03",
@@ -113,8 +113,8 @@
       "titular": "María José Bianco",
       "nombre_materia": "ANÁLISIS ESTADÍSTICO I",
       "carreras": "Actuario (RCS Nº 1824/24) y Lic. en Economía (RCS Nº 1696/24)",
-      "contenidos_minimos": "Población y muestra. Experimentos. Análisis de datos. Números índice. Teoría de la probabilidad. Variables aleatorias continuas y discretas. […]",
-      "ubicacion_curriculum": "La asignatura Análisis Estadístico se ubica en el Ciclo Profesional de las carreras Licenciatura en Economía y Actuario. […]"
+      "contenidos_minimos": "La estadística como disciplina para el Análisis de los Fenómenos Socioeconómicos. La aleatoriedad y la regularidad estadística. Necesidad de su modelización. Elementos de la Teoría de la Probabilidad y de las Variables Aleatorias. Modelos Elementales de Probabilidad. Tratamiento de la Información. Estadística descriptiva: Análisis Exploratorio y Descriptivo de Datos. Relaciones entre variables. Elementos de muestreo e introducción a la Inferencia Estadística. Análisis de regresión. Tratamiento Elemental de las Series de tiempo. Números índices.",
+      "ubicacion_curriculum": "Esta materia es común a las cinco carreras que se dictan en la Facultad de Ciencias Económicas.\nLa ubicación de Estadística en el Segundo Tramo del Ciclo General de la currícula, permite que los alumnos puedan comprender toda la teoría matemática que se desarrolle ya que cuentan con Análisis Matemático I aprobada, materia del Primer Tramo del Ciclo General. La utilidad de los conocimientos que Estadística proporciona se pone de manifiesto en aquellas materias donde el análisis cuantitativo sea relevante para la comprensión de la disciplina en la cual se aplica. Estadística es un requisito previo de las materias Cálculo Financiero, Estadística para Administradores y Estadística II"
     },
     {
       "catedra_id": "558-01",
@@ -128,7 +128,7 @@
       "titular": "Juan Carlos Hallak",
       "nombre_materia": "ECONOMÍA INTERNACIONAL",
       "carreras": "Lic. en Economía (RCS Nº 1696/24)",
-      "contenidos_minimos": "Panorama de la economía internacional: patrones de comercio mundial y regional. Teorías del comercio internacional basadas en ventajas comparativas. […]",
+      "contenidos_minimos": "Panorama de la economía internacional: patrones de comercio mundial y regional. Teorías del comercio internacional basadas en ventajas comparativas: productividad y dotación factorial. Teorías del comercio internacional basadas en economías de escala y diferenciación de producto. Efectos dinámicos del comercio: productividad y calidad de producto. Tecnología y comercio internacional. El sistema productivo internacional: inversión extranjera directa, empresas transnacionales y cadenas globales y regionales de valor. Instrumentos de la política comercial: características y efectos. Controversias sobre los fundamentos de la política comercial. Teorías de la integración económica y principales acuerdos regionales. Instituciones y reglas del comercio internacional. Tipo de cambio, estructura productiva y competitividad internacional. Sistema monetario y financiero internacional.",
       "ubicacion_curriculum": "Esta asignatura se encuentra dentro del Ciclo Profesional de la carrera. Para inscribirse, requiere haber aprobado las asignaturas “Macroeconomía I” y “Microeconomía II”"
     },
     {
@@ -147,8 +147,8 @@
       "titular": "Ana María Campo",
       "nombre_materia": "TEORÍA CONTABLE",
       "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
-      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
-      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. Sistemas de información: la contabilidad como el sistema de información de las organizaciones. Características y requisitos de la información contable. La contabilidad y sus segmentos: contabilidad patrimonial o financiera, contabilidad gubernamental, contabilidad social y ambiental, contabilidad económica y contabilidad de gestión. Entes: públicos y privados; con y sin fines de lucro. Sus recursos y fuentes. Operaciones y hechos económicos. Patrimonio y contabilidad. Ejercicio económico. Variaciones patrimoniales. Incertidumbres y contingencias. Documentación respaldatoria. Terminología contable aplicable. El proceso contable y la estructura patrimonial y de resultados. Modelos contables: unidad de medida, criterios de medición (valuación) y capital a mantener. Aspectos normativos. Estados contables o financieros. Conceptos introductorios. Las cuentas. Planes y manuales de cuentas. Sistema Contable. Mecánica del proceso de registración contable. Métodos de registración. La partida doble. (1)\n\nEl objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Evolución histórica. Sistemas de información: la contabilidad como subsistema de información de las organizaciones. Tipos de información: patrimonial, de gestión. Características y requisitos de la información contable, de costos, valores corrientes, valores recuperables, incertidumbres y contingencias, en el sector privado y en el sector público. Informes. Terminología contable aplicable. El proceso contable y estructura patrimonial y de resultados. Capital a mantener, unidad de medida, criterios de valuación. Reconocimiento contable de variaciones patrimoniales. Medición de ganancia. Aspectos legales y profesionales de las normas contables nacionales. La normativa internacional (2)\n\n(1) Corresponde a las Carreras de Contador Público (RCS N° 1509/18) y Licenciado en Sistemas de Información de las Organizaciones (RCS N° 1709/18)\n(2) Corresponde a las Carreras de Actuario (RCS N° 5634/12), Licenciado en Economía (RCS N° 5636/12) y Licenciado en Administración (RCS N° 5637/12)",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad, siendo requisito para su cursado la aprobación de todas las asignaturas del 1er. Tramo integrantes de aquel Ciclo."
     },
     {
       "catedra_id": "247-02",
@@ -166,8 +166,8 @@
       "titular": "Paula Alejandra D'Onofrio",
       "nombre_materia": "TEORÍA CONTABLE",
       "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
-      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
-      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. Sistemas de información: la contabilidad como el sistema de información de las organizaciones. Características y requisitos de la información contable. La contabilidad y sus segmentos: contabilidad patrimonial o financiera, contabilidad gubernamental, contabilidad social y ambiental, contabilidad económica y contabilidad de gestión. Entes: públicos y privados; con y sin fines de lucro. Sus recursos y fuentes. Operaciones y hechos económicos. Patrimonio y contabilidad. Ejercicio económico. Variaciones patrimoniales. Incertidumbres y contingencias. Documentación respaldatoria. Terminología contable aplicable. El proceso contable y la estructura patrimonial y de resultados. Modelos contables: unidad de medida, criterios de medición (valuación) y capital a mantener. Aspectos normativos. Estados contables o financieros. Conceptos introductorios. Las cuentas. Planes y manuales de cuentas. Sistema Contable. Mecánica del proceso de registración contable. Métodos de registración. La partida doble. (1)\n\nEl objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Evolución histórica. Sistemas de información: la contabilidad como subsistema de información de las organizaciones. Tipos de información: patrimonial, de gestión. Características y requisitos de la información contable, de costos, valores corrientes, valores recuperables, incertidumbres y contingencias, en el sector privado y en el sector público. Informes. Terminología contable aplicable. El proceso contable y estructura patrimonial y de resultados. Capital a mantener, unidad de medida, criterios de valuación. Reconocimiento contable de variaciones patrimoniales. Medición de ganancia. Aspectos legales y profesionales de las normas contables nacionales. La normativa internacional (2)\n\n(1) Corresponde a las Carreras de Contador Público (RCS N° 1509/18) y Licenciado en Sistemas de Información de las Organizaciones (RCS N° 1709/18)\n(2) Corresponde a las Carreras de Actuario (RCS N° 5634/12), Licenciado en Economía (RCS N° 5636/12) y Licenciado en Administración (RCS N° 5637/12)",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad, siendo requisito para su cursado la aprobación de todas las asignaturas del 1er. Tramo integrantes de aquel Ciclo."
     },
     {
       "catedra_id": "247-03",
@@ -185,8 +185,8 @@
       "titular": "Gustavo Amado Montanini",
       "nombre_materia": "TEORÍA CONTABLE",
       "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
-      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
-      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. Sistemas de información: la contabilidad como el sistema de información de las organizaciones. Características y requisitos de la información contable. La contabilidad y sus segmentos: contabilidad patrimonial o financiera, contabilidad gubernamental, contabilidad social y ambiental, contabilidad económica y contabilidad de gestión. Entes: públicos y privados; con y sin fines de lucro. Sus recursos y fuentes. Operaciones y hechos económicos. Patrimonio y contabilidad. Ejercicio económico. Variaciones patrimoniales. Incertidumbres y contingencias. Documentación respaldatoria. Terminología contable aplicable. El proceso contable y la estructura patrimonial y de resultados. Modelos contables: unidad de medida, criterios de medición (valuación) y capital a mantener. Aspectos normativos. Estados contables o financieros. Conceptos introductorios. Las cuentas. Planes y manuales de cuentas. Sistema Contable. Mecánica del proceso de registración contable. Métodos de registración. La partida doble. (1)\n\nEl objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Evolución histórica. Sistemas de información: la contabilidad como subsistema de información de las organizaciones. Tipos de información: patrimonial, de gestión. Características y requisitos de la información contable, de costos, valores corrientes, valores recuperables, incertidumbres y contingencias, en el sector privado y en el sector público. Informes. Terminología contable aplicable. El proceso contable y estructura patrimonial y de resultados. Capital a mantener, unidad de medida, criterios de valuación. Reconocimiento contable de variaciones patrimoniales. Medición de ganancia. Aspectos legales y profesionales de las normas contables nacionales. La normativa internacional (2)\n\n(1) Corresponde a las Carreras de Contador Público (RCS N° 1509/18) y Licenciado en Sistemas de Información de las Organizaciones (RCS N° 1709/18)\n(2) Corresponde a las Carreras de Actuario (RCS N° 5634/12), Licenciado en Economía (RCS N° 5636/12) y Licenciado en Administración (RCS N° 5637/12)",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad, siendo requisito para su cursado la aprobación de todas las asignaturas del 1er. Tramo integrantes de aquel Ciclo."
     },
     {
       "catedra_id": "247-04",
@@ -204,8 +204,8 @@
       "titular": "Graciela María Scavone",
       "nombre_materia": "TEORÍA CONTABLE",
       "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
-      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
-      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. Sistemas de información: la contabilidad como el sistema de información de las organizaciones. Características y requisitos de la información contable. La contabilidad y sus segmentos: contabilidad patrimonial o financiera, contabilidad gubernamental, contabilidad social y ambiental, contabilidad económica y contabilidad de gestión. Entes: públicos y privados; con y sin fines de lucro. Sus recursos y fuentes. Operaciones y hechos económicos. Patrimonio y contabilidad. Ejercicio económico. Variaciones patrimoniales. Incertidumbres y contingencias. Documentación respaldatoria. Terminología contable aplicable. El proceso contable y la estructura patrimonial y de resultados. Modelos contables: unidad de medida, criterios de medición (valuación) y capital a mantener. Aspectos normativos. Estados contables o financieros. Conceptos introductorios. Las cuentas. Planes y manuales de cuentas. Sistema Contable. Mecánica del proceso de registración contable. Métodos de registración. La partida doble. (1)\n\nEl objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Evolución histórica. Sistemas de información: la contabilidad como subsistema de información de las organizaciones. Tipos de información: patrimonial, de gestión. Características y requisitos de la información contable, de costos, valores corrientes, valores recuperables, incertidumbres y contingencias, en el sector privado y en el sector público. Informes. Terminología contable aplicable. El proceso contable y estructura patrimonial y de resultados. Capital a mantener, unidad de medida, criterios de valuación. Reconocimiento contable de variaciones patrimoniales. Medición de ganancia. Aspectos legales y profesionales de las normas contables nacionales. La normativa internacional (2)\n\n(1) Corresponde a las Carreras de Contador Público (RCS N° 1509/18) y Licenciado en Sistemas de Información de las Organizaciones (RCS N° 1709/18)\n(2) Corresponde a las Carreras de Actuario (RCS N° 5634/12), Licenciado en Economía (RCS N° 5636/12) y Licenciado en Administración (RCS N° 5637/12)",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad, siendo requisito para su cursado la aprobación de todas las asignaturas del 1er. Tramo integrantes de aquel Ciclo."
     },
     {
       "catedra_id": "247-05",
@@ -223,8 +223,8 @@
       "titular": "Suárez Kimura Elsa Beatriz",
       "nombre_materia": "TEORÍA CONTABLE",
       "carreras": "Contador Público (RCS N° 1509/18), Lic. En Administración (texto ordenado, RCS N° 3880/15), Lic en Sistemas de Información de las Organizaciones (RCS Nº 1709/18), Lic. en Economía (texto ordenado, RCS N° 5636/12) y Actuario (texto ordenado, RCS N° 6207/13)",
-      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. […]",
-      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad. […]"
+      "contenidos_minimos": "El objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Contabilidad. Antecedentes y evolución histórica. Sistemas de información: la contabilidad como el sistema de información de las organizaciones. Características y requisitos de la información contable. La contabilidad y sus segmentos: contabilidad patrimonial o financiera, contabilidad gubernamental, contabilidad social y ambiental, contabilidad económica y contabilidad de gestión. Entes: públicos y privados; con y sin fines de lucro. Sus recursos y fuentes. Operaciones y hechos económicos. Patrimonio y contabilidad. Ejercicio económico. Variaciones patrimoniales. Incertidumbres y contingencias. Documentación respaldatoria. Terminología contable aplicable. El proceso contable y la estructura patrimonial y de resultados. Modelos contables: unidad de medida, criterios de medición (valuación) y capital a mantener. Aspectos normativos. Estados contables o financieros. Conceptos introductorios. Las cuentas. Planes y manuales de cuentas. Sistema Contable. Mecánica del proceso de registración contable. Métodos de registración. La partida doble. (1)\n\nEl objetivo de la contabilidad, la contabilidad como ciencia, arte, técnica o tecnología. Evolución histórica. Sistemas de información: la contabilidad como subsistema de información de las organizaciones. Tipos de información: patrimonial, de gestión. Características y requisitos de la información contable, de costos, valores corrientes, valores recuperables, incertidumbres y contingencias, en el sector privado y en el sector público. Informes. Terminología contable aplicable. El proceso contable y estructura patrimonial y de resultados. Capital a mantener, unidad de medida, criterios de valuación. Reconocimiento contable de variaciones patrimoniales. Medición de ganancia. Aspectos legales y profesionales de las normas contables nacionales. La normativa internacional (2)\n\n(1) Corresponde a las Carreras de Contador Público (RCS N° 1509/18) y Licenciado en Sistemas de Información de las Organizaciones (RCS N° 1709/18)\n(2) Corresponde a las Carreras de Actuario (RCS N° 5634/12), Licenciado en Economía (RCS N° 5636/12) y Licenciado en Administración (RCS N° 5637/12)",
+      "ubicacion_curriculum": "La asignatura se ubica en el 2do. Tramo del Ciclo General de todas las Carreras que se cursan en la Facultad, siendo requisito para su cursado la aprobación de todas las asignaturas del 1er. Tramo integrantes de aquel Ciclo."
     },
     {
       "catedra_id": "274-01",
@@ -241,8 +241,8 @@
       "titular": "Marcelo Fabián Alcain",
       "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
       "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
-      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
-      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones. Caracterización de los sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas.",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para estar en condiciones de inscribirse a cursar la materia, es requisito haber regularizado/aprobado la asignatura Administración General (6)"
     },
     {
       "catedra_id": "274-02",
@@ -259,8 +259,8 @@
       "titular": "Angel Oscar Arostegui",
       "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
       "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
-      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
-      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones. Caracterización de los sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas.",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para estar en condiciones de inscribirse a cursar la materia, es requisito haber regularizado/aprobado la asignatura Administración General (6)"
     },
     {
       "catedra_id": "274-03",
@@ -277,8 +277,8 @@
       "titular": "Tomás Chahin",
       "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
       "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
-      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
-      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones. Caracterización de los sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas.",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para estar en condiciones de inscribirse a cursar la materia, es requisito haber regularizado/aprobado la asignatura Administración General (6)"
     },
     {
       "catedra_id": "274-04",
@@ -295,8 +295,8 @@
       "titular": "Juan José Gilli",
       "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
       "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
-      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
-      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones. Caracterización de los sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas.",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para estar en condiciones de inscribirse a cursar la materia, es requisito haber regularizado/aprobado la asignatura Administración General (6)"
     },
     {
       "catedra_id": "274-05",
@@ -313,8 +313,8 @@
       "titular": "Juan Carlos Gómez Fulao",
       "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
       "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
-      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
-      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones. Caracterización de los sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas.",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para estar en condiciones de inscribirse a cursar la materia, es requisito haber regularizado/aprobado la asignatura Administración General (6)"
     },
     {
       "catedra_id": "274-06",
@@ -331,8 +331,8 @@
       "titular": "Rubén César Moleón",
       "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
       "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
-      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
-      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones. Caracterización de los sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas.",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para estar en condiciones de inscribirse a cursar la materia, es requisito haber regularizado/aprobado la asignatura Administración General (6)"
     },
     {
       "catedra_id": "274-07",
@@ -349,8 +349,8 @@
       "titular": "Federico Saravia",
       "nombre_materia": "SISTEMAS ADMINISTRATIVOS",
       "carreras": "Actuario (RCS N.º 1824/24), Contador Público (RCS N.º 1509/18 y su modif. RCS N.º 215/20), Lic. en Administración (RCS N.º 1695/24), y Lic. en Sistemas de Información de las Organizaciones (RCS N.º 1825/24)",
-      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. […]",
-      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario. […]"
+      "contenidos_minimos": "Visión de la organización como sistema complejo. Elementos que constituyen el sistema. Modelo de sistemas y su relación con la naturaleza de la organización. Sistemas componentes de planeamiento y gestión comerciales, financiera, de capital humano y de producción. Los circuitos de normalización, regulación y control de las operaciones. Las áreas de las organizaciones, funciones y procesos. Niveles de autoridad y áreas de responsabilidad. Relación entre las estructuras y los procesos. Las formas básicas de articular tareas, flujos de información y decisiones. Caracterización de los sistemas administrativos. Análisis y diseño de sistemas administrativos. Tecnología de los sistemas aplicados a la gestión. Diferentes formas de diseño de la organización: metodologías y alternativas. Gestión de proyectos para la implementación de nuevos sistemas.",
+      "ubicacion_curriculum": "La materia forma parte del Ciclo Profesional de las Carreras de Licenciado en Administración, Contador Público, Licenciado en Sistemas de Información y Actuario en Administración. Para estar en condiciones de inscribirse a cursar la materia, es requisito haber regularizado/aprobado la asignatura Administración General (6)"
     },
     {
       "catedra_id": "467-01",
@@ -381,36 +381,6 @@
       "carreras": "Lic. en Administración (RCS N.º 1695/24)",
       "contenidos_minimos": "El mundo del trabajo. El ser humano y el trabajo. Estrategia organizacional y de gestión de personas. El mercado laboral. […]",
       "ubicacion_curriculum": "La materia pertenece al Ciclo Profesional."
-    },
-    {
-      "catedra_id": "990-01",
-      "departamento_id": "ECO",
-      "carrera_ids": [
-        "LIC_ECO"
-      ],
-      "titular_id": "u-1005",
-      "codigo_materia": 990,
-      "departamento": "Economía",
-      "titular": "Lucía Paz",
-      "nombre_materia": "TALLER DE PRUEBA I",
-      "carreras": "Lic. en Economía (RCS Nº 1696/24)",
-      "contenidos_minimos": "Materia ficticia creada solo para pruebas (titular con más de un rol).",
-      "ubicacion_curriculum": "Materia de prueba. No existe en el materias.json real."
-    },
-    {
-      "catedra_id": "991-01",
-      "departamento_id": "ECO",
-      "carrera_ids": [
-        "LIC_ECO"
-      ],
-      "titular_id": "u-1001",
-      "codigo_materia": 991,
-      "departamento": "Economía",
-      "titular": "Carla Méndez",
-      "nombre_materia": "SEMINARIO DE PRUEBA II",
-      "carreras": "Lic. en Economía (RCS Nº 1696/24)",
-      "contenidos_minimos": "Materia ficticia creada solo para pruebas (titular que además es director/a del departamento).",
-      "ubicacion_curriculum": "Materia de prueba. No existe en el materias.json real."
     }
   ]
 }
