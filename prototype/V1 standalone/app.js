@@ -187,13 +187,7 @@ function usuarioAlcanza(u,rol,p){
   if(ambito==='CATEDRA') return !!p.titular_id && p.titular_id===u.id;
   return false;
 }
-/* Tareas que el titular de la cátedra no puede hacer sobre su propio programa (no hay autoconformidad). */
-const TAREAS_SIN_TITULAR=['DAR_CONFORMIDAD'];
-function excluidoPorTitular(u,codigo,p){ return !!(u&&p&&TAREAS_SIN_TITULAR.includes(codigo)&&p.titular_id&&p.titular_id===u.id); }
-/* ¿Puede el usuario `u` realizar la tarea `codigo` sobre el programa `p`? Rol + alcance + exclusiones de la tarea. */
-function usuarioPuedeTarea(u,codigo,p){ return !!TAREAS[codigo] && usuarioAlcanza(u,TAREAS[codigo].rol,p) && !excluidoPorTitular(u,codigo,p); }
 function usuariosElegibles(rol,p){ return directorio.usuarios.filter(u=>usuarioAlcanza(u,rol,p)); }
-function usuariosElegiblesTarea(codigo,p){ return directorio.usuarios.filter(u=>usuarioPuedeTarea(u,codigo,p)); }
 function usuariosConRol(rol){ return directorio.usuarios.filter(u=>rolesActivosDe(u).includes(rol)); }
 function programasVisibles(){
   const u=usuarioActual; if(!u) return [];
@@ -216,7 +210,7 @@ function tareasPendientesDePrograma(p){
 function codigoTareaDelRol(p,rol){ return tareasPendientesDePrograma(p).find(c=>TAREAS[c].rol===rol)||null; }
 /* Estado de una tarea: con un solo elegible queda tomada por él; con varios, hay que tomarla. */
 function estadoTarea(p,codigo){
-  const elegibles=usuariosElegiblesTarea(codigo,p);
+  const elegibles=usuariosElegibles(TAREAS[codigo].rol,p);
   if(elegibles.length===1) return {estado:'TOMADA',tomadaPor:elegibles[0],implicita:true};
   const t=(db.tomas||[]).find(x=>x.programa_id===p.id && x.tarea===codigo);
   if(t){
@@ -230,7 +224,7 @@ function tareasDeUsuario(u){
   db.programs.forEach(p=>{
     tareasPendientesDePrograma(p).forEach(codigo=>{
       const def=TAREAS[codigo];
-      if(!usuarioPuedeTarea(u,codigo,p)) return;
+      if(!usuarioAlcanza(u,def.rol,p)) return;
       const e=estadoTarea(p,codigo);
       const mia=e.estado==='TOMADA' && e.tomadaPor.id===u.id;
       items.push({p,codigo,rol:def.rol,tarea:def.titulo,descripcion:def.descripcion||def.titulo,accionLabel:def.accion,cls:def.cls,directa:def.directa||null,
@@ -244,13 +238,12 @@ function puedeActuar(p,codigo){
   const u=usuarioActual;
   if(!p||!u||!codigo||!TAREAS[codigo]) return false;
   if(!tareasPendientesDePrograma(p).includes(codigo)) return false;
-  if(!usuarioPuedeTarea(u,codigo,p)) return false;
+  if(!usuarioAlcanza(u,TAREAS[codigo].rol,p)) return false;
   const e=estadoTarea(p,codigo);
   return e.estado==='TOMADA' && e.tomadaPor.id===u.id;
 }
 function avisoNoPuedeActuar(p,codigo,rol){
   if(!usuarioActual || !codigo || !tareasPendientesDePrograma(p).includes(codigo)) return 'Esta tarea ya no está pendiente.';
-  if(excluidoPorTitular(usuarioActual,codigo,p)) return 'Sos titular de esta cátedra: la conformidad la tiene que dar otro/a Director/a del mismo departamento.';
   if(!usuarioAlcanza(usuarioActual,rol||TAREAS[codigo].rol,p)) return 'No tenés permisos para actuar sobre este programa con ese rol.';
   const e=estadoTarea(p,codigo);
   if(e.estado==='DISPONIBLE') return 'Tomá la tarea antes de actuar sobre el programa.';
@@ -270,7 +263,7 @@ function tomarTarea(programaId,codigo,enPrograma){
   const p=getProgram(programaId), u=usuarioActual;
   if(!p||!u||!TAREAS[codigo]) return;
   const salir=()=>enPrograma?openProgram(programaId):refrescarPantalla();
-  if(!tareasPendientesDePrograma(p).includes(codigo) || !usuarioPuedeTarea(u,codigo,p)){ alert(excluidoPorTitular(u,codigo,p)?avisoNoPuedeActuar(p,codigo):'La tarea ya no está disponible.'); salir(); return; }
+  if(!tareasPendientesDePrograma(p).includes(codigo) || !usuarioAlcanza(u,TAREAS[codigo].rol,p)){ alert('La tarea ya no está disponible.'); salir(); return; }
   const e=estadoTarea(p,codigo);
   if(e.estado==='TOMADA'){
     if(e.tomadaPor.id!==u.id) alert(`La tarea ya fue tomada por ${nombreCompleto(e.tomadaPor)}.`);
@@ -317,10 +310,6 @@ function bloqueoTarea(p,codigo){
   if(!codigo || puedeActuar(p,codigo)) return '';
   const def=TAREAS[codigo], e=estadoTarea(p,codigo);
   const rolLabel=escapeHtml(nombreRol(def.rol));
-  if(excluidoPorTitular(usuarioActual,codigo,p)){
-    const otros=usuariosElegiblesTarea(codigo,p);
-    return `<div class="card"><h2>${escapeHtml(def.titulo)}</h2><p>Sos titular de esta cátedra, por lo que no podés dar conformidad a tu propio programa. La tarea queda para ${otros.length?'otro/a '+rolLabel+' del mismo departamento'+(e.estado==='TOMADA'?` (tomada por <b>${escapeHtml(nombreCompleto(e.tomadaPor))}</b>)`:''):'otro/a '+rolLabel+' del mismo departamento, pero no hay ninguno/a asignado/a'}.</p></div>`;
-  }
   if(e.estado==='DISPONIBLE') return `<div class="card"><h2>${escapeHtml(def.titulo)}</h2><p>Esta tarea la puede realizar cualquiera de los usuarios con el rol ${rolLabel}. Tomala para poder actuar sobre el programa.</p><button class="btn primary" onclick="tomarTarea(${p.id},'${codigo}',true)">Tomar tarea</button></div>`;
   if(e.estado==='TOMADA' && e.tomadaPor && usuarioActual && e.tomadaPor.id!==usuarioActual.id) return `<div class="card"><h2>${escapeHtml(def.titulo)}</h2><p>Tarea tomada por <b>${escapeHtml(nombreCompleto(e.tomadaPor))}</b> (${rolLabel}). Podés ver el programa, pero no actuar sobre esta tarea.</p></div>`;
   return '';
@@ -485,15 +474,6 @@ function pad(n,len){ return String(n).padStart(len,'0'); }
 function progreso(p){ const keys=SECTION_DEFS.map(s=>s.key); const done=keys.filter(k=>p.sections[k].completed).length; return Math.round(100*done/keys.length); }
 function seccionesCompletas(p){ return EDITABLE_KEYS.every(k=>p.sections[k].completed); }
 function escapeHtml(str){ return String(str).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-/* Registra quién pidió la corrección (usuario + rol) para mostrarlo en el programa y en las notificaciones. */
-function registrarSolicitudCorreccion(p,rol,obs,grupo){
- const u=usuarioActual;
- p.correccionSolicitada={usuarioId:u?u.id:null,nombre:u?nombreCompleto(u):'',rol,rolNombre:nombreRol(rol),grupo:grupo||null,observacion:obs,fecha:new Date().toISOString()};
-}
-function solicitanteCorreccion(p){
- const c=p.correccionSolicitada; if(!c) return '';
- return c.nombre?`${c.nombre} (${c.rolNombre})`:c.rolNombre;
-}
 function observacionAcademica(p){
  if(!p.revisionAcademica) return '';
  const rej=['encuadre','metodos','bibliografia'].map(k=>p.revisionAcademica[k]).find(r=>r&&r.status==='CON_OBSERVACIONES');
@@ -581,7 +561,7 @@ function accionesTarea(it){
 }
 function renderTaskTable(items){
  if(!items.length) return `<p class="muted">No tenés tareas pendientes.</p>`;
- return `<table class="tabla-tareas"><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Descripción</th><th>Rol</th><th>Acción</th></tr>${items.map(it=>`<tr><td>${escapeHtml(it.p.nombre_materia||it.p.name||'')}${it.p.titular?`<br><span class="muted">${escapeHtml(it.p.titular)}</span>`:''}</td><td>${escapeHtml(it.p.career||'')}</td><td>${escapeHtml(it.tarea)}</td><td>${escapeHtml(it.descripcion||it.tarea)}</td><td>${escapeHtml(nombreRol(it.rol))}</td><td>${accionesTarea(it)}</td></tr>`).join('')}</table>`;
+ return `<table><tr><th>Programa</th><th>Carrera</th><th>Tarea</th><th>Descripción</th><th>Rol</th><th>Acción</th></tr>${items.map(it=>`<tr><td>${escapeHtml(it.p.nombre_materia||it.p.name||'')}${it.p.titular?`<br><span class="muted">${escapeHtml(it.p.titular)}</span>`:''}</td><td>${escapeHtml(it.p.career||'')}</td><td>${escapeHtml(it.tarea)}</td><td>${escapeHtml(it.descripcion||it.tarea)}</td><td>${escapeHtml(nombreRol(it.rol))}</td><td>${accionesTarea(it)}</td></tr>`).join('')}</table>`;
 }
 
 /* ---------- Pantallas ---------- */
@@ -615,7 +595,7 @@ function notifications(){
  const t=taskSummary(), u=usuarioActual;
  const guardadas=u?(db.notificaciones||[]).filter(n=>(n.usuarios||[]).includes(u.id)).slice().reverse():[];
  if(!t.pendientes.length && !guardadas.length) return `<h1>Notificaciones</h1><div class="card"><p class="muted">No tenés notificaciones nuevas.</p></div>`;
- return `<h1>Notificaciones</h1><div class="card">${guardadas.map(n=>`<div class="notice success cerrable"><button type="button" class="notice-x" title="Borrar notificación" aria-label="Borrar notificación" onclick="borrarNotificacion(${n.id})">&times;</button><b>${escapeHtml(n.titulo||'Notificación')}</b><br>${escapeHtml(n.texto||'')}<br><span class="muted">${fmtDate(n.fecha)}</span></div>`).join('')}${t.pendientes.map(it=>{const corr=it.codigo==='CORREGIR_PROGRAMA'?solicitanteCorreccion(it.p):'';const obsCorr=corr&&it.p.correccionSolicitada.observacion;return `<div class="notice ${it.p.origenCorreccion?'warn':''}"><b>${it.tarea}</b><br>${escapeHtml(it.p.nombre_materia||it.p.name||'')}${it.p.titular?' — '+escapeHtml(it.p.titular):''} (${escapeHtml(it.p.career||'')}) requiere tu intervención.${corr?`<br>Corrección solicitada por <b>${escapeHtml(corr)}</b>${obsCorr?`: ${escapeHtml(obsCorr)}`:''}`:''}</div>`;}).join('')}</div>`;
+ return `<h1>Notificaciones</h1><div class="card">${guardadas.map(n=>`<div class="notice success cerrable"><button type="button" class="notice-x" title="Borrar notificación" aria-label="Borrar notificación" onclick="borrarNotificacion(${n.id})">&times;</button><b>${escapeHtml(n.titulo||'Notificación')}</b><br>${escapeHtml(n.texto||'')}<br><span class="muted">${fmtDate(n.fecha)}</span></div>`).join('')}${t.pendientes.map(it=>`<div class="notice ${it.p.origenCorreccion?'warn':''}"><b>${it.tarea}</b><br>${escapeHtml(it.p.nombre_materia||it.p.name||'')}${it.p.titular?' — '+escapeHtml(it.p.titular):''} (${escapeHtml(it.p.career||'')}) requiere tu intervención.</div>`).join('')}</div>`;
 }
 function perfilUsuarioHtml(){
  const u=usuarioActual; if(!u) return '';
@@ -708,9 +688,9 @@ function programList(){
 }
 function programRows(list){
  if(!list.length) return `<p class="muted">No hay programas que coincidan con la búsqueda.</p>`;
- return `<table class="tabla-programas"><tr><th>Programa</th><th>Carrera</th><th>Año</th><th>Estado</th><th>Avance</th><th>Acciones</th></tr>${list.map(p=>`<tr>
+ return `<table><tr><th>Programa</th><th>Carrera</th><th>Año</th><th>Estado</th><th>Avance</th><th>Acciones</th></tr>${list.map(p=>`<tr>
  <td>${escapeHtml(p.nombre_materia||p.name||'')}${p.titular?`<br><span class="muted">${escapeHtml(p.titular)}</span>`:''}</td><td>${escapeHtml(p.career||'')}</td><td>${escapeHtml(p.year||'')}</td><td>${statusBadge(p.state)}</td><td>${progreso(p)}%</td>
- <td class="col-acciones">${['APROBADO','FINALIZADO'].includes(p.state)?`<button class="btn small primary" onclick="imprimirPrograma(${p.id})">Imprimir</button> `:''}<button class="btn small" onclick="openProgram(${p.id})">Ver</button></td></tr>`).join('')}</table>`;
+ <td>${['APROBADO','FINALIZADO'].includes(p.state)?`<button class="btn small primary" onclick="imprimirPrograma(${p.id})">Imprimir</button> `:''}<button class="btn small" onclick="openProgram(${p.id})">Ver</button></td></tr>`).join('')}</table>`;
 }
 function aplicarFiltros(){
  const q=document.getElementById('searchInput').value.toLowerCase();
@@ -891,9 +871,8 @@ function openProgram(id,rolPreferido){
 
  if(p.state==='BORRADOR' && p.origenCorreccion){
    const obs=p.origenCorreccion==='DIRECTOR'?(p.conformidadDirector&&p.conformidadDirector.observacion):observacionAcademica(p);
-   const origenLabel=p.origenCorreccion==='DIRECTOR'?'del Director/a de Departamento':'de la revisión académica';
-   const quien=solicitanteCorreccion(p);
-   html+=`<div class="notice warn"><b>Corrección solicitada${quien?` por ${escapeHtml(quien)}`:''}</b><br>Observación ${origenLabel}: ${escapeHtml(obs||'Se solicitaron correcciones sobre el programa.')}</div>`;
+   const origenLabel=p.origenCorreccion==='DIRECTOR'?'el Director/a de Departamento':'la revisión académica';
+   html+=`<div class="notice warn"><b>Corrección solicitada</b><br>Observación de ${origenLabel}: ${escapeHtml(obs||'Se solicitaron correcciones sobre el programa.')}</div>`;
  }
 
  html+=`<div class="card"><div class="toolbar"><div><b>Estado del programa</b></div><div>${progreso(p)}% completo</div></div><div class="progress"><span style="width:${progreso(p)}%"></span></div></div>`;
@@ -933,7 +912,7 @@ function accionCardBase(p){
  if(role==='DIRECTOR_DEPARTAMENTO' && p.state==='EN_REVISION'){
    const bloqueoD=bloqueoTarea(p,'DAR_CONFORMIDAD'); if(bloqueoD) return bloqueoD;
    return `<div class="card"><h2>Dar conformidad</h2><p>Revisá el programa completo antes de dar conformidad para avanzar a la revisión académica (Dirección Académica + Subsecretaría).</p>
-   <textarea id="obsDirector" placeholder="Comentario (opcional al dar conformidad; obligatorio para solicitar corrección). Queda registrado en el historial."></textarea>
+   <textarea id="obsDirector" placeholder="Observaciones (obligatorio para rechazar)"></textarea>
    <div style="text-align:right;margin-top:10px"><button class="btn danger" onclick="directorDarConformidad(${p.id},false)">Solicitar corrección</button> <button class="btn success" onclick="directorDarConformidad(${p.id},true)">Dar conformidad</button></div></div>`;
  }
  if(p.state==='EN_REVISION_ACADEMICA'){
@@ -941,7 +920,7 @@ function accionCardBase(p){
    if(grupo && p.revisionAcademica[grupo].status==='PENDIENTE'){
      const bloqueoG=bloqueoTarea(p,'CHEQUEAR_'+grupo.toUpperCase()); if(bloqueoG) return bloqueoG;
      return `<div class="card"><h2>Chequear ${GROUP_LABELS[grupo]}</h2><p>Revisá la sección correspondiente y registrá el resultado. Este chequeo es independiente del resto: el programa pasa a APROBADO solo cuando los tres estén sin errores.</p>
-     <textarea id="obsAcademica" placeholder="Comentario (opcional si no hay errores; obligatorio para solicitar corrección). Queda registrado en el historial."></textarea>
+     <textarea id="obsAcademica" placeholder="Observaciones (obligatorio si hay errores)"></textarea>
      <div style="text-align:right;margin-top:10px"><button class="btn danger" onclick="revisarAcademica(${p.id},'${grupo}',false)">Solicitar corrección</button> <button class="btn success" onclick="revisarAcademica(${p.id},'${grupo}',true)">Sin errores</button></div></div>`;
    }
    return `<div class="card"><h2>Revisión académica en curso</h2><table><tr><th>Chequeo</th><th>Responsable</th><th>Estado</th></tr>
@@ -1041,7 +1020,7 @@ function editSection(id,key){
           <span class="muted">${sec.unidades.length} unidad${sec.unidades.length===1?'':'es'}</span>
         </div>
         <div id="listaUnidades">${renderListaUnidades(sec.unidades)}</div>
-        <label class="check-completa" style="margin-top:16px">
+        <label style="display:flex;align-items:center;gap:8px;margin-top:16px;color:var(--text);font-size:13px">
           <input type="checkbox" id="secCompleted" ${sec.completed?'checked':''}> Marcar sección como completa
         </label>
       </div>`;
@@ -1052,7 +1031,7 @@ function editSection(id,key){
         <textarea id="secContent" ${locked?'disabled':''} placeholder="${locked?'Sección precargada y no editable.':'Ingrese '+escapeHtml(def.label.toLowerCase())+'...'}">${escapeHtml(sec.content||'')}</textarea>
         ${locked
           ? '<p class="muted" style="margin-bottom:0">Esta sección está precargada y no puede modificarse.</p>'
-          : `<label class="check-completa"><input type="checkbox" id="secCompleted" ${sec.completed?'checked':''} onchange="actualizarBotonGuardar(${id},'${key}')"> Marcar sección como completa</label>`}
+          : `<label style="display:flex;align-items:center;gap:8px;margin-top:10px;color:var(--text);font-size:13px"><input type="checkbox" id="secCompleted" ${sec.completed?'checked':''} onchange="actualizarBotonGuardar(${id},'${key}')"> Marcar sección como completa</label>`}
       </div>`;
   }
 
@@ -1272,7 +1251,6 @@ function solicitarConformidad(id,confirmado){
    addHistory(p,nombreRol('TITULAR_CATEDRA'),reenvio?'Reenvía programa corregido':'Solicita conformidad','Queda a la espera de la conformidad del/de la Director/a de Departamento.');
  }
  p.origenCorreccion=null;
- p.correccionSolicitada=null;
  save();
  openProgram(id);
 }
@@ -1292,11 +1270,10 @@ function directorDarConformidad(id,aprobado,confirmado){
    p.conformidadDirector={status:'OK',observacion:obs,fecha:new Date().toISOString()};
    p.state='EN_REVISION_ACADEMICA';
    p.revisionAcademica={encuadre:{status:'PENDIENTE'},metodos:{status:'PENDIENTE'},bibliografia:{status:'PENDIENTE'}};
-   addHistory(p,nombreRol('DIRECTOR_DEPARTAMENTO'),'Da conformidad',`El programa pasa a revisión académica (Dirección Académica y Subsecretaría).${obs?` Comentario: ${obs}`:''}`);
+   addHistory(p,nombreRol('DIRECTOR_DEPARTAMENTO'),'Da conformidad','El programa pasa a revisión académica (Dirección Académica y Subsecretaría).');
  } else {
    p.conformidadDirector={status:'RECHAZADO',observacion:obs,fecha:new Date().toISOString()};
    p.origenCorreccion='DIRECTOR';
-   registrarSolicitudCorreccion(p,'DIRECTOR_DEPARTAMENTO',obs);
    p.state='BORRADOR';
    addHistory(p,nombreRol('DIRECTOR_DEPARTAMENTO'),'Solicita corrección',obs);
  }
@@ -1318,13 +1295,12 @@ function revisarAcademica(id,grupo,ok,confirmado){
  }
  if(ok){
    p.revisionAcademica[grupo]={status:'OK',observacion:obs,fecha:new Date().toISOString()};
-   addHistory(p,nombreRol(rolGrupo),`Chequeo de ${GROUP_LABELS[grupo]} sin errores`,obs?`Comentario: ${obs}`:'—');
+   addHistory(p,nombreRol(rolGrupo),`Chequeo de ${GROUP_LABELS[grupo]} sin errores`,obs||'—');
    const todoOk=['encuadre','metodos','bibliografia'].every(k=>p.revisionAcademica[k].status==='OK');
    if(todoOk) aprobarPrograma(p);
  } else {
    p.revisionAcademica[grupo]={status:'CON_OBSERVACIONES',observacion:obs,fecha:new Date().toISOString()};
    p.origenCorreccion='ACADEMICA';
-   registrarSolicitudCorreccion(p,rolGrupo,obs,grupo);
    p.state='BORRADOR';
    addHistory(p,nombreRol(rolGrupo),`Solicita corrección de ${GROUP_LABELS[grupo]}`,obs);
  }

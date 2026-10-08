@@ -103,14 +103,3 @@ textarea:disabled,input:disabled{background:#eef1f4;color:#596775;cursor:not-all
 .timeline div{margin:0 0 18px;position:relative}.timeline div:before{content:"";position:absolute;left:-27px;top:2px;width:10px;height:10px;border-radius:50%;background:#ff770c}
 @media(max-width:850px){.grid,.grid3{grid-template-columns:1fr}.login-hero{display:none}.login-box{width:100%}.topbar{padding:0 14px}.nav button{padding:14px 10px}}
 @media(max-width:600px){.topbar-brand .brand-text small{display:none}}
-/* Marcar sección como completa: checkbox grande, texto en negrita y pegado al checkbox */
-.check-completa{display:inline-flex;align-items:center;gap:8px;margin-top:12px;color:var(--text);font-size:14px;font-weight:700;cursor:pointer}
-.check-completa input[type=checkbox]{min-width:0;width:20px;height:20px;margin:0;accent-color:#ff770c;cursor:pointer}
-/* Solapa Programas: columna Carrera más angosta y Acciones sin botones apilados */
-.tabla-programas th:nth-child(2),.tabla-programas td:nth-child(2){width:38%}
-.tabla-programas td:nth-child(2){font-size:12px}
-.tabla-programas th:last-child,.tabla-programas td.col-acciones{width:170px;white-space:nowrap}
-/* Mis tareas: mismo criterio (Carrera más angosta, botones de Acción en una sola línea) */
-.tabla-tareas th:nth-child(2),.tabla-tareas td:nth-child(2){width:32%}
-.tabla-tareas td:nth-child(2){font-size:12px}
-.tabla-tareas th:last-child,.tabla-tareas td:last-child{white-space:nowrap}

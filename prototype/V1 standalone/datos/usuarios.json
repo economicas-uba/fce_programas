@@ -60,9 +60,6 @@
               "CON"
             ]
           }
-        },
-        {
-          "rol": "TITULAR_CATEDRA"
         }
       ]
     },
@@ -117,9 +114,6 @@
               "ADM"
             ]
           }
-        },
-        {
-          "rol": "TITULAR_CATEDRA"
         }
       ]
     },
@@ -300,9 +294,6 @@
               "MAT"
             ]
           }
-        },
-        {
-          "rol": "TITULAR_CATEDRA"
         }
       ]
     },
@@ -525,11 +516,37 @@
       ]
     },
     {
+      "id": "u-1030",
+      "username": "t-540-03",
+      "email": "t-540-03@economicas.uba.ar",
+      "apellido": "Bianco",
+      "nombre": "María José",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
       "id": "u-1031",
       "username": "t-558-01",
       "email": "t-558-01@economicas.uba.ar",
       "apellido": "Hallak",
       "nombre": "Juan Carlos",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-1032",
+      "username": "t-247-01",
+      "email": "t-247-01@economicas.uba.ar",
+      "apellido": "Campo",
+      "nombre": "Ana María",
       "activo": true,
       "roles": [
         {
@@ -647,6 +664,19 @@
       "email": "t-274-06@economicas.uba.ar",
       "apellido": "Moleón",
       "nombre": "Rubén César",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "TITULAR_CATEDRA"
+        }
+      ]
+    },
+    {
+      "id": "u-1042",
+      "username": "t-274-07",
+      "email": "t-274-07@economicas.uba.ar",
+      "apellido": "Saravia",
+      "nombre": "Federico",
       "activo": true,
       "roles": [
         {
