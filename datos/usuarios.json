@@ -1,5 +1,4 @@
 {
-  "_nota": "Datos de PRUEBA. Contraseña de todos los usuarios en el prototipo: Prueba. Los titulares reales salen del materias.json de referencia; las autoridades y revisores son ficticios.",
   "roles": [
     {
       "id": "TITULAR_CATEDRA",
@@ -8,7 +7,7 @@
     },
     {
       "id": "DIRECTOR_DEPARTAMENTO",
-      "nombre": "Director/a de Departamento",
+      "nombre": "Autoridad de Departamento",
       "ambito": "DEPARTAMENTO"
     },
     {
@@ -30,10 +29,10 @@
   "usuarios": [
     {
       "id": "u-1001",
-      "username": "cmendez",
-      "email": "cmendez@ejemplo.edu.ar",
-      "apellido": "Méndez",
-      "nombre": "Carla",
+      "username": "jcurcio",
+      "email": "javiercurcio@gmail.com",
+      "apellido": "Curcio",
+      "nombre": "Javier",
       "activo": true,
       "roles": [
         {
@@ -43,55 +42,15 @@
               "ECO"
             ]
           }
-        },
-        {
-          "rol": "TITULAR_CATEDRA"
         }
       ]
     },
     {
       "id": "u-1002",
-      "username": "hsosa",
-      "email": "hsosa@ejemplo.edu.ar",
-      "apellido": "Sosa",
-      "nombre": "Hugo",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "DIRECTOR_DEPARTAMENTO",
-          "alcance": {
-            "departamentos": [
-              "ADM",
-              "ACT"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "u-1003",
-      "username": "ribarra",
-      "email": "ribarra@ejemplo.edu.ar",
-      "apellido": "Ibarra",
-      "nombre": "Raúl",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "DIRECTOR_DEPARTAMENTO",
-          "alcance": {
-            "departamentos": [
-              "ECO"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "u-1004",
-      "username": "ebravo",
-      "email": "ebravo@ejemplo.edu.ar",
-      "apellido": "Bravo",
-      "nombre": "Elena",
+      "username": "acampo",
+      "email": "ana.campo@fce.uba.ar",
+      "apellido": "Campo",
+      "nombre": "Ana María",
       "activo": true,
       "roles": [
         {
@@ -105,11 +64,392 @@
       ]
     },
     {
+      "id": "u-1003",
+      "username": "fmoroni",
+      "email": "fermoroni@gmail.com",
+      "apellido": "Moroni",
+      "nombre": "Fernando",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ADM"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1004",
+      "username": "gtapia",
+      "email": "gustavo.tapia1@gmail.com",
+      "apellido": "Tapia",
+      "nombre": "Gustavo",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ADM"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "u-1005",
-      "username": "lpaz",
-      "email": "lpaz@ejemplo.edu.ar",
-      "apellido": "Paz",
-      "nombre": "Lucía",
+      "username": "fsaravia",
+      "email": "saraviapersonal@gmail.com",
+      "apellido": "Saravia",
+      "nombre": "Federico",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ADM"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1006",
+      "username": "nbursesi",
+      "email": "nestorbursesi@gmail.com",
+      "apellido": "Bursesi",
+      "nombre": "Néstor",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "CON"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1007",
+      "username": "dmacrini",
+      "email": "domingomacrini@yahoo.com.ar",
+      "apellido": "Macrini",
+      "nombre": "Domingo",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "CON"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1008",
+      "username": "nnacuzzi",
+      "email": "norberto.nacuzzi@hotmail.com",
+      "apellido": "Nacuzzi",
+      "nombre": "Norberto",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "CON"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1009",
+      "username": "glopezdelcarril",
+      "email": "gonzalo@lopezdelcarril.com.ar",
+      "apellido": "López del Carril",
+      "nombre": "Gonzalo",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "DER"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1010",
+      "username": "gragazzi",
+      "email": "guillermoeragazzi@gmail.com",
+      "apellido": "Ragazzi",
+      "nombre": "Guillermo",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "DER"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1011",
+      "username": "pconejeroortiz",
+      "email": "pconejero@rec.uba.ar",
+      "apellido": "Conejero Ortiz",
+      "nombre": "Patricio",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ECO"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1012",
+      "username": "agoldschmit",
+      "email": "arielagold@hotmail.com",
+      "apellido": "Goldschmit",
+      "nombre": "Ariela",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "ECO"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1013",
+      "username": "jgilbert",
+      "email": "jorgegilbert50@gmail.com",
+      "apellido": "Gilbert",
+      "nombre": "Jorge Orlando",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "HUM"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1014",
+      "username": "dweisman",
+      "email": "diego_mw@hotmail.com",
+      "apellido": "Weisman",
+      "nombre": "Diego Mauricio",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "HUM"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1015",
+      "username": "mbianco",
+      "email": "mariajose.bianco@economicas.uba.ar",
+      "apellido": "Bianco",
+      "nombre": "María José",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "MAT"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1016",
+      "username": "jgarciafronti",
+      "email": "javier.garciafronti@economicas.uba.ar",
+      "apellido": "García Fronti",
+      "nombre": "Javier",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "MAT"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1017",
+      "username": "etarullo",
+      "email": "eatarullo@yahoo.com.ar",
+      "apellido": "Tarullo",
+      "nombre": "Eduardo Ángel",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "MAT"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1018",
+      "username": "coriolo",
+      "email": "coriolo@gmail.com",
+      "apellido": "Oriolo",
+      "nombre": "Cecilia",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "SIS"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1019",
+      "username": "vveriansky",
+      "email": "vveriansky@vvasoluciones.com.ar",
+      "apellido": "Veriansky",
+      "nombre": "Víctor Gustavo",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "SIS"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1020",
+      "username": "gdiez",
+      "email": "gustavo@estudiodiez.com",
+      "apellido": "Diez",
+      "nombre": "Gustavo Eduardo",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "TRIB"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1021",
+      "username": "acalello",
+      "email": "carolinacalello@calelloconsultores.com.ar",
+      "apellido": "Calello",
+      "nombre": "Andrea Carolina",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECTOR_DEPARTAMENTO",
+          "alcance": {
+            "departamentos": [
+              "TRIB"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "u-1022",
+      "username": "lfernandez",
+      "email": "maria.fernandez@economicas.uba.ar",
+      "apellido": "Fernández Orellana",
+      "nombre": "Luz",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECCION_ACADEMICA"
+        }
+      ]
+    },
+    {
+      "id": "u-1023",
+      "username": "apico",
+      "email": "andreapico@economicas.uba.ar",
+      "apellido": "Picó",
+      "nombre": "Andrea",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECCION_ACADEMICA"
+        }
+      ]
+    },
+    {
+      "id": "u-1024",
+      "username": "cecilia",
+      "email": "cecilia@economicas.uba.ar",
+      "apellido": "Cecilia",
+      "nombre": "Cecilia",
+      "activo": true,
+      "roles": [
+        {
+          "rol": "DIRECCION_ACADEMICA"
+        }
+      ]
+    },
+    {
+      "id": "u-1025",
+      "username": "esuarezkimura",
+      "email": "elsa.suarezkimura@fce.uba.ar",
+      "apellido": "Suárez Kimura",
+      "nombre": "Elsa Beatriz",
       "activo": true,
       "roles": [
         {
@@ -121,122 +461,25 @@
       ]
     },
     {
-      "id": "u-1006",
-      "username": "sreyes",
-      "email": "sreyes@ejemplo.edu.ar",
-      "apellido": "Reyes",
-      "nombre": "Silvia",
+      "id": "u-1026",
+      "username": "rmazza",
+      "email": "romazza@economicas.uba.ar",
+      "apellido": "Mazza",
+      "nombre": "Roberto César",
       "activo": true,
       "roles": [
         {
-          "rol": "SUBSECRETARIA_1"
-        }
-      ]
-    },
-    {
-      "id": "u-1007",
-      "username": "druiz",
-      "email": "druiz@ejemplo.edu.ar",
-      "apellido": "Ruiz",
-      "nombre": "Diego",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "DIRECCION_ACADEMICA"
-        }
-      ]
-    },
-    {
-      "id": "u-1008",
-      "username": "mquiroga",
-      "email": "mquiroga@ejemplo.edu.ar",
-      "apellido": "Quiroga",
-      "nombre": "Marta",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "DIRECCION_ACADEMICA"
-        }
-      ]
-    },
-    {
-      "id": "u-1009",
-      "username": "pferreyra",
-      "email": "pferreyra@ejemplo.edu.ar",
-      "apellido": "Ferreyra",
-      "nombre": "Pablo",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "DIRECCION_ACADEMICA"
+          "rol": "SUBSECRETARIA_2"
         },
         {
-          "rol": "SUBSECRETARIA_2"
+          "rol": "TITULAR_CATEDRA"
         }
       ]
     },
     {
-      "id": "u-1010",
-      "username": "tvega",
-      "email": "tvega@ejemplo.edu.ar",
-      "apellido": "Vega",
-      "nombre": "Tomás",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "SUBSECRETARIA_2"
-        }
-      ]
-    },
-    {
-      "id": "u-1011",
-      "username": "icosta",
-      "email": "icosta@ejemplo.edu.ar",
-      "apellido": "Costa",
-      "nombre": "Irene",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "SUBSECRETARIA_2"
-        }
-      ]
-    },
-    {
-      "id": "u-1012",
-      "username": "nacosta",
-      "email": "nacosta@ejemplo.edu.ar",
-      "apellido": "Acosta",
-      "nombre": "Nora",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "DIRECTOR_DEPARTAMENTO",
-          "alcance": {
-            "departamentos": [
-              "ADM"
-            ]
-          },
-          "hasta": "2025-12-31"
-        }
-      ]
-    },
-    {
-      "id": "u-1013",
-      "username": "jinactivo",
-      "email": "jinactivo@ejemplo.edu.ar",
-      "apellido": "Inactivo",
-      "nombre": "Julián",
-      "activo": false,
-      "roles": [
-        {
-          "rol": "DIRECCION_ACADEMICA"
-        }
-      ]
-    },
-    {
-      "id": "u-0001",
+      "id": "u-1027",
       "username": "t-262-01",
-      "email": "t-262-01@ejemplo.edu.ar",
+      "email": "t-262-01@economicas.uba.ar",
       "apellido": "Zack",
       "nombre": "Guido",
       "activo": true,
@@ -247,9 +490,9 @@
       ]
     },
     {
-      "id": "u-0002",
+      "id": "u-1028",
       "username": "t-540-01",
-      "email": "t-540-01@ejemplo.edu.ar",
+      "email": "t-540-01@economicas.uba.ar",
       "apellido": "Caviezel",
       "nombre": "Pablo Nicolás",
       "activo": true,
@@ -260,9 +503,9 @@
       ]
     },
     {
-      "id": "u-0003",
+      "id": "u-1029",
       "username": "t-540-02",
-      "email": "t-540-02@ejemplo.edu.ar",
+      "email": "t-540-02@economicas.uba.ar",
       "apellido": "Vitale",
       "nombre": "Blanca Rosa",
       "activo": true,
@@ -273,9 +516,9 @@
       ]
     },
     {
-      "id": "u-0004",
+      "id": "u-1030",
       "username": "t-540-03",
-      "email": "t-540-03@ejemplo.edu.ar",
+      "email": "t-540-03@economicas.uba.ar",
       "apellido": "Bianco",
       "nombre": "María José",
       "activo": true,
@@ -286,9 +529,9 @@
       ]
     },
     {
-      "id": "u-0005",
+      "id": "u-1031",
       "username": "t-558-01",
-      "email": "t-558-01@ejemplo.edu.ar",
+      "email": "t-558-01@economicas.uba.ar",
       "apellido": "Hallak",
       "nombre": "Juan Carlos",
       "activo": true,
@@ -299,9 +542,9 @@
       ]
     },
     {
-      "id": "u-0006",
+      "id": "u-1032",
       "username": "t-247-01",
-      "email": "t-247-01@ejemplo.edu.ar",
+      "email": "t-247-01@economicas.uba.ar",
       "apellido": "Campo",
       "nombre": "Ana María",
       "activo": true,
@@ -312,9 +555,9 @@
       ]
     },
     {
-      "id": "u-0007",
+      "id": "u-1033",
       "username": "t-247-02",
-      "email": "t-247-02@ejemplo.edu.ar",
+      "email": "t-247-02@economicas.uba.ar",
       "apellido": "D'Onofrio",
       "nombre": "Paula Alejandra",
       "activo": true,
@@ -325,9 +568,9 @@
       ]
     },
     {
-      "id": "u-0008",
+      "id": "u-1034",
       "username": "t-247-03",
-      "email": "t-247-03@ejemplo.edu.ar",
+      "email": "t-247-03@economicas.uba.ar",
       "apellido": "Montanini",
       "nombre": "Gustavo Amado",
       "activo": true,
@@ -338,9 +581,9 @@
       ]
     },
     {
-      "id": "u-0009",
+      "id": "u-1035",
       "username": "t-247-04",
-      "email": "t-247-04@ejemplo.edu.ar",
+      "email": "t-247-04@economicas.uba.ar",
       "apellido": "Scavone",
       "nombre": "Graciela María",
       "activo": true,
@@ -351,22 +594,9 @@
       ]
     },
     {
-      "id": "u-0010",
-      "username": "t-247-05",
-      "email": "t-247-05@ejemplo.edu.ar",
-      "apellido": "Suárez Kimura",
-      "nombre": "Elsa Beatriz",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "TITULAR_CATEDRA"
-        }
-      ]
-    },
-    {
-      "id": "u-0011",
+      "id": "u-1036",
       "username": "t-274-01",
-      "email": "t-274-01@ejemplo.edu.ar",
+      "email": "t-274-01@economicas.uba.ar",
       "apellido": "Alcain",
       "nombre": "Marcelo Fabián",
       "activo": true,
@@ -377,9 +607,9 @@
       ]
     },
     {
-      "id": "u-0012",
+      "id": "u-1037",
       "username": "t-274-02",
-      "email": "t-274-02@ejemplo.edu.ar",
+      "email": "t-274-02@economicas.uba.ar",
       "apellido": "Arostegui",
       "nombre": "Angel Oscar",
       "activo": true,
@@ -390,9 +620,9 @@
       ]
     },
     {
-      "id": "u-0013",
+      "id": "u-1038",
       "username": "t-274-03",
-      "email": "t-274-03@ejemplo.edu.ar",
+      "email": "t-274-03@economicas.uba.ar",
       "apellido": "Chahin",
       "nombre": "Tomás",
       "activo": true,
@@ -403,9 +633,9 @@
       ]
     },
     {
-      "id": "u-0014",
+      "id": "u-1039",
       "username": "t-274-04",
-      "email": "t-274-04@ejemplo.edu.ar",
+      "email": "t-274-04@economicas.uba.ar",
       "apellido": "Gilli",
       "nombre": "Juan José",
       "activo": true,
@@ -416,9 +646,9 @@
       ]
     },
     {
-      "id": "u-0015",
+      "id": "u-1040",
       "username": "t-274-05",
-      "email": "t-274-05@ejemplo.edu.ar",
+      "email": "t-274-05@economicas.uba.ar",
       "apellido": "Gómez Fulao",
       "nombre": "Juan Carlos",
       "activo": true,
@@ -429,9 +659,9 @@
       ]
     },
     {
-      "id": "u-0016",
+      "id": "u-1041",
       "username": "t-274-06",
-      "email": "t-274-06@ejemplo.edu.ar",
+      "email": "t-274-06@economicas.uba.ar",
       "apellido": "Moleón",
       "nombre": "Rubén César",
       "activo": true,
@@ -442,9 +672,9 @@
       ]
     },
     {
-      "id": "u-0017",
+      "id": "u-1042",
       "username": "t-274-07",
-      "email": "t-274-07@ejemplo.edu.ar",
+      "email": "t-274-07@economicas.uba.ar",
       "apellido": "Saravia",
       "nombre": "Federico",
       "activo": true,
@@ -455,24 +685,11 @@
       ]
     },
     {
-      "id": "u-0018",
+      "id": "u-1043",
       "username": "t-467-01",
-      "email": "t-467-01@ejemplo.edu.ar",
+      "email": "t-467-01@economicas.uba.ar",
       "apellido": "Huber",
       "nombre": "Ladislao Ludovico",
-      "activo": true,
-      "roles": [
-        {
-          "rol": "TITULAR_CATEDRA"
-        }
-      ]
-    },
-    {
-      "id": "u-0019",
-      "username": "t-467-02",
-      "email": "t-467-02@ejemplo.edu.ar",
-      "apellido": "Mazza",
-      "nombre": "Roberto César",
       "activo": true,
       "roles": [
         {
