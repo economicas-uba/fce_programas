@@ -1,7 +1,7 @@
 /* =========================================================
    Programas Académicos — simulación de operación real
-   Persistencia: localStorage (reemplazable por fetch a una
-   API cuando exista una BD real detrás).
+   Persistencia: ver persistencia.js — API PHP del servidor (api/)
+   cuando está disponible; si no, localStorage del navegador.
 
    Máquina de estados de un programa:
      BORRADOR
@@ -160,7 +160,7 @@ function leerJson(url,clave){
 }
 function cargarDirectorio(){
   if(directorioPromise) return directorioPromise;
-  directorioPromise=leerJson(USUARIOS_JSON_URL,'usuarios').then(({datos,fuente})=>{
+  directorioPromise=leerJson(Persistencia.urlCatalogo('usuarios',USUARIOS_JSON_URL),'usuarios').then(({datos,fuente})=>{
     directorio={roles:Array.isArray(datos.roles)?datos.roles:[],usuarios:Array.isArray(datos.usuarios)?datos.usuarios:[]};
     fuenteDirectorio=fuente;
     return directorio;
@@ -358,19 +358,31 @@ function migrarDatos(){
 }
 
 /* ---------- Persistencia ---------- */
+/* Modo local: localStorage. Modo API: el estado se trae del servidor al ingresar (ver enterApp). */
 function loadData(){
- try{
-   const raw=localStorage.getItem(STORAGE_KEY);
-   if(raw) return JSON.parse(raw);
- }catch(e){ console.error('No se pudo leer localStorage',e); }
+ if(Persistencia.esApi()) return seedData();
+ const guardado=Persistencia.leerLocal();
+ if(guardado) return guardado;
  const seed=seedData();
- saveData(seed);
+ Persistencia.guardar(seed);
  return seed;
 }
 function saveData(data){
- try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(data)); }
- catch(e){ console.error('No se pudo guardar en localStorage',e); alert('No se pudieron guardar los cambios en este navegador.'); }
+ Persistencia.guardar(data,usuarioActual?usuarioActual.id:null);
 }
+/* Ante un error al guardar en el servidor se avisa y se recargan sus datos, para no seguir sobre un estado distinto. */
+function recargarDesdeServidor(){
+ return Persistencia.refrescar().then(d=>{ if(d){ db=d; migrarDatos(); } refrescarPantalla(); })
+   .catch(err=>alert('No se pudieron recargar los datos del servidor: '+err.message));
+}
+Persistencia.configurar({
+ obtenerDb:()=>db,
+ alFallar:err=>{
+   if(err.status===401){ mostrarAlerta('La sesión venció. Volvé a ingresar.',()=>salir()); return; }
+   const motivo=err.status===409?(err.message+' Se recargan los datos actualizados.'):('No se pudieron guardar los cambios en el servidor: '+err.message+'. Se recargan los datos del servidor.');
+   mostrarAlerta(motivo,()=>recargarDesdeServidor());
+ }
+});
 /* Las tomas de tareas ya resueltas se descartan. */
 function limpiarTomas(){
   if(!Array.isArray(db.tomas)||!db.tomas.length) return;
@@ -413,6 +425,11 @@ function actualizarCampanas(){
   mostrar('campanaNotificaciones',kn.some(k=>!vn.includes(k)));
 }
 function reiniciarDatos(){
+ if(Persistencia.esApi()){
+   if(!confirm('Esto borra en el SERVIDOR todos los programas, tareas y notificaciones de TODOS los usuarios de prueba. ¿Continuar?')) return;
+   Persistencia.reiniciar().then(d=>{ db=d; render('dashboard'); }).catch(err=>alert(err.message));
+   return;
+ }
  if(!confirm('Esto borra los cambios simulados y vuelve a los datos de ejemplo iniciales. ¿Continuar?')) return;
  db=seedData(); save(); render('dashboard');
 }
@@ -528,9 +545,15 @@ function enterApp(){
    if(u.activo===false){ alert('El usuario está inactivo.'); return; }
    const roles=rolesActivosDe(u);
    if(!roles.length){ alert('El usuario no tiene roles vigentes asignados.'); return; }
-   usuarioActual=u;
-   role=PRIORIDAD_ROLES.find(r=>roles.includes(r))||roles[0];
-   return cargarMaterias().catch(()=>{}).then(()=>{ migrarDatos(); mostrarApp(); });
+   /* En modo API se abre la sesión en el servidor y se traen los programas compartidos. */
+   return Persistencia.iniciarSesion(u.username||u.email||u.id,clave)
+     .then(()=>Persistencia.esApi()?Persistencia.cargar().then(d=>{ db=d; }):null)
+     .then(()=>{
+       usuarioActual=u;
+       role=PRIORIDAD_ROLES.find(r=>roles.includes(r))||roles[0];
+       return cargarMaterias().catch(()=>{}).then(()=>{ migrarDatos(); mostrarApp(); });
+     })
+     .catch(err=>alert('No se pudo ingresar: '+err.message));
  }).catch(()=>alert('No se pudo cargar el listado de usuarios. Verificá la ruta de usuarios.json o la conexión.'));
 }
 function mostrarApp(){
@@ -541,6 +564,7 @@ function mostrarApp(){
  render('dashboard');
 }
 function salir(){
+ Persistencia.cerrarSesion();
  usuarioActual=null;
  document.getElementById('app').classList.add('hidden');
  document.getElementById('login').classList.remove('hidden');
@@ -630,10 +654,10 @@ function perfilUsuarioHtml(){
 }
 function profile(){
  return `<h1>Perfil</h1>${perfilUsuarioHtml()}
- <div class="card"><h2>Datos de la simulación</h2><p>Los datos de los programas se guardan en el almacenamiento local del navegador (localStorage), simulando una base de datos real. Podés cerrar la pestaña y volver: los cambios van a seguir ahí.</p><button class="btn danger" onclick="reiniciarDatos()">Reiniciar datos de demostración</button></div><!-- Dentro de la solapa Perfil -->
+ <div class="card"><h2>Datos de la simulación</h2><p>${Persistencia.esApi()?'Los datos de los programas se guardan <b>en el servidor</b> y son compartidos por todos los usuarios de prueba: lo que hace un usuario lo ven los demás al cambiar de solapa.':'Los datos de los programas se guardan en el almacenamiento local del navegador (localStorage), simulando una base de datos real. Podés cerrar la pestaña y volver: los cambios van a seguir ahí.'}</p><button class="btn danger" onclick="reiniciarDatos()">Reiniciar datos de demostración</button></div><!-- Dentro de la solapa Perfil -->
 <div class="perfil-seccion" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; background: #f9f9f9; border-radius: 4px;">
     <h4 style="margin-top: 0;">Sincronización de Dispositivo</h4>
-    <p style="font-size: 14px; color: #555;">Exportá o importá tus programas académicos guardados localmente para usarlos en otra computadora.</p>
+    <p style="font-size: 14px; color: #555;">${Persistencia.esApi()?'Exportá los datos del servidor como respaldo, o importá un archivo exportado (también uno de datos locales) para cargarlo en el servidor.':'Exportá o importá tus programas académicos guardados localmente para usarlos en otra computadora.'}</p>
     
     <!-- Botón para bajar el archivo JSON -->
     <button onclick="exportarDatosUBA()" style="padding: 8px 12px; background-color: #218838; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
@@ -650,6 +674,18 @@ function profile(){
 }
 // Función para exportar todo el localStorage a un archivo
 function exportarDatosUBA() {
+    if (Persistencia.esApi()) {
+        /* Descarga el estado del servidor (sirve como respaldo o para importarlo en otro lado). */
+        Persistencia.refrescar().then(d => {
+            const blob = new Blob([JSON.stringify(d, null, 2)], { type: "application/json" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "programas_academicos_servidor_" + new Date().toISOString().slice(0, 10) + ".json";
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+        }).catch(err => alert("No se pudieron exportar los datos: " + err.message));
+        return;
+    }
     if (localStorage.length === 0) {
         alert("No hay programas académicos o datos guardados localmente en este dispositivo.");
         return;
@@ -677,6 +713,15 @@ function importarDatosUBA(input) {
     lector.onload = function(evento) {
         try {
             const datosGuardados = JSON.parse(evento.target.result);
+            if (Persistencia.esApi()) {
+                /* Acepta tanto un export local (localStorage) como uno del servidor. Reemplaza los datos de TODOS. */
+                if (!confirm("Esto reemplaza en el SERVIDOR los datos de TODOS los usuarios de prueba por los del archivo. ¿Continuar?")) { input.value = ""; return; }
+                Persistencia.importar(datosGuardados)
+                    .then(d => { db = d; migrarDatos(); mostrarAlerta("¡Programas importados con éxito en el servidor!", () => render('dashboard')); })
+                    .catch(err => alert("No se pudieron importar los datos: " + err.message))
+                    .then(() => { input.value = ""; });
+                return;
+            }
             
             // Reemplaza el contenido local por el importado
             localStorage.clear(); 
@@ -730,7 +775,7 @@ let materiasPromise=null;
 function cargarMaterias(){
  if(materiasCache) return Promise.resolve(materiasCache);
  if(materiasPromise) return materiasPromise;
- materiasPromise=leerJson(MATERIAS_JSON_URL,'materias')
+ materiasPromise=leerJson(Persistencia.urlCatalogo('materias',MATERIAS_JSON_URL),'materias')
    .then(({datos})=>{
      materiasCache=Array.isArray(datos.materias)?datos.materias:[];
      catalogoMaterias={departamentos:Array.isArray(datos.departamentos)?datos.departamentos:[],carreras:Array.isArray(datos.carreras)?datos.carreras:[]};
@@ -820,7 +865,13 @@ function crearNuevoPrograma(){
  if(!name){ alert('La materia seleccionada no tiene nombre cargado.'); return; }
  const career=document.getElementById('npCareer').value.trim()||'Sin especificar';
  const year=document.getElementById('npYear').value.trim()||String(new Date().getFullYear());
- const p=crearProgramaBase(db.nextId++,name,career,year);
+ /* El id lo asigna el servidor (modo API) para que dos usuarios no generen el mismo número. */
+ Persistencia.reservarIdPrograma(db)
+   .then(id=>altaPrograma(id,materia,name,career,year))
+   .catch(err=>alert('No se pudo generar el programa: '+err.message));
+}
+function altaPrograma(id,materia,name,career,year){
+ const p=crearProgramaBase(id,name,career,year);
  p.nombre_materia=name;
  p.titular=(materia.titular||'').trim();
  p.codigo_materia=materia.codigo_materia ?? null;
@@ -843,11 +894,21 @@ function section(name,state,done,locked=false){
 function sectionContentValue(p,s){
  const sec=p.sections[s.key]||{};
  if(s.key==='programaAnalitico'){
-   return `<div><b>Unidad temática</b><p>${escapeHtml(sec.unidadTematica||'')}</p></div>
-     <div><b>Objetivo del aprendizaje</b><p>${escapeHtml(sec.objetivoAprendizaje||'')}</p></div>
-     <div><b>Temas a desarrollar</b>${(sec.temasDesarrollar||'').trim()
-       ? `<ul>${sec.temasDesarrollar.split('\\n').filter(t=>t.trim()).map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul>`
-       : '<p class="muted">Sin contenido cargado.</p>'}</div>`;
+   // Una tarjeta por unidad (desde unidades[]); si no hay, usa los campos de nivel superior.
+   const unidades=(sec.unidades&&sec.unidades.length)?sec.unidades:
+     ((sec.unidadTematica||sec.objetivoAprendizaje||sec.temasDesarrollar)?[sec]:[]);
+   if(!unidades.length) return '<p class="muted">Sin contenido cargado.</p>';
+   const temasHtml=t=>{
+     const temas=(t||'').split(/\r?\n/).map(x=>x.replace(/^\s*[-•]\s*/,'').trim()).filter(Boolean);
+     return temas.length
+       ? `<ul style="margin:4px 0 0">${temas.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>`
+       : '<p class="muted" style="margin:4px 0 0">Sin contenido cargado.</p>';
+   };
+   return unidades.map(u=>`<div style="margin-bottom:16px;padding-left:10px;border-left:3px solid #edf0f3">
+       <div style="font-weight:600;margin-bottom:6px">${escapeHtml(u.unidadTematica||'')}</div>
+       <div><b>Objetivo del aprendizaje</b><p style="white-space:pre-wrap;margin:4px 0 8px">${escapeHtml(u.objetivoAprendizaje||'')}</p></div>
+       <div><b>Temas a desarrollar</b>${temasHtml(u.temasDesarrollar)}</div>
+     </div>`).join('');
  }
  return sec.content
    ? `<p style="white-space:pre-wrap;margin:0">${escapeHtml(sec.content)}</p>`
@@ -1659,9 +1720,14 @@ function imprimirPrograma(id){
   setTimeout(()=>URL.revokeObjectURL(pdfUrl),60000);
 }
 
-document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.screen)));
-/* Usuarios de prueba disponibles en la pantalla de ingreso. */
-cargarDirectorio().then(poblarUsuariosPrueba).catch(()=>{ const sel=document.getElementById('loginPrueba'); if(sel) sel.innerHTML='<option value="">No se pudo cargar usuarios.json</option>'; });
+/* En modo API, cada cambio de solapa trae del servidor lo que hayan hecho los demás usuarios. */
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{
+  Persistencia.refrescar().then(d=>{ if(d){ db=d; migrarDatos(); } })
+    .catch(err=>console.warn('No se pudo refrescar desde el servidor',err))
+    .then(()=>render(b.dataset.screen));
+}));
+/* Usuarios de prueba disponibles en la pantalla de ingreso (primero se detecta si hay API). */
+Persistencia.detectar().then(()=>{ if(Persistencia.esApi()) db=seedData(); }).then(cargarDirectorio).then(poblarUsuariosPrueba).catch(()=>{ const sel=document.getElementById('loginPrueba'); if(sel) sel.innerHTML='<option value="">No se pudo cargar usuarios.json</option>'; });
 /* Cualquier cambio de pantalla (programas, secciones, etc.) refresca las campanas: sin tareas pendientes no hay campana. */
 if(typeof MutationObserver!=='undefined'){
   const contenido=document.getElementById('content');

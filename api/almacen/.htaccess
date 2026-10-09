@@ -1,0 +1,2 @@
+# Bloquea el acceso web directo a los datos guardados (Apache).
+Require all denied
